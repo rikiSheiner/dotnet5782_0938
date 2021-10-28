@@ -1,6 +1,15 @@
 ﻿using System;
 using DAL.DalObject;
 
+
+/*name: Rivka Sheiner
+ * id: 324060938
+ * course: .net
+ * exercise numbe: 1
+ */
+
+
+
 namespace ConsoleUI
 {
     class Program

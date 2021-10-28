@@ -9,17 +9,59 @@ namespace DAL
 {
     public struct Parcel //מבנה לייצוג חבילה
     {
-        public int ID { get; set; }
-        public int senderID { get; set; }
-        public int targetID { get; set; }
-        public WeightCategories weight { get; set; }
-        public Priorities priority { get; set; }
-        public DateTime requested { get; set; }
-        public int droneID { get; set; }
-        public DateTime scheduled { get; set; }
-        public DateTime pickedUp { get; set; }
-        public DateTime delivered { get; set; }
-        
+        public int ID
+        {
+            get;
+            set;
+        }
+        public int senderID 
+        {
+            get;
+            set;
+        }
+        public int targetID
+        {
+            get;
+            set;
+        }
+        public WeightCategories weight
+        {
+            get;
+            set;
+        }
+        public Priorities priority
+        {
+            get;
+            set;
+        }
+        public DateTime requested
+        {
+            get;
+            set;
+        }
+        public int droneID
+        {
+            get;
+            set;
+        }
+
+        public DateTime scheduled
+        {
+            get;
+            set;
+        }
+        public DateTime pickedUp
+        {
+            get;
+            set;
+        }
+        public DateTime delivered
+        {
+            get;
+            set;
+        }
+
+        //parameters constructor of parcel
         public Parcel(int id, int sid, int tid, WeightCategories w, Priorities p, DateTime r,
             int did, DateTime s, DateTime pi, DateTime d)
         {
@@ -34,6 +76,8 @@ namespace DAL
             this.pickedUp = pi;
             this.delivered = d;
         }
+
+        //printing details of parcel
         public override string ToString()
         {
             return "Parcel ID: " + ID + "\nsender ID: " + senderID + "\ntarget ID: " + targetID

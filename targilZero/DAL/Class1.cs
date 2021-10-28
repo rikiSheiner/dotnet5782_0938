@@ -1,6 +1,11 @@
 ﻿using DAL.IDAL.DO;
-using DAL.DalObject;
 using System;
+
+/*name: Rivka Sheiner
+ * id: 324060938
+ * course: .net
+ * exercise numbe: 1
+ */
 
 namespace DAL
 {
@@ -13,6 +18,7 @@ namespace DAL
             public enum WeightCategories { light, intermediate, heavy}
             public enum DroneStatuses { available, maintenance, delivery }
             public enum Priorities { normal, quick, emergency }
+            public enum NamesOfPeople { Chana, Ester, Chaya, Dvora, Shalom, Josef, Dan, Shira, Talya, Michal}
             #endregion 
 
         }
@@ -28,7 +34,7 @@ namespace DAL
             internal static Station[] basisStations = new Station[5];
             internal static Customer[] customers = new Customer[100];
             internal static Parcel[] parcels = new Parcel[1000];
-            
+            internal static DroneCharge[] dronesInCharge = new DroneCharge[100];
 
             public class Config
             {
@@ -37,12 +43,13 @@ namespace DAL
                 internal static int indexBasisStations = 0;
                 internal static int indexCustomers = 0;
                 internal static int indexParcels = 0;
-                internal static int idNumberParcels=1;//מספר מזהה רץ של חבילה
+                internal static int indexDroneInCharge = 0;
+                internal static int idNumberParcels=1;//מספר מזהה רץ עבור חבילות
 
                 
 
                 //מתודות המחזירות העתקים של המאגרים של ישויות הנתונים
-                public Drone[] GetDrones()
+                public static Drone[] GetDrones()
                 {
                     Drone[] d = new Drone[indexDrones];
                     for (int i = 0; i < indexDrones; i++)
@@ -51,7 +58,7 @@ namespace DAL
                     }
                     return d;
                 }
-                public Station[] GetBasisStations()
+                public static Station[] GetBasisStations()
                 {
                     Station[] s = new Station[indexBasisStations];
                     for (int i = 0; i < indexBasisStations; i++)
@@ -60,7 +67,7 @@ namespace DAL
                     }
                     return s;
                 }
-                public Customer[] GetCustomers()
+                public static Customer[] GetCustomers()
                 {
                     Customer[] c = new Customer[indexCustomers];
                     for (int i = 0; i < indexCustomers; i++)
@@ -69,7 +76,7 @@ namespace DAL
                     }
                     return c;
                 }
-                public Parcel[] GetParcels()
+                public  static Parcel[] GetParcels()
                 {
                     Parcel[] p = new Parcel[indexParcels];
                     for (int i = 0; i < indexParcels; i++)
@@ -83,34 +90,33 @@ namespace DAL
                 public static void Initialize()
                 {
                     Random r = new Random();
-                    char c = 'a';
                     DateTime d = new DateTime(2020, r.Next(1, 12), r.Next(1, 30));
+                    int id=111111111;
 
                     //הוספת 5 רחפנים למאגר
                     for (int i = 0; i < 5; i++)
                     {
-                        drones[indexDrones++] = new Drone(i, "m" + i, (WeightCategories)(r.Next(0, 3)), (DroneStatuses)(r.Next(0, 3)), r.Next(1, 15) + 0.5);
+                        drones[indexDrones++] = new Drone(i, "m" + i, (WeightCategories)(r.Next(0, 3)), 0, r.Next(1, 15) + 0.5);
                     }
 
                     //הוספת 2 תחנות בסיס
-                    basisStations[indexBasisStations++] = new Station(1, 111, 3, 2, 4);
-                    basisStations[indexBasisStations++] = new Station(2, 222, 2.8, 2, 3);
+                    basisStations[indexBasisStations++] = new Station(1, 111, r.Next (1,360), r.Next (1,360), 3);
+                    basisStations[indexBasisStations++] = new Station(2, 222, r.Next(1, 360), r.Next(1, 360), 3);
                     //הוספת 10 לקוחות
                     for (int i = 0; i < 10; i++)
                     {
-                        customers[indexCustomers++] = new Customer(i, c.ToString(), (r.Next(0520000000, 0589999999)).ToString(), r.Next(1, 5), r.Next(1, 4));
-                        c++;
+                        customers[indexCustomers++] = new Customer(id, ((NamesOfPeople)(i)).ToString () , (r.Next(0520000000, 0589999999)).ToString(), r.Next(1, 360), r.Next(1, 360));
+                        id++;
                     }
 
                     //הוספת 10 חבילות
                     for (int i = 0; i < 10; i++)
                     {
                         d.AddDays(i);
-                        parcels[indexParcels++] = new Parcel(i, r.Next(1, 5), r.Next(6, 10), (WeightCategories)(i % 3),
+                        parcels[indexParcels++] = new Parcel(idNumberParcels , r.Next(1, 5), r.Next(6, 10), (WeightCategories)(i % 3),
                             (Priorities)((i + 1) % 3), d, i, d.AddHours(i), d.AddHours(i % 3), d.AddDays(i * 2));
                         d.AddDays(-i);
-                        if (parcels[i].ID > idNumberParcels)
-                            idNumberParcels = parcels[i].ID;
+                        idNumberParcels++;
                     }
 
                     
@@ -173,10 +179,11 @@ namespace DAL
                     int id, sid, tid, did, w, p;
                     DateTime r, s, pi, d;
 
-                    Console.WriteLine("enter id, sender id, target id, weight, priority, requested time," +
+                    Console.WriteLine("enter sender id, target id, weight, priority, requested time," +
                         " drone id, scheduled time, pickedup time and delivered time. ");
 
-                    id = int.Parse(Console.ReadLine());
+                    id = idNumberParcels;
+                    idNumberParcels++;
                     sid = int.Parse(Console.ReadLine());
                     tid = int.Parse(Console.ReadLine());
                     w = int.Parse(Console.ReadLine());
@@ -186,90 +193,116 @@ namespace DAL
                     s = DateTime.Parse(Console.ReadLine());
                     pi = DateTime.Parse(Console.ReadLine());
                     d = DateTime.Parse(Console.ReadLine());
-                    if (id > idNumberParcels)
-                        idNumberParcels = id;
                     parcels[indexParcels++] = new Parcel(id,sid,tid,(WeightCategories)w,(Priorities)p,r,did,s,pi,d);
                 }
 
+                //מתודות לחיפוש ישות מיקום ישות נותנים במערך לפי מספר זהות
+                public static int SearchDroneByID(int id)
+                {
+                    for (int i = 0; i < indexDrones; i++)
+                    {
+                        if (drones[i].ID == id)
+                            return i;
+                    }
+
+                    return -1;
+                }
+                public static int SearchCustomerByID(int id)
+                {
+                    for (int i = 0; i < indexCustomers; i++)
+                    {
+                        if (customers [i].ID == id)
+                            return i;
+                    }
+
+                    return -1;
+                }
+                public static int SearchStationByID(int id)
+                {
+                    for (int i = 0; i < indexBasisStations ; i++)
+                    {
+                        if (basisStations [i].stationID == id)
+                            return i;
+                    }
+
+                    return -1;
+                }
+                public static int SearchParcelByID(int id)
+                {
+                    for (int i = 0; i < indexParcels; i++)
+                    {
+                        if (parcels[i].ID == id)
+                            return i;
+                    }
+
+                    return -1;
+                }
+                public static int SearchDroneChargeByID(int id)
+                {
+                    for (int i = 0; i < indexDroneInCharge; i++)
+                    {
+                        if (dronesInCharge[i].droneID  == id)
+                            return i;
+                    }
+
+                    return -1;
+                }
+                
                 //מתודות להצגת ישויות הנתונים
-                public static int ShowDrone(int id)
-                { 
-                    bool flag= false;
-                    int i;
-                    for (i = 0; i <= indexDrones && !flag; i++)
-                    {
-                        if(drones[i].ID== id)
-                            flag=true;
-                    }
-                    Console.WriteLine(drones[i]);   
-                    return i;
-                }
-                public static int ShowCustomer(int id)
+                public static void ShowDrone(int id)
                 {
-                    bool flag= false;
-                    int i;
-                    for (i = 0; i <= indexCustomers && !flag; i++)
-                    {
-                        if(customers[i].ID== id)
-                            flag=true;
-                    }
-                    Console.WriteLine(customers[i]);    
-                    return i;
+                    Console.WriteLine(drones[SearchDroneByID (id)]);
                 }
-                public static int ShowStation(int id)
+                public static void ShowCustomer(int id)
                 {
-                    bool flag= false;
-                    int i;
-                    for (i = 0; i <= indexBasisStations && !flag; i++)
-                    {
-                        if(basisStations[i].stationID== id)
-                            flag=true;
-                    }
-                    Console.WriteLine(basisStations[i]);    
-                    return i;
+                    Console.WriteLine(customers [SearchCustomerByID (id)]);
                 }
-                public static int ShowParcel(int id)
+                public static void ShowStation(int id)
                 {
-                    bool flag= false;
-                    int i;
-                    for (i = 0; i <= indexParcels && !flag; i++)
-                    {
-                        if(parcels[i].ID== id)
-                            flag=true;
-                    }
-                    Console.WriteLine(parcels[i]); 
-                    return i;
+                    Console.WriteLine(basisStations [SearchStationByID (id)]);
+                }
+                public static void ShowParcel(int id)
+                {
+                    Console.WriteLine(parcels[id-1]);
+                }
+                public static void ShowDroneInCharge(int id)
+                {
+                    Console.WriteLine(dronesInCharge [SearchDroneChargeByID (id)]);
                 }
 
                 //מתודות להצגת רשימות של נתונים
                 public static void ShowListParcels()
                 {
-                    for (int i = 0; i < indexParcels; i++)
+                    Parcel[] p = GetParcels();
+                    for (int i = 0; i < p.Length /*indexParcels*/; i++)
                     {
-                        Console.WriteLine(parcels[i]);
+                        Console.WriteLine(p[i]);
                     }
                     
                 }
                 public static void ShowListStations()
                 {
-                    for (int i = 0; i < indexBasisStations; i++)
+                    Station[] s = GetBasisStations();
+                    for (int i = 0; i < s.Length /*indexBasisStations*/; i++)
                     {
-                        Console.WriteLine(basisStations[i]);
+                        Console.WriteLine(s[i]);
                     }
                 }
                 public static void ShowListDrones()
                 {
-                    for (int i = 0; i < indexDrones; i++)
+                    Drone[] d = GetDrones();
+                    for (int i = 0; i < d.Length /*indexDrones*/; i++)
                     {
-                        Console.WriteLine(drones [i]);
+                        Console.WriteLine(d[i]);
                     }
 
                 }
                 public static void ShowListCustomers()
                 {
-                    for (int i = 0; i < indexCustomers; i++)
+                    Customer[] c = GetCustomers();
+                    for (int i = 0; i < c.Length /*indexCustomers*/; i++)
                     {
-                        Console.WriteLine(customers[i]);
+                        Console.WriteLine(c[i]);
                     }
 
                 }
@@ -277,7 +310,7 @@ namespace DAL
                 {
                     for (int i = 0; i < indexParcels; i++)
                     {
-                        if (parcels[i].droneID >= 0)
+                        if (parcels[i].droneID < 0)
                             Console.WriteLine(parcels[i] );
                     }
 
@@ -301,8 +334,7 @@ namespace DAL
                     int parcelID = int.Parse(Console.ReadLine());
                     Console.Write("enter ID of the matching drone: ");
                     int droneId = int.Parse(Console.ReadLine());
-                    int indexP = ShowParcel(parcelID);
-                    parcels[indexP].droneID = droneId;
+                    parcels[parcelID-1].droneID = droneId;
 
                 }
 
@@ -313,8 +345,7 @@ namespace DAL
                     int parcelId = int.Parse(Console.ReadLine());
                     Console.Write("enter ID of the drone: ");
                     int collectorId = int.Parse(Console.ReadLine());
-                    int indexP = ShowParcel(parcelId);
-                    parcels[indexP].droneID = collectorId;
+                    parcels[parcelId-1].droneID = collectorId;
                 }
 
                 //אספקת חבילה ללקוח
@@ -324,8 +355,7 @@ namespace DAL
                     int parcelID = int.Parse(Console.ReadLine());
                     Console.Write("enter ID of customer: ");
                     int customerId = int.Parse(Console.ReadLine());
-                    int indexP = ShowParcel(parcelID );
-                    parcels[indexP].targetID = customerId ;
+                    parcels[parcelID-1].targetID = customerId ;
                 }
 
                 //שליחת רחפן לטעינה
@@ -333,20 +363,21 @@ namespace DAL
                 {
                     Console.Write("enter ID of drone for charging: ");
                     int droneId = int.Parse(Console.ReadLine());
-                    int indexD = ShowDrone(droneId);
-                    drones[indexD].status = (DroneStatuses)1; // שינוי מצב הרחפן למצב טעינה
-                    DroneCharge dc = new DroneCharge(droneId, stationId ); //הוספת ישות טעינת רחפן
-                    
+                    drones[SearchDroneByID (droneId )].status = (DroneStatuses)1; // שינוי מצב הרחפן למצב טעינה
+                    dronesInCharge[indexDroneInCharge++] = new DroneCharge(droneId, stationId,true); //הוספת ישות טעינת רחפן
+                    basisStations[SearchStationByID (stationId)].chargeSlots --; 
                 }
 
                 //שחרור רחפן מטעינה בתחנת בסיס
                 public static void EndDroneCharge()
                 {
                     Console.Write("enter drone ID for ending of charging: ");
-                    int dID = int.Parse(Console.ReadLine());
-                    int indexD = ShowDrone(dID);
-                    drones[indexD].status = (DroneStatuses)0;//שינוי מצב הרחפן לזמין
-                    
+                    int dID = int.Parse(Console.ReadLine()); //קבלת מספר הרחפן לשחרור
+                    int indexD = SearchDroneChargeByID(dID);
+                    drones[indexD].status = 0;//שינוי מצב הרחפן לזמין
+                    int stationNum = dronesInCharge[indexD].stationID;//מספר התחנה שהתפנתה
+                    basisStations[SearchStationByID (stationNum)].chargeSlots++;//עדכון מספר חריצי הטעינה 
+                    dronesInCharge[SearchDroneChargeByID(dID)].activeCharge = false;
                 }
 
 

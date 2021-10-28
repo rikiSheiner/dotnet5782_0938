@@ -8,11 +8,33 @@ namespace DAL
 {
     public struct Customer  //מבנה לייצוג לקוח
     {
-        public int ID { get; set; }
-        public string name { get; set; }
-        public string phone { get; set; }
-        public double longitude { get; set; }
-        public double latitude { get; set; }
+        public int ID 
+        {
+            get;
+            set;
+        }
+        public string name 
+        {
+            get;
+            set;
+        }
+        public string phone 
+        {
+            get;
+            set;
+        }
+        public double longitude 
+        {
+            get;
+            set;
+        }
+        public double latitude 
+        {
+            get;
+            set;
+        }
+
+        //parameters constructor of customer
         public Customer(int id, string n, string p, double lo, double la)
         {
             this.ID = id;
@@ -21,6 +43,7 @@ namespace DAL
             this.longitude = lo;
             this.latitude = la;
         }
+        //printing details of customer
         public override string ToString()
         {
             return "customer ID: " + ID + "\nname: " + name + "\nphone: " + phone +

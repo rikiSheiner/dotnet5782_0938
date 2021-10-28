@@ -9,11 +9,33 @@ namespace DAL
 {
     public struct Drone //מבנה לייצוג רחפן
     {
-        public int ID { get; set; }
-        public string model { get; set; }
-        public WeightCategories maxWeight { get; set; }
-        public DroneStatuses status { get; set; }
-        public double battery { get; set; }
+        public int ID
+        {
+            get;
+            set;
+        }
+        public string model
+        {
+            get;
+            set;
+        }
+        public WeightCategories maxWeight
+        {
+            get;
+            set;
+        }
+        public DroneStatuses status
+        {
+            get;
+            set;
+        }
+        public double battery
+        {
+            get;
+            set;
+        }
+
+        //parameters costructor of drone
         public Drone(int id, string m, WeightCategories mw, DroneStatuses s, double b)
         {
             this.ID = id;
@@ -22,6 +44,8 @@ namespace DAL
             this.status = s;
             this.battery = b;
         }
+
+        //printing details of drone
         public override string ToString()
         {
             return "Drone ID: " + ID + "\nmodel: " + model + "\nmax weight: " + maxWeight
