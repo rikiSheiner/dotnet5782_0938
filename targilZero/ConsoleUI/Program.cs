@@ -19,21 +19,27 @@ namespace ConsoleUI
             Console.WriteLine("Enter 1 for new basis station.\nEnter 2 for new drone." +
                         "\nEnter 3 for new customer.\nEnter 4 for new parcel.");
             secondChoose = int.Parse(Console.ReadLine());
-            
-            switch (secondChoose)
+            try
             {
-                case 1:
-                    DataSource.Config.AddStation();
-                    break;
-                case 2:
-                    DataSource.Config.AddDrone();
-                    break;
-                case 3:
-                    DataSource.Config.AddCustomer();
-                    break;
-                case 4:
-                    DataSource.Config.AddParcel();
-                    break;
+                switch (secondChoose)
+                {
+                    case 1:
+                        DataSource.Config.AddStation();
+                        break;
+                    case 2:
+                        DataSource.Config.AddDrone();
+                        break;
+                    case 3:
+                        DataSource.Config.AddCustomer();
+                        break;
+                    case 4:
+                        DataSource.Config.AddParcel();
+                        break;
+                }
+            }
+            catch(IndexOutOfRangeException )
+            {
+                Console.WriteLine("ERROR. The storage is already full");
             }
 
         }
@@ -45,25 +51,37 @@ namespace ConsoleUI
                         "Enter 3 for parcel delivery.\nEnter 4 for drone charging.\n" +
                         "Enter 5 for release from charging.\n");
             secondChoose = int.Parse(Console.ReadLine());
-            switch (secondChoose)
+
+            try
             {
-                case 1:
-                    DataSource.Config.ParcelToDrone();
-                    break;
-                case 2:
-                    DataSource.Config.ParcelCollection();
-                    break;
-                case 3:
-                    DataSource.Config.DeliveryParcel();
-                    break;
-                case 4:
-                    Console.Write("enter station ID: ");
-                    int sID = int.Parse(Console.ReadLine());
-                    DataSource.Config.DroneCharge(sID);
-                    break;
-                case 5:
-                    DataSource.Config.EndDroneCharge();
-                    break;
+                switch (secondChoose)
+                {
+                    case 1:
+                        DataSource.Config.ParcelToDrone();
+                        break;
+                    case 2:
+                        DataSource.Config.ParcelCollection();
+                        break;
+                    case 3:
+                        DataSource.Config.DeliveryParcel();
+                        break;
+                    case 4:
+                        Console.Write("enter station ID: ");
+                        int sID = int.Parse(Console.ReadLine());
+                        DataSource.Config.DroneCharge(sID);
+                        break;
+                    case 5:
+                        DataSource.Config.EndDroneCharge();
+                        break;
+                }
+            }
+            catch(IndexOutOfRangeException )
+            {
+                Console.WriteLine("ERROR. Wrong ID");
+            }
+            catch(OverflowException )
+            {
+                Console.WriteLine("ERROR. There are too many drones to charge");
             }
         }
 
@@ -75,21 +93,30 @@ namespace ConsoleUI
             secondChoose = int.Parse(Console.ReadLine());
             Console.Write("enter ID number: ");
             id=int.Parse (Console .ReadLine());
-            switch (secondChoose)
+
+            try
             {
-                case 1:
-                    DataSource.Config.ShowStation(id);
-                    break;
-                case 2:
-                     DataSource.Config.ShowDrone(id);
-                    break;
-                case 3:
-                    DataSource.Config.ShowCustomer(id);
-                    break;
-                case 4:
-                    DataSource.Config.ShowParcel(id);
-                    break;
+                switch (secondChoose)
+                {
+                    case 1:
+                        DataSource.Config.ShowStation(id);
+                        break;
+                    case 2:
+                        DataSource.Config.ShowDrone(id);
+                        break;
+                    case 3:
+                        DataSource.Config.ShowCustomer(id);
+                        break;
+                    case 4:
+                        DataSource.Config.ShowParcel(id);
+                        break;
+                }
             }
+            catch(IndexOutOfRangeException )
+            {
+                Console.WriteLine("ERROR. Wrong item's id");
+            }
+            
         }
         public static void ListsPresent()
         {

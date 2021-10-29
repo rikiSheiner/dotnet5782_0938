@@ -45,8 +45,8 @@ namespace DAL
                 internal static int indexParcels = 0;
                 internal static int indexDroneInCharge = 0;
                 internal static int idNumberParcels=1;//מספר מזהה רץ עבור חבילות
+                internal static int countActive = 0;
 
-                
 
                 //מתודות המחזירות העתקים של המאגרים של ישויות הנתונים
                 public static Drone[] GetDrones()
@@ -126,6 +126,9 @@ namespace DAL
                 
                 public static void AddDrone()
                 {
+                    if (indexDrones >= drones.Length)
+                        throw new IndexOutOfRangeException();
+
                     int id,w,ds;
                     string n;
                     double b;
@@ -143,6 +146,9 @@ namespace DAL
                 
                 public static void AddCustomer()
                 {
+                    if (indexCustomers >= customers.Length)
+                        throw new IndexOutOfRangeException();
+
                     int id;
                     string n,p;
                     double lo, la;
@@ -160,6 +166,9 @@ namespace DAL
 
                 public static void AddStation()
                 {
+                    if (indexBasisStations >= basisStations .Length)
+                        throw new IndexOutOfRangeException();
+
                     int id,n,cs;
                     double lo, la;
 
@@ -176,6 +185,9 @@ namespace DAL
 
                 public static void AddParcel()
                 {
+                    if (indexParcels >= parcels.Length)
+                        throw new IndexOutOfRangeException();
+
                     int id, sid, tid, did, w, p;
                     DateTime r, s, pi, d;
 
@@ -251,23 +263,37 @@ namespace DAL
                 //מתודות להצגת ישויות הנתונים
                 public static void ShowDrone(int id)
                 {
-                    Console.WriteLine(drones[SearchDroneByID (id)]);
+                    int iDrone = SearchDroneByID(id);
+                    if (iDrone < 0)
+                        throw new IndexOutOfRangeException();
+                    Console.WriteLine(drones[iDrone ]);
                 }
                 public static void ShowCustomer(int id)
                 {
-                    Console.WriteLine(customers [SearchCustomerByID (id)]);
+                    int iCustomer = SearchCustomerByID(id);
+                    if (iCustomer < 0)
+                        throw new IndexOutOfRangeException();
+                    Console.WriteLine(customers [iCustomer ]);
                 }
                 public static void ShowStation(int id)
                 {
-                    Console.WriteLine(basisStations [SearchStationByID (id)]);
+                    int iStation = SearchStationByID(id);
+                    if (iStation < 0)
+                        throw new IndexOutOfRangeException();
+                    Console.WriteLine(basisStations [iStation ]);
                 }
                 public static void ShowParcel(int id)
                 {
+                    if (id <= 0 || id > parcels.Length)
+                        throw new IndexOutOfRangeException();
                     Console.WriteLine(parcels[id-1]);
                 }
                 public static void ShowDroneInCharge(int id)
                 {
-                    Console.WriteLine(dronesInCharge [SearchDroneChargeByID (id)]);
+                    int iDC = SearchDroneChargeByID(id);
+                    if (iDC < 0)
+                        throw new IndexOutOfRangeException();
+                    Console.WriteLine(dronesInCharge [iDC ]);
                 }
 
                 //מתודות להצגת רשימות של נתונים
@@ -332,6 +358,10 @@ namespace DAL
                 {
                     Console.Write("enter ID of parcel: ");
                     int parcelID = int.Parse(Console.ReadLine());
+
+                    if (parcelID <= 0 || parcelID > parcels.Length)
+                        throw new IndexOutOfRangeException();
+                        
                     Console.Write("enter ID of the matching drone: ");
                     int droneId = int.Parse(Console.ReadLine());
                     parcels[parcelID-1].droneID = droneId;
@@ -343,6 +373,10 @@ namespace DAL
                 {
                     Console.Write("enter ID of parcel for collecting: ");
                     int parcelId = int.Parse(Console.ReadLine());
+
+                    if (parcelId <= 0 || parcelId > parcels.Length)
+                        throw new IndexOutOfRangeException();
+
                     Console.Write("enter ID of the drone: ");
                     int collectorId = int.Parse(Console.ReadLine());
                     parcels[parcelId-1].droneID = collectorId;
@@ -353,6 +387,10 @@ namespace DAL
                 {
                     Console.Write("enter ID of parcel for delivery: ");
                     int parcelID = int.Parse(Console.ReadLine());
+
+                    if (parcelID <= 0 || parcelID > parcels.Length)
+                        throw new IndexOutOfRangeException();
+
                     Console.Write("enter ID of customer: ");
                     int customerId = int.Parse(Console.ReadLine());
                     parcels[parcelID-1].targetID = customerId ;
@@ -361,11 +399,37 @@ namespace DAL
                 //שליחת רחפן לטעינה
                 public static void DroneCharge(int stationId)
                 {
+                    if(indexDroneInCharge >=dronesInCharge .Length )
+                    {
+                        //זריקת חריגה במקרה שהמערך מלא בפעילים
+                        if (countActive == dronesInCharge.Length) 
+                            throw new OverflowException();
+
+                        //עדכון מערך רחפנים בטעינה כך שיכיל רק את הפעילים
+                        DroneCharge [] dcActive = new DroneCharge[dronesInCharge.Length];
+                        int indexDcActive = 0;
+                        for (int i = 0; i < dronesInCharge .Length ; i++)
+                        {
+                            if (dronesInCharge[i].activeCharge)
+                                dcActive[indexDcActive++] = dronesInCharge[i];
+                        }
+                        dronesInCharge = dcActive;
+                        indexDroneInCharge = indexDcActive;
+                    }
+
                     Console.Write("enter ID of drone for charging: ");
                     int droneId = int.Parse(Console.ReadLine());
-                    drones[SearchDroneByID (droneId )].status = (DroneStatuses)1; // שינוי מצב הרחפן למצב טעינה
+
+                    int indexD = SearchDroneByID(droneId);
+                    int indexS = SearchStationByID(stationId);
+
+                    if (indexD < 0 || indexS < 0)
+                        throw new IndexOutOfRangeException();
+
+                    drones[indexD ].status = (DroneStatuses)1; // שינוי מצב הרחפן למצב טעינה
                     dronesInCharge[indexDroneInCharge++] = new DroneCharge(droneId, stationId,true); //הוספת ישות טעינת רחפן
-                    basisStations[SearchStationByID (stationId)].chargeSlots --; 
+                    basisStations[indexS].chargeSlots --;
+                    countActive++;
                 }
 
                 //שחרור רחפן מטעינה בתחנת בסיס
@@ -378,6 +442,7 @@ namespace DAL
                     int stationNum = dronesInCharge[indexD].stationID;//מספר התחנה שהתפנתה
                     basisStations[SearchStationByID (stationNum)].chargeSlots++;//עדכון מספר חריצי הטעינה 
                     dronesInCharge[SearchDroneChargeByID(dID)].activeCharge = false;
+                    countActive--;
                 }
 
 
