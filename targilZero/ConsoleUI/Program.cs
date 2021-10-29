@@ -8,8 +8,6 @@ using DAL.DalObject;
  * exercise numbe: 1
  */
 
-
-
 namespace ConsoleUI
 {
     class Program
