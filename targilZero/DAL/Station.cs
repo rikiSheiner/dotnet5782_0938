@@ -11,38 +11,38 @@ namespace DAL
     {
         public int stationID
         {
-            get;
-            set;
+            get; /*{ return stationID; }*/
+            set;/*{ stationID = value; }*/
         }
         public int name
         {
-            get;
-            set;
+            get; //{ return name; }
+            set; //{ name = value; }
         }
         public double longitude
         {
-            get;
-            set;
+            get;// { return longitude; }
+            set;// { longitude = value; }
         }
         public double latitude
         {
-            get;
-            set;
+            get;// { return latitude; }
+            set;// { latitude = value; }
         }
         public int chargeSlots
         {
-            get;
-            set;
+            get;// { return chargeSlots; }
+            set;// { chargeSlots = value; }
         }
 
         //parameters constructor of station
         public Station(int id, int n, double lo, double la, int cS)
         {
-            this.stationID = id;
-            this.name = n;
-            this.longitude = lo;
-            this.latitude = la;
-            this.chargeSlots = cS;
+            stationID = id;
+            name = n;
+            longitude = lo;
+            latitude = la;
+            chargeSlots = cS;
         }
         //printing of station's details
         public override string ToString()

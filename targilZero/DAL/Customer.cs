@@ -10,38 +10,43 @@ namespace DAL
     {
         public int ID 
         {
-            get;
-            set;
+            get; set;
+            //get { return ID; }
+            //set { ID = value; }
         }
         public string name 
         {
-            get;
-            set;
+            get; set;
+            //get { return name; }
+            //set { name = value; }
         }
         public string phone 
         {
-            get;
-            set;
+            get; set;
+            //get { return phone; }
+            //set { phone = value; }
         }
         public double longitude 
         {
-            get;
-            set;
+            get; set;
+            //get { return longitude; }
+            //set { longitude = value; }
         }
         public double latitude 
         {
-            get;
-            set;
+            get; set;
+            //get { return latitude; }
+            //set { latitude = value; }
         }
 
         //parameters constructor of customer
         public Customer(int id, string n, string p, double lo, double la)
         {
-            this.ID = id;
-            this.name = n;
-            this.phone = p;
-            this.longitude = lo;
-            this.latitude = la;
+            ID = id;
+            name = n;
+            phone = p;
+            longitude = lo;
+            latitude = la;
         }
         //printing details of customer
         public override string ToString()

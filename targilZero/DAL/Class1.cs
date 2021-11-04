@@ -1,5 +1,6 @@
 ﻿using DAL.IDAL.DO;
 using System;
+using System.Collections.Generic;
 
 /*name: Rivka Sheiner
  * id: 324060938
@@ -13,8 +14,8 @@ namespace DAL
     {
         namespace DO
         {
-            // הנדרשים עבור ישויות הנתונים enums
-            #region 
+
+            #region הנדרשים עבור ישויות הנתונים enums
             public enum WeightCategories { light, intermediate, heavy}
             public enum DroneStatuses { available, maintenance, delivery }
             public enum Priorities { normal, quick, emergency }
@@ -29,64 +30,52 @@ namespace DAL
     {
         public class DataSource
         {
-            //מערכים של ישויות הנתונים
-            internal static Drone[] drones = new Drone[10];
-            internal static Station[] basisStations = new Station[5];
-            internal static Customer[] customers = new Customer[100];
-            internal static Parcel[] parcels = new Parcel[1000];
-            internal static DroneCharge[] dronesInCharge = new DroneCharge[100];
+            #region רשימות של ישויות הנתונים         
+            internal static List<Drone> drones=new List<Drone> () ;
+            internal static List<Station> basisStations=new List<Station> ();
+            internal static List<Customer> customers=new List<Customer> ();
+            internal static List<Parcel> parcels=new List<Parcel> ();
+            internal static List<DroneCharge> dronesInCharge=new List<DroneCharge> ();
+            #endregion 
 
             public class Config
             {
-                //אינדקסים של המערכים של ישויות הנתונים
-                internal static int indexDrones = 0;
-                internal static int indexBasisStations = 0;
-                internal static int indexCustomers = 0;
-                internal static int indexParcels = 0;
-                internal static int indexDroneInCharge = 0;
                 internal static int idNumberParcels=1;//מספר מזהה רץ עבור חבילות
                 internal static int countActive = 0;
 
 
-                //מתודות המחזירות העתקים של המאגרים של ישויות הנתונים
-                public static Drone[] GetDrones()
+                #region מתודות המחזירות העתקים של המאגרים של ישויות הנתונים
+                public static List<Drone> GetDrones()
                 {
-                    Drone[] d = new Drone[indexDrones];
-                    for (int i = 0; i < indexDrones; i++)
-                    {
-                        d[i] = drones[i];
-                    }
+                    List<Drone> d=new List<Drone> ();
+                    foreach (Drone it in drones)
+                        d.Add(it);
                     return d;
                 }
-                public static Station[] GetBasisStations()
+                public static List<Station> GetBasisStations()
                 {
-                    Station[] s = new Station[indexBasisStations];
-                    for (int i = 0; i < indexBasisStations; i++)
-                    {
-                        s[i] = basisStations[i];
-                    }
+                    List<Station> s = new List<Station>();
+                    foreach (Station it in basisStations )
+                        s.Add(it);
                     return s;
                 }
-                public static Customer[] GetCustomers()
+                public static List<Customer> GetCustomers()
                 {
-                    Customer[] c = new Customer[indexCustomers];
-                    for (int i = 0; i < indexCustomers; i++)
-                    {
-                        c[i] = customers[i];
-                    }
+                    List<Customer> c = new List<Customer>();
+                    foreach (Customer it in customers )
+                        c.Add(it);
                     return c;
                 }
-                public  static Parcel[] GetParcels()
+                public static List<Parcel> GetParcels()
                 {
-                    Parcel[] p = new Parcel[indexParcels];
-                    for (int i = 0; i < indexParcels; i++)
-                    {
-                        p[i] = parcels[i];
-                    }
+                    List<Parcel> p = new List<Parcel>();
+                    foreach (Parcel it in parcels)
+                        p.Add(it);
                     return p;
                 }
+                #endregion
 
-                //מתודה המאתחלת עם נתונים את המאגרים של ישויות הנתונים
+                #region מתודה המאתחלת עם נתונים את המאגרים של ישויות הנתונים
                 public static void Initialize()
                 {
                     Random r = new Random();
@@ -96,16 +85,16 @@ namespace DAL
                     //הוספת 5 רחפנים למאגר
                     for (int i = 0; i < 5; i++)
                     {
-                        drones[indexDrones++] = new Drone(i, "m" + i, (WeightCategories)(r.Next(0, 3)), 0, r.Next(1, 15) + 0.5);
+                        drones.Add(new Drone(i, "m" + i, (WeightCategories)(r.Next(0, 3)), 0, r.Next(1, 15) + 0.5));
                     }
 
                     //הוספת 2 תחנות בסיס
-                    basisStations[indexBasisStations++] = new Station(1, 111, r.Next (1,360), r.Next (1,360), 3);
-                    basisStations[indexBasisStations++] = new Station(2, 222, r.Next(1, 360), r.Next(1, 360), 3);
+                    basisStations.Add (new Station(1, 111, r.Next (1,360), r.Next (1,360), 3));
+                    basisStations.Add ( new Station(2, 222, r.Next(1, 360), r.Next(1, 360), 3));
                     //הוספת 10 לקוחות
                     for (int i = 0; i < 10; i++)
                     {
-                        customers[indexCustomers++] = new Customer(id, ((NamesOfPeople)(i)).ToString () , (r.Next(0520000000, 0589999999)).ToString(), r.Next(1, 360), r.Next(1, 360));
+                        customers.Add (new Customer(id, ((NamesOfPeople)(i)).ToString () , (r.Next(0520000000, 0589999999)).ToString(), r.Next(1, 360), r.Next(1, 360)));
                         id++;
                     }
 
@@ -113,22 +102,19 @@ namespace DAL
                     for (int i = 0; i < 10; i++)
                     {
                         d.AddDays(i);
-                        parcels[indexParcels++] = new Parcel(idNumberParcels , r.Next(1, 5), r.Next(6, 10), (WeightCategories)(i % 3),
-                            (Priorities)((i + 1) % 3), d, i, d.AddHours(i), d.AddHours(i % 3), d.AddDays(i * 2));
+                        parcels.Add (new Parcel(idNumberParcels , r.Next(1, 5), r.Next(6, 10), (WeightCategories)(i % 3),
+                            (Priorities)((i + 1) % 3), d, i, d.AddHours(i), d.AddHours(i % 3), d.AddDays(i * 2)));
                         d.AddDays(-i);
                         idNumberParcels++;
                     }
 
                     
                 }
+                #endregion 
 
-                //מתודות להוספת איבר למערכי ישויות הנתונים
-                
+                #region מתודות להוספת איבר למערכי ישויות הנתונים
                 public static void AddDrone()
                 {
-                    if (indexDrones >= drones.Length)
-                        throw new IndexOutOfRangeException();
-
                     int id,w,ds;
                     string n;
                     double b;
@@ -141,14 +127,11 @@ namespace DAL
                     ds = int.Parse(Console.ReadLine());
                     b = double.Parse(Console.ReadLine());
 
-                    drones[indexDrones++] = new Drone(id, n, (WeightCategories)w, (DroneStatuses)ds, b);
+                    drones.Add (new Drone(id, n, (WeightCategories)w, (DroneStatuses)ds, b));
                 }
                 
                 public static void AddCustomer()
                 {
-                    if (indexCustomers >= customers.Length)
-                        throw new IndexOutOfRangeException();
-
                     int id;
                     string n,p;
                     double lo, la;
@@ -161,14 +144,11 @@ namespace DAL
                     lo = double.Parse(Console.ReadLine());
                     la = double.Parse(Console.ReadLine());
 
-                    customers[indexCustomers++] = new Customer(id, n, p, lo, la);
+                    customers.Add (new Customer(id, n, p, lo, la));
                 }
 
                 public static void AddStation()
                 {
-                    if (indexBasisStations >= basisStations .Length)
-                        throw new IndexOutOfRangeException();
-
                     int id,n,cs;
                     double lo, la;
 
@@ -180,14 +160,11 @@ namespace DAL
                     la = double.Parse(Console.ReadLine());
                     cs = int.Parse(Console.ReadLine());
 
-                    basisStations[indexBasisStations++] = new Station(id, n, lo, la, cs);
+                    basisStations.Add (new Station(id, n, lo, la, cs));
                 }
 
                 public static void AddParcel()
                 {
-                    if (indexParcels >= parcels.Length)
-                        throw new IndexOutOfRangeException();
-
                     int id, sid, tid, did, w, p;
                     DateTime r, s, pi, d;
 
@@ -205,181 +182,152 @@ namespace DAL
                     s = DateTime.Parse(Console.ReadLine());
                     pi = DateTime.Parse(Console.ReadLine());
                     d = DateTime.Parse(Console.ReadLine());
-                    parcels[indexParcels++] = new Parcel(id,sid,tid,(WeightCategories)w,(Priorities)p,r,did,s,pi,d);
+                    parcels.Add (new Parcel(id,sid,tid,(WeightCategories)w,(Priorities)p,r,did,s,pi,d));
                 }
+                #endregion 
 
-                //מתודות לחיפוש ישות מיקום ישות נותנים במערך לפי מספר זהות
-                public static int SearchDroneByID(int id)
-                {
-                    for (int i = 0; i < indexDrones; i++)
-                    {
-                        if (drones[i].ID == id)
-                            return i;
-                    }
-
-                    return -1;
-                }
-                public static int SearchCustomerByID(int id)
-                {
-                    for (int i = 0; i < indexCustomers; i++)
-                    {
-                        if (customers [i].ID == id)
-                            return i;
-                    }
-
-                    return -1;
-                }
-                public static int SearchStationByID(int id)
-                {
-                    for (int i = 0; i < indexBasisStations ; i++)
-                    {
-                        if (basisStations [i].stationID == id)
-                            return i;
-                    }
-
-                    return -1;
-                }
-                public static int SearchParcelByID(int id)
-                {
-                    for (int i = 0; i < indexParcels; i++)
-                    {
-                        if (parcels[i].ID == id)
-                            return i;
-                    }
-
-                    return -1;
-                }
-                public static int SearchDroneChargeByID(int id)
-                {
-                    for (int i = 0; i < indexDroneInCharge; i++)
-                    {
-                        if (dronesInCharge[i].droneID  == id)
-                            return i;
-                    }
-
-                    return -1;
-                }
-                
-                //מתודות להצגת ישויות הנתונים
+                #region  מתודות להצגת ישויות הנתונים
                 public static void ShowDrone(int id)
                 {
-                    int iDrone = SearchDroneByID(id);
-                    if (iDrone < 0)
-                        throw new IndexOutOfRangeException();
-                    Console.WriteLine(drones[iDrone ]);
+                    foreach(Drone drone in drones)
+                    {
+                        if(drone.ID == id)
+                        {
+                            Console.WriteLine(drone);
+                            break;
+                        }
+                    }
                 }
                 public static void ShowCustomer(int id)
                 {
-                    int iCustomer = SearchCustomerByID(id);
-                    if (iCustomer < 0)
-                        throw new IndexOutOfRangeException();
-                    Console.WriteLine(customers [iCustomer ]);
+                    foreach (Customer customer in customers )
+                    {
+                        if (customer.ID  == id)
+                        {
+                            Console.WriteLine(customer);
+                            break;
+                        }
+                    }
                 }
                 public static void ShowStation(int id)
                 {
-                    int iStation = SearchStationByID(id);
-                    if (iStation < 0)
-                        throw new IndexOutOfRangeException();
-                    Console.WriteLine(basisStations [iStation ]);
+                    foreach (Station station in basisStations )
+                    {
+                        if (station.stationID == id)
+                        {
+                            Console.WriteLine(station );
+                            break;
+                        }
+                    }
                 }
                 public static void ShowParcel(int id)
                 {
-                    if (id <= 0 || id > parcels.Length)
-                        throw new IndexOutOfRangeException();
-                    Console.WriteLine(parcels[id-1]);
+                    foreach (Parcel parcel in parcels)
+                    {
+                        if (parcel .ID == id)
+                        {
+                            Console.WriteLine(parcel);
+                            break;
+                        }
+                    }
                 }
                 public static void ShowDroneInCharge(int id)
                 {
-                    int iDC = SearchDroneChargeByID(id);
-                    if (iDC < 0)
-                        throw new IndexOutOfRangeException();
-                    Console.WriteLine(dronesInCharge [iDC ]);
+                    foreach (DroneCharge  droneCharge in dronesInCharge)
+                    {
+                        if (droneCharge.droneID == id)
+                        {
+                            Console.WriteLine(droneCharge );
+                            break;
+                        }
+                    }
                 }
+                #endregion 
 
-                //מתודות להצגת רשימות של נתונים
+                #region מתודות להצגת רשימות של נתונים
                 public static void ShowListParcels()
                 {
-                    Parcel[] p = GetParcels();
-                    for (int i = 0; i < p.Length /*indexParcels*/; i++)
+                    List<Parcel> p = GetParcels();
+                    foreach (Parcel parcelToPrint in p)
                     {
-                        Console.WriteLine(p[i]);
+                        Console.WriteLine(parcelToPrint );
                     }
-                    
                 }
                 public static void ShowListStations()
                 {
-                    Station[] s = GetBasisStations();
-                    for (int i = 0; i < s.Length /*indexBasisStations*/; i++)
+                    List<Station> s = GetBasisStations ();
+                    foreach (Station stationToPrint in s)
                     {
-                        Console.WriteLine(s[i]);
+                        Console.WriteLine(stationToPrint);
                     }
                 }
                 public static void ShowListDrones()
                 {
-                    Drone[] d = GetDrones();
-                    for (int i = 0; i < d.Length /*indexDrones*/; i++)
+                    List<Drone> d = GetDrones();
+                    foreach (Drone droneToPrint in d)
                     {
-                        Console.WriteLine(d[i]);
+                        Console.WriteLine(droneToPrint);
                     }
-
                 }
                 public static void ShowListCustomers()
                 {
-                    Customer[] c = GetCustomers();
-                    for (int i = 0; i < c.Length /*indexCustomers*/; i++)
+                    List<Customer> c = GetCustomers ();
+                    foreach (Customer customerToPrint in c)
                     {
-                        Console.WriteLine(c[i]);
+                        Console.WriteLine(customerToPrint);
                     }
-
                 }
                 public static void ShowParcelsNoDrone()
                 {
-                    for (int i = 0; i < indexParcels; i++)
+                    List<Parcel> p = GetParcels();
+                    foreach (Parcel parcelToPrint in p)
                     {
-                        if (parcels[i].droneID < 0)
-                            Console.WriteLine(parcels[i] );
+                        if(parcelToPrint .droneID<=0) //בהנחה שמספר זהות תקין גדול מ-0
+                            Console.WriteLine(parcelToPrint);
                     }
 
                 }
                 public static void ShowAvailableStations()
                 {
-                    for (int i = 0; i < indexBasisStations; i++)
+                    List<Station> s = GetBasisStations();
+                    foreach (Station stationToPrint in s)
                     {
-                        if (basisStations[i].chargeSlots > 0)
-                            Console.WriteLine(basisStations[i]);
+                        if (stationToPrint.chargeSlots > 0)
+                            Console.WriteLine(stationToPrint);
                     }
-
                 }
+                #endregion
 
-                //מתודות לעדכון מאגרי הנתונים
-                
+                #region  מתודות לעדכון מאגרי הנתונים
                 //מתודה לשיוך חבילה לרחפן
                 public static void ParcelToDrone()
                 {
                     Console.Write("enter ID of parcel: ");
                     int parcelID = int.Parse(Console.ReadLine());
 
-                    if (parcelID <= 0 || parcelID > parcels.Length)
-                        throw new IndexOutOfRangeException();
-                        
                     Console.Write("enter ID of the matching drone: ");
                     int droneId = int.Parse(Console.ReadLine());
-                    parcels[parcelID-1].droneID = droneId;
 
+                    Parcel p = parcels[parcelID - 1];
+                    p.droneID = droneId;
+                    parcels[parcelID - 1] = p;
                 }
 
+                
+               
                 //איסוף חבילה ע"י רחפן
                 public static void ParcelCollection()
                 {
                     Console.Write("enter ID of parcel for collecting: ");
                     int parcelId = int.Parse(Console.ReadLine());
 
-                    if (parcelId <= 0 || parcelId > parcels.Length)
-                        throw new IndexOutOfRangeException();
-
                     Console.Write("enter ID of the drone: ");
                     int collectorId = int.Parse(Console.ReadLine());
-                    parcels[parcelId-1].droneID = collectorId;
+
+                    //לבדוק אם זה עובד!!
+                    Parcel temp = parcels[parcelId - 1];
+                    temp.droneID = collectorId ;
+                    parcels[parcelId - 1] = temp;
                 }
 
                 //אספקת חבילה ללקוח
@@ -388,47 +336,40 @@ namespace DAL
                     Console.Write("enter ID of parcel for delivery: ");
                     int parcelID = int.Parse(Console.ReadLine());
 
-                    if (parcelID <= 0 || parcelID > parcels.Length)
-                        throw new IndexOutOfRangeException();
-
                     Console.Write("enter ID of customer: ");
                     int customerId = int.Parse(Console.ReadLine());
-                    parcels[parcelID-1].targetID = customerId ;
+
+                    Parcel temp = parcels[parcelID - 1];
+                    temp.targetID   = customerId ;
+                    parcels[parcelID - 1] = temp;
                 }
 
                 //שליחת רחפן לטעינה
                 public static void DroneCharge(int stationId)
                 {
-                    if(indexDroneInCharge >=dronesInCharge .Length )
-                    {
-                        //זריקת חריגה במקרה שהמערך מלא בפעילים
-                        if (countActive == dronesInCharge.Length) 
-                            throw new OverflowException();
-
-                        //עדכון מערך רחפנים בטעינה כך שיכיל רק את הפעילים
-                        DroneCharge [] dcActive = new DroneCharge[dronesInCharge.Length];
-                        int indexDcActive = 0;
-                        for (int i = 0; i < dronesInCharge .Length ; i++)
-                        {
-                            if (dronesInCharge[i].activeCharge)
-                                dcActive[indexDcActive++] = dronesInCharge[i];
-                        }
-                        dronesInCharge = dcActive;
-                        indexDroneInCharge = indexDcActive;
-                    }
-
                     Console.Write("enter ID of drone for charging: ");
                     int droneId = int.Parse(Console.ReadLine());
+                    
+                    int indexD = 0,indexS=0;
+                    for (indexD = 0; indexD < drones.Count; indexD++)
+                    {
+                        if (drones[indexD].ID == droneId)
+                            break;
+                    }
+                    for (indexS = 0; indexS < basisStations .Count; indexS++)
+                    {
+                        if (basisStations [indexS].stationID  == stationId )
+                            break;
+                    }
+                    Drone temp1 = drones[indexD];
+                    temp1 .status = (DroneStatuses)1;// שינוי מצב הרחפן למצב טעינה
+                    drones[indexD] = temp1;
 
-                    int indexD = SearchDroneByID(droneId);
-                    int indexS = SearchStationByID(stationId);
+                    Station temp2 = basisStations[indexS];
+                    temp2.chargeSlots--; //עדכון מספר חריצי הטעינה בתחנה
+                    basisStations[indexS] = temp2;
 
-                    if (indexD < 0 || indexS < 0)
-                        throw new IndexOutOfRangeException();
-
-                    drones[indexD ].status = (DroneStatuses)1; // שינוי מצב הרחפן למצב טעינה
-                    dronesInCharge[indexDroneInCharge++] = new DroneCharge(droneId, stationId,true); //הוספת ישות טעינת רחפן
-                    basisStations[indexS].chargeSlots --;
+                    dronesInCharge.Add (new DroneCharge(droneId, stationId,true)); //הוספת ישות טעינת רחפן
                     countActive++;
                 }
 
@@ -437,13 +378,43 @@ namespace DAL
                 {
                     Console.Write("enter drone ID for ending of charging: ");
                     int dID = int.Parse(Console.ReadLine()); //קבלת מספר הרחפן לשחרור
-                    int indexD = SearchDroneChargeByID(dID);
-                    drones[indexD].status = 0;//שינוי מצב הרחפן לזמין
+
+                    int indexD = 0, indexS = 0, indexDcharge=0;
+                    for (indexD = 0; indexD < drones.Count; indexD++)
+                    {
+                        if (drones[indexD].ID == dID)
+                            break;
+                    }
+
+                    Drone temp1 = drones[indexD];
+                    temp1.status = (DroneStatuses)0;// שינוי מצב הרחפן לזמין
+                    drones[indexD] = temp1;
+                    
                     int stationNum = dronesInCharge[indexD].stationID;//מספר התחנה שהתפנתה
-                    basisStations[SearchStationByID (stationNum)].chargeSlots++;//עדכון מספר חריצי הטעינה 
-                    dronesInCharge[SearchDroneChargeByID(dID)].activeCharge = false;
+                    
+                    for (indexS = 0; indexS < basisStations.Count; indexS++)
+                    {
+                        if (basisStations[indexS].stationID == stationNum)
+                            break;
+                    }
+
+                    Station tempS = basisStations[indexS];
+                    tempS.chargeSlots++;
+                    basisStations[indexS] = tempS;
+
+                    for (indexDcharge = 0; indexDcharge < dronesInCharge.Count; indexDcharge++)
+                    {
+                        if (dronesInCharge[indexDcharge].droneID == dID)
+                            break;
+                    }
+
+                    DroneCharge tempDC = dronesInCharge[indexDcharge];
+                    tempDC.activeCharge = false;
+                    dronesInCharge[indexDcharge] = tempDC;
+                    
                     countActive--;
                 }
+                #endregion 
 
 
             }

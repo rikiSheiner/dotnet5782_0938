@@ -11,70 +11,80 @@ namespace DAL
     {
         public int ID
         {
-            get;
-            set;
+            get; set;
+            //get { return ID; }
+            //set { ID = value; }
         }
         public int senderID 
         {
-            get;
-            set;
+            get; set;
+            //get { return senderID; }
+            //set { senderID = value; }
         }
         public int targetID
         {
-            get;
-            set;
+            get; set;
+            //get { return targetID; }
+            //set { targetID = value; }
         }
         public WeightCategories weight
         {
-            get;
-            set;
+            get; set;
+            //get { return weight; }
+            //set { weight = value; }
         }
         public Priorities priority
         {
-            get;
-            set;
+            get; set;
+            //get { return priority; }
+            //set { priority = value; }
         }
         public DateTime requested
         {
-            get;
-            set;
+            get; set;
+            //get { return requested; }
+            //set { requested = value; }
         }
         public int droneID
         {
-            get;
-            set;
+            get; set;
+            //get { return droneID; }
+            //set { droneID = value; }
         }
 
         public DateTime scheduled
         {
-            get;
-            set;
+            get; set;
+            //get { return scheduled; }
+            //set { scheduled = value; }
         }
         public DateTime pickedUp
         {
-            get;
-            set;
+            get; set;
+            //get { return pickedUp; }
+            //set { pickedUp = value; }
         }
         public DateTime delivered
         {
-            get;
-            set;
+            get; set;
+            //get { return delivered; }
+            //set { delivered = value; }
         }
 
         //parameters constructor of parcel
         public Parcel(int id, int sid, int tid, WeightCategories w, Priorities p, DateTime r,
-            int did, DateTime s, DateTime pi, DateTime d)
+            int did, DateTime s, DateTime pi, DateTime d) 
         {
-            this.ID = id;
-            this.senderID = sid;
-            this.targetID = tid;
-            this.weight = w;
-            this.priority = p;
-            this.requested = r;
-            this.droneID = did;
-            this.scheduled = s;
-            this.pickedUp = pi;
-            this.delivered = d;
+            ID = id;
+            senderID = sid;
+            targetID = tid;
+            weight = w;
+            priority = p;
+            requested = r;
+            droneID = did;
+            scheduled = s;
+            pickedUp = pi;
+            delivered = d;
         }
 
         //printing details of parcel

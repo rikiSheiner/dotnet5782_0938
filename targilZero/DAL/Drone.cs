@@ -11,38 +11,38 @@ namespace DAL
     {
         public int ID
         {
-            get;
-            set;
+            get;/* { return ID; }*/
+            set;/*{ ID = value; }*/
         }
         public string model
         {
-            get;
-            set;
+            get;/*{ return model; }*/
+            set;/*{ model = value; }*/
         }
         public WeightCategories maxWeight
         {
-            get;
-            set;
+            get; /*{ return maxWeight; }*/
+            set;/*{ maxWeight = value; }*/
         }
         public DroneStatuses status
         {
-            get;
-            set;
+            get; /*{ return status; }*/
+            set;/*{ status = value; }*/
         }
         public double battery
         {
-            get;
-            set;
+            get; /*{ return battery; }*/
+            set;/*{ battery = value; }*/
         }
 
         //parameters costructor of drone
         public Drone(int id, string m, WeightCategories mw, DroneStatuses s, double b)
         {
-            this.ID = id;
-            this.model = m;
-            this.maxWeight = mw;
-            this.status = s;
-            this.battery = b;
+            ID = id;
+            model = m;
+            maxWeight = mw;
+            status = s;
+            battery = b;
         }
 
         //printing details of drone
