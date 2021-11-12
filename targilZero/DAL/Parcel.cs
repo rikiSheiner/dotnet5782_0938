@@ -11,64 +11,54 @@ namespace DAL
     {
         public int ID
         {
-            get; set;
-            //get { return ID; }
-            //set { ID = value; }
+            get;
+            set;
         }
         public int senderID 
         {
-            get; set;
-            //get { return senderID; }
-            //set { senderID = value; }
+            get; 
+            set;
         }
         public int targetID
         {
-            get; set;
-            //get { return targetID; }
-            //set { targetID = value; }
+            get; 
+            set;
         }
         public WeightCategories weight
         {
-            get; set;
-            //get { return weight; }
-            //set { weight = value; }
+            get; 
+            set;
         }
         public Priorities priority
         {
-            get; set;
-            //get { return priority; }
-            //set { priority = value; }
+            get; 
+            set;
         }
         public DateTime requested
         {
-            get; set;
-            //get { return requested; }
-            //set { requested = value; }
+            get;
+            set;
         }
         public int droneID
         {
-            get; set;
-            //get { return droneID; }
-            //set { droneID = value; }
+            get;
+            set;
         }
 
         public DateTime scheduled
         {
-            get; set;
-            //get { return scheduled; }
-            //set { scheduled = value; }
+            get; 
+            set;
         }
         public DateTime pickedUp
         {
-            get; set;
-            //get { return pickedUp; }
-            //set { pickedUp = value; }
+            get; 
+            set;
         }
         public DateTime delivered
         {
-            get; set;
-            //get { return delivered; }
-            //set { delivered = value; }
+            get;
+            set;
         }
 
         //parameters constructor of parcel

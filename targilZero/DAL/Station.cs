@@ -11,28 +11,28 @@ namespace DAL
     {
         public int stationID
         {
-            get; /*{ return stationID; }*/
-            set;/*{ stationID = value; }*/
+            get;
+            set;
         }
         public int name
         {
-            get; //{ return name; }
-            set; //{ name = value; }
+            get;
+            set; 
         }
         public double longitude
         {
-            get;// { return longitude; }
-            set;// { longitude = value; }
+            get;
+            set;
         }
         public double latitude
         {
-            get;// { return latitude; }
-            set;// { latitude = value; }
+            get;
+            set;
         }
         public int chargeSlots
         {
-            get;// { return chargeSlots; }
-            set;// { chargeSlots = value; }
+            get;
+            set;
         }
 
         //parameters constructor of station

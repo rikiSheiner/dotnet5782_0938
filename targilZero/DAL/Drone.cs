@@ -11,45 +11,32 @@ namespace DAL
     {
         public int ID
         {
-            get;/* { return ID; }*/
-            set;/*{ ID = value; }*/
+            get;
+            set;
         }
         public string model
         {
-            get;/*{ return model; }*/
-            set;/*{ model = value; }*/
+            get;
+            set;
         }
         public WeightCategories maxWeight
         {
-            get; /*{ return maxWeight; }*/
-            set;/*{ maxWeight = value; }*/
-        }
-        public DroneStatuses status
-        {
-            get; /*{ return status; }*/
-            set;/*{ status = value; }*/
-        }
-        public double battery
-        {
-            get; /*{ return battery; }*/
-            set;/*{ battery = value; }*/
+            get; 
+            set;
         }
 
         //parameters costructor of drone
-        public Drone(int id, string m, WeightCategories mw, DroneStatuses s, double b)
+        public Drone(int id, string m, WeightCategories mw)
         {
             ID = id;
             model = m;
             maxWeight = mw;
-            status = s;
-            battery = b;
         }
 
         //printing details of drone
         public override string ToString()
         {
-            return "Drone ID: " + ID + "\nmodel: " + model + "\nmax weight: " + maxWeight
-                + "\nstatus: " + status + "\nbattery: " + battery + "\n";
+            return "Drone ID: " + ID + "\nmodel: " + model + "\nmax weight: " + maxWeight+ "\n";
         }
 
     }

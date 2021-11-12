@@ -10,33 +10,28 @@ namespace DAL
     {
         public int ID 
         {
-            get; set;
-            //get { return ID; }
-            //set { ID = value; }
+            get; 
+            set;
         }
         public string name 
         {
-            get; set;
-            //get { return name; }
-            //set { name = value; }
+            get;
+            set;
         }
         public string phone 
         {
-            get; set;
-            //get { return phone; }
-            //set { phone = value; }
+            get;
+            set;
         }
         public double longitude 
         {
-            get; set;
-            //get { return longitude; }
-            //set { longitude = value; }
+            get;
+            set;
         }
         public double latitude 
         {
-            get; set;
-            //get { return latitude; }
-            //set { latitude = value; }
+            get; 
+            set;
         }
 
         //parameters constructor of customer

@@ -11,18 +11,18 @@ namespace DAL
     {
         public int droneID
         {
-            get;// { return droneID; }
-            set;// { droneID = value; }
+            get;
+            set;
         }
         public int stationID
         {
-            get;// { return stationID; }
-            set;// { stationID = value; }
+            get;
+            set;
         }
         public bool activeCharge //מייצג האם הישות בטעינה או לא
         {
-            get;// { return activeCharge; }
-            set;// { activeCharge = value; }
+            get;
+            set;
         }
 
         //parameters costructor of drone in charge
