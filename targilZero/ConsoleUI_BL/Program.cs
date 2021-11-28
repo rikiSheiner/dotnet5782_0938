@@ -1,21 +1,16 @@
 ﻿using System;
-using DAL.DalObject;
-using DAL.IDAL.DO;
-using DAL;
-using System.Collections.Generic;
+using BL.IBL;
+using BL.IBL.BO;
 
-
-/*name: Rivka Sheiner
- * id: 324060938
- * course: .net
- * exercise number: 2
- */
-
-namespace ConsoleUI
+namespace ConsoleUI_BL
 {
+    /*name: Rivka Sheiner
+     * ID: 324060938
+     * exercise number: 2
+     */
     class Program
     {
-        public static void Adding(DataSource datasource)
+        public static void Adding(BL.IBL.BL datasource)
         {
             int secondChoose;
 
@@ -44,14 +39,17 @@ namespace ConsoleUI
                     case 2:
                         int droneID, w;
                         string droneName;
+                        int stationForCharging;
 
-                        Console.WriteLine("enter id, name, weight category");
+                        Console.WriteLine("enter id, model, weight category, station id for charging");
 
                         droneID = int.Parse(Console.ReadLine());
                         droneName = Console.ReadLine();
                         w = int.Parse(Console.ReadLine());
+                        stationForCharging = int.Parse(Console.ReadLine());
 
-                        datasource.AddDrone(droneID, droneName, w);
+
+                        datasource.AddDrone(droneID, droneName, w,stationForCharging );
                         break;
 
                     case 3:
@@ -73,187 +71,201 @@ namespace ConsoleUI
                     case 4:
                         int sid, tid, did, parcelWeight, priority;
 
-                        Console.WriteLine("enter sender id, target id, weight, priority, drone id. ");
+                        Console.WriteLine("enter sender id, target id, weight, priority. ");
 
                         sid = int.Parse(Console.ReadLine());
                         tid = int.Parse(Console.ReadLine());
                         parcelWeight = int.Parse(Console.ReadLine());
                         priority = int.Parse(Console.ReadLine());
-                        did = int.Parse(Console.ReadLine());
                         
-                        datasource.AddParcel(sid, tid, parcelWeight, priority ,did);
+                        datasource.AddParcel(sid, tid, parcelWeight, priority);
                         break;
                 }
             }
-            catch(ExistIdException eID)
+            catch (AddingProblemException addingError )
             {
-                Console.WriteLine(eID.Message );
+                Console.WriteLine(addingError.Message);
             }
-            catch(Exception)
+            catch(DAL.IDAL.DO.ExistIdException existID)
+            {
+                Console.WriteLine(existID .Message );
+            }
+            catch (Exception)
             {
                 Console.WriteLine("ERROR");
             }
 
         }
-        public static void Updating(DataSource datasource)
+
+
+     
+
+
+        public static void Updating(BL.IBL.BL datasource)
         {
             int secondChoose;
-            Console.WriteLine("Enter 1 for assigning of parcel.\nEnter 2 for collecting of parcel.\n" +
-                        "Enter 3 for parcel delivery.\nEnter 4 for drone charging.\n" +
-                        "Enter 5 for release from charging.\n");
+            
+            Console.WriteLine("Enter 1 for updating of drone details.\n" + "Enter 2 for updating of station details.\n"+
+              "Enter 3 for updating of customer details.\n" + "Enter 4 for drone charging.\n" +
+              "Enter 5 for end of drone charging.\n" + "Enter 6 for assining of parcel to drone .\n" +
+              "Enter 7 for parcel collecting by drone.\n" + "Enter 8 for delivery of parcel by drone.\n" );
             secondChoose = int.Parse(Console.ReadLine());
 
             try
             {
                 switch (secondChoose)
                 {
+                    
                     case 1:
-
-                        Console.Write("enter ID of parcel: ");
-                        int parcelID = int.Parse(Console.ReadLine());
-                        Console.Write("enter ID of the matching drone: ");
-                        int droneId = int.Parse(Console.ReadLine());
-
-                        datasource.ParcelToDrone(parcelID ,droneId );
+                        Console.WriteLine("Enter id and model of drone: ");
+                        int idDrone = int.Parse(Console.ReadLine());
+                        string model = Console.ReadLine();
+                        datasource.UpdateDrone(idDrone, model);
                         break;
                     case 2:
-
-                        Console.Write("enter ID of parcel for collecting: ");
-                        int parcelId = int.Parse(Console.ReadLine());
-
-                        Console.Write("enter ID of the drone: ");
-                        int collectorId = int.Parse(Console.ReadLine());
-
-                        datasource.ParcelCollection(parcelId , collectorId );
+                        Console.WriteLine("Enter id, name and number of charge slots in station: ");
+                        int idStation = int.Parse(Console.ReadLine());
+                        int newNameStation = int.Parse (Console .ReadLine ());
+                        int newChargeSlots = int.Parse(Console.ReadLine());
+                        datasource.UpdateStation(idStation, newNameStation , newChargeSlots);
                         break;
                     case 3:
-
-                        Console.Write("enter ID of parcel for delivery: ");
-                        int deliveredID = int.Parse(Console.ReadLine());
-
-                        Console.Write("enter ID of customer: ");
-                        int customerId = int.Parse(Console.ReadLine());
-
-                        datasource.DeliveryParcel(deliveredID ,customerId );
-                        break;
+                        Console.WriteLine("Enter id, name and phone number of customer: ");
+                        int idCustomer = int.Parse(Console.ReadLine());
+                        string newNameCustomer = Console.ReadLine();
+                        string newPhoneCustoemr = Console.ReadLine();
+                        datasource.UpdateCustomer(idCustomer, newNameCustomer, newPhoneCustoemr);
+                        break; 
                     case 4:
-                        Console.Write("enter station ID: ");
-                        int sID = int.Parse(Console.ReadLine());
-
-                        Console.Write("enter ID of drone for charging: ");
-                        int chargedId = int.Parse(Console.ReadLine());
-
-                        datasource.CreateDroneCharge(sID,chargedId );
+                        Console.WriteLine("Enter id number of the drone for charging: ");
+                        int droneChargeID = int.Parse(Console.ReadLine());
+                        datasource.CreateDroneCharge(droneChargeID);
                         break;
                     case 5:
-                        Console.Write("enter drone ID for ending of charging: ");
-                        int dID = int.Parse(Console.ReadLine()); //קבלת מספר הרחפן לשחרור
-                        datasource.EndDroneCharge(dID);
+                        Console.WriteLine("Enter id number of the drone for end of charging and time of charging(in hours): ");
+                        int droneEndChargeID = int.Parse(Console.ReadLine());
+                        int timeOfCharging = int.Parse(Console.ReadLine());
+                        datasource.EndDroneCharge(droneEndChargeID, timeOfCharging);
+                        break;
+                    case 6:
+                        Console.WriteLine("Enter id of drone for assining the parcel to the drone: ");
+                        int parcelToDroneID = int.Parse(Console.ReadLine());
+                        datasource.AssignParcelToDrone(parcelToDroneID);
+                        break;
+                    case 7:
+                        Console.WriteLine("Enter id of drone for collecting of parcel by the drone: ");
+                        int droneCollectParcelID = int.Parse(Console.ReadLine());
+                        datasource.CollectParcel(droneCollectParcelID);
+                        break;
+                    case 8:
+                        Console.WriteLine("Enter id of drone for delivery of parcel: ");
+                        int droneInDeliveryID = int.Parse(Console.ReadLine());
+                        datasource.ParcelDelivery(droneInDeliveryID);
+                        break;
+                    default:
                         break;
                 }
             }
-            catch(ObjectNotFoundException onf)
+            catch (UpdateProblemException  updatingError)
+            {
+                Console.WriteLine(updatingError.Message);
+            }
+            catch(DAL .IDAL .DO.ObjectNotFoundException onf)
             {
                 Console.WriteLine(onf.Message );
             }
-            catch(ExistIdException eID)
-            {
-                Console.WriteLine(eID .Message );
-            }
-            catch(Exception e)
+            catch (Exception)
             {
                 Console.WriteLine("ERROR");
             }
         }
-        public static void ItemPresent(DataSource datasource)
+        public static void ItemPresent(BL.IBL.BL datasource)
         {
             int secondChoose, id;
             Console.WriteLine("Enter 1 for presentation of basis station.\nEnter 2 for presentation of drone." +
                         "\nEnter 3 for presentation of customer.\nEnter 4 for presentation of parcel.");
             secondChoose = int.Parse(Console.ReadLine());
             Console.Write("enter ID number: ");
-            id=int.Parse (Console .ReadLine());
+            id = int.Parse(Console.ReadLine());
 
             try
             {
                 switch (secondChoose)
                 {
                     case 1:
-                        Console.WriteLine(((List<Station>)datasource.GetBasisStations())[datasource.FindStation(id)]);
+                        Console.WriteLine(datasource.GetStation(id).ToString() );
                         break;
                     case 2:
-                        Console.WriteLine(((List<Drone>)datasource.GetDrones())[datasource.FindDrone(id)]);
+                        Console.WriteLine(datasource.GetDrone(id).ToString());
                         break;
                     case 3:
-                        Console.WriteLine(((List<Customer>)datasource.GetCustomers())[datasource.FindCustomer(id)]);
+                        Console.WriteLine(datasource.GetCustomer(id).ToString());
                         break;
                     case 4:
-                        Console.WriteLine(((List<Parcel>)datasource.GetParcels())[datasource.FindParcel(id)]);
+                        Console.WriteLine(datasource.GetParcel(id).ToString());
                         break;
                 }
             }
-            catch (ObjectNotFoundException onf)
+            catch (BL.IBL.BO.GetDetailsProblemException  presentError)
+            {
+                Console.WriteLine(presentError.Message);
+            }
+            catch (DAL.IDAL.DO.ObjectNotFoundException onf)
             {
                 Console.WriteLine(onf.Message);
             }
-            catch (ExistIdException eID)
-            {
-                Console.WriteLine(eID.Message);
-            }
-            catch (Exception e)
+            catch (Exception)
             {
                 Console.WriteLine("ERROR");
             }
 
         }
-        public static void ListsPresent(DataSource datasource)
+        public static void ListsPresent(BL.IBL.BL datasource)
         {
             int secondChoose;
-            
+
             Console.WriteLine("Enter 1 for list of basis stations.\nEnter 2 for list of drones." +
                         "\nEnter 3 for list of customers.\nEnter 4 for list of parcels\n" +
                         "Enter 5 for list of parcels without drone.\nEnter 6 for available basis stations.");
-            
+
             secondChoose = int.Parse(Console.ReadLine());
-            
+
             switch (secondChoose)
             {
                 case 1:
-                    foreach (Station stationToPrint in datasource .GetBasisStations())
+                    foreach (StationToList stationToPrint in datasource.GetListStations())
                     {
                         Console.WriteLine(stationToPrint);
                     }
                     break;
                 case 2:
-                    foreach (Drone droneToPrint in datasource .GetDrones ())
+                    foreach (DroneToList droneToPrint in datasource.GetListDrones())
                     {
                         Console.WriteLine(droneToPrint);
                     }
                     break;
                 case 3:
-                    foreach (Customer customerToPrint in datasource .GetCustomers ())
+                    foreach (CustomerToList customerToPrint in datasource.GetListCustomers())
                     {
                         Console.WriteLine(customerToPrint);
                     }
                     break;
                 case 4:
-                    foreach (Parcel parcelToPrint in datasource .GetParcels())
+                    foreach (ParcelToList parcelToPrint in datasource.GetListParcels())
                     {
                         Console.WriteLine(parcelToPrint);
                     }
                     break;
                 case 5:
-                    foreach (Parcel parcelToPrint in datasource .GetParcels ())
+                    foreach (ParcelToList parcelToPrint in datasource.GetListParcelsNoDrone())
                     {
-                        if (parcelToPrint.droneID <= 0) //בהנחה שמספר זהות תקין גדול מ-0
-                            Console.WriteLine(parcelToPrint);
+                        Console.WriteLine(parcelToPrint);
                     }
                     break;
                 case 6:
-                    foreach (Station stationToPrint in datasource .GetBasisStations ())
+                    foreach (StationToList stationToPrint in datasource.GetListStationsNotFull())
                     {
-                        if (stationToPrint.chargeSlots > 0)
-                            Console.WriteLine(stationToPrint);
+                        Console.WriteLine(stationToPrint);
                     }
                     break;
             }
@@ -261,7 +273,7 @@ namespace ConsoleUI
         }
         public static void Menu()
         {
-            DalObject dalobject = new();
+            BL.IBL.BL blObject = new();
 
             int mainChoose;
             Console.WriteLine("menu:\nEnter 1 for adding.\nEnter 2 for updating.\n" +
@@ -274,19 +286,19 @@ namespace ConsoleUI
                 switch (mainChoose)
                 {
                     case 1: //adding 
-                        Adding(dalobject.GetDS ());
+                        Adding(blObject);
                         break;
 
                     case 2://updating
-                        Updating(dalobject.GetDS ());
+                        Updating(blObject);
                         break;
 
                     case 3: //item's presentation
-                        ItemPresent(dalobject.GetDS ());
+                        ItemPresent(blObject);
                         break;
 
                     case 4: //presentation of lists
-                        ListsPresent(dalobject.GetDS ());
+                        ListsPresent(blObject);
                         break;
 
                     default:
@@ -296,13 +308,13 @@ namespace ConsoleUI
                 mainChoose = int.Parse(Console.ReadLine());
             }
         }
+
         
+
         static void Main(string[] args)
         {
-            Menu();
-            
-        }
 
-       
+            Menu();
+        }
     }
 }

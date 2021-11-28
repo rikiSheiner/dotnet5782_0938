@@ -58,13 +58,21 @@ namespace DAL
             {
                 internal static int idNumberParcels=1;//מספר מזהה רץ עבור חבילות
                 internal static int countActive = 0;
-                internal static double idlePowerConsumption; //צריכת חשמל במצב פנוי
-                internal static double lightPowerConsumption; //צריכת חשמל במצב נושא משקל קל
-                internal static double mediumPowerConsumption; //צריכת חשמל במצב נושא משקל בינוני
-                internal static double heavyPowerConsumption; //צריכת חשמל במצב נושא משקל כבד
-                internal static int droneLoadingRate; //קצב טעינת רחפן בשעה באחוזים
-
+                internal static double idlePowerConsumption = 1; //צריכת חשמל במצב פנוי
+                internal static double lightPowerConsumption = 2; //צריכת חשמל במצב נושא משקל קל
+                internal static double mediumPowerConsumption = 3; //צריכת חשמל במצב נושא משקל בינוני
+                internal static double heavyPowerConsumption = 4; //צריכת חשמל במצב נושא משקל כבד
+                internal static int droneLoadingRate = 40; //קצב טעינת רחפן בשעה באחוזים
+                internal static int[] CountParcelsPriority = new int[3]; //מערך עבור מניית מספר החבילות שהן בעדיפות מסוימת
+                                                                         //מקום 0=normal, מקום 1=quick,מקום 2 =emergency
             }
+
+            #region Constructor
+            public DataSource()
+            {
+                Initialize();
+            }
+            #endregion
 
             #region מתודות המחזירות העתקים של המאגרים של ישויות הנתונים
             public override IEnumerable<Drone> GetDrones()
@@ -95,24 +103,36 @@ namespace DAL
                     p.Add(it);
                 return p;
             }
+            public override IEnumerable<DroneCharge> GetDronesInCharge()
+            {
+                List<DroneCharge> d = new List<DroneCharge>();
+                foreach (DroneCharge it in dronesInCharge)
+                    d.Add(it);
+                return d;
+            }
             #endregion
 
             #region מתודה המאתחלת עם נתונים את המאגרים של ישויות הנתונים
             public override void Initialize()
             {
                 Random r = new Random();
-                DateTime d = new DateTime(2020, r.Next(1, 12), r.Next(1, 30));
+                
                 int id = 111111111;
+                for (int i = 0; i < 3; i++)
+                {
+                    Config.CountParcelsPriority[i] = 0;
+                }
+
+                //הוספת 2 תחנות בסיס
+                basisStations.Add(new Station(1, 111, r.Next(1, 360), r.Next(1, 360), 10));
+                basisStations.Add(new Station(2, 222, r.Next(1, 360), r.Next(1, 360), 3));
 
                 //הוספת 5 רחפנים למאגר
                 for (int i = 0; i < 5; i++)
                 {
-                    drones.Add(new Drone(i, "m" + i, (WeightCategories)(r.Next(0, 3))));
+                    drones.Add(new Drone(i+1, "m" +( i+1), (WeightCategories)(r.Next(0, 3))));
                 }
 
-                //הוספת 2 תחנות בסיס
-                basisStations.Add(new Station(1, 111, r.Next(1, 360), r.Next(1, 360), 3));
-                basisStations.Add(new Station(2, 222, r.Next(1, 360), r.Next(1, 360), 3));
                 //הוספת 10 לקוחות
                 for (int i = 0; i < 10; i++)
                 {
@@ -123,10 +143,9 @@ namespace DAL
                 //הוספת 10 חבילות
                 for (int i = 0; i < 10; i++)
                 {
-                    d.AddDays(i);
                     parcels.Add(new Parcel(Config.idNumberParcels , r.Next(1, 5), r.Next(6, 10), (WeightCategories)(i % 3),
-                        (Priorities)((i + 1) % 3), d, i, d.AddHours(i), d.AddHours(i % 3), d.AddDays(i * 2)));
-                    d.AddDays(-i);
+                        (Priorities)((i + 1) % 3), i));
+                    Config.CountParcelsPriority[(i + 1) % 3]++;
                     Config.idNumberParcels++;
                 }
 
@@ -156,12 +175,64 @@ namespace DAL
                 basisStations.Add(new Station(id, n, lo, la, cs));
             }
 
-            public override void AddParcel(int sid,int tid, int w, int p, DateTime r, int did,
-                DateTime s, DateTime pi,DateTime d)
+            public override void AddParcel(int sid,int tid, int w, int p, int did)
             {
                 int id = Config.idNumberParcels;
                 Config.idNumberParcels++;
-                parcels.Add(new Parcel(id, sid, tid, (WeightCategories)w, (Priorities)p, r, did, s, pi, d));
+                Config.CountParcelsPriority[p]++;
+                parcels.Add(new Parcel(id, sid, tid, (WeightCategories)w, (Priorities)p, did));
+            }
+
+            public override void AddDroneCharge(int dID, int sID, bool active,DateTime s )
+            {
+                DroneCharge dc = new DroneCharge(dID, sID, active, s);
+                dronesInCharge.Add(dc);
+            }
+            #endregion
+
+            #region מתודות למחיקת איבר ממערכי ישויות הנתונים
+            public override void DeleteDrone(int id)
+            {
+                int indexDrone = FindDrone(id);
+                if (indexDrone >= 0)
+                    drones.Remove(drones[indexDrone]);
+                else
+                    throw new ObjectNotFoundException("Drone not found\n");
+            }
+            public override void DeleteCustomer(int id)
+            {
+                int indexCustomer = FindCustomer(id);
+                if (indexCustomer >= 0)
+                    customers.Remove(customers[indexCustomer]);
+                else
+                    throw new ObjectNotFoundException("Customer not found\n");
+            }
+            public override void DeleteStation(int id)
+            {
+                int indexStation = FindStation(id);
+                if (indexStation >= 0)
+                    basisStations.Remove(basisStations[indexStation]);
+                else
+                    throw new ObjectNotFoundException("Station not found\n");
+            }
+            public override void DeleteParcel(int id)
+            {
+                int indexParcel = FindParcel(id);
+                if (indexParcel >= 0)
+                { 
+                    parcels.Remove(parcels[indexParcel]);
+                    Config.CountParcelsPriority[(int)parcels[indexParcel ].priority]--;
+                }
+                else
+                    throw new ObjectNotFoundException("Parcel not found\n");
+            }
+            public override void DeleteDroneInCharge(int id)
+            {
+                int indexDroneInCharge = FindDroneInCharge(id);
+                if (indexDroneInCharge >= 0)
+                    dronesInCharge.Remove(dronesInCharge[indexDroneInCharge]);
+                else
+                    throw new ObjectNotFoundException("Drone in charge not found\n");
             }
             #endregion
 
@@ -213,108 +284,137 @@ namespace DAL
             }
             #endregion
 
+            #region מתודות המקבלות מספר זהות ומחזירות את ישות הנתונים המתאימה
+            public override Drone FindAndGetDrone(int id)
+            {
+                for (int i = 0; i < drones.Count; i++)
+                {
+                    if (drones[i].ID == id)
+                        return drones[i];
+                }
+                return new Drone();
+            }
+            public override Customer FindAndGetCustomer(int id)
+            {
+                for (int i = 0; i < customers.Count; i++)
+                {
+                    if (customers[i].ID == id)
+                        return customers[i];
+                }
+                return new Customer();
+            }
+            public override Station FindAndGetStation(int id)
+            {
+                for (int i = 0; i < basisStations.Count; i++)
+                {
+                    if (basisStations[i].stationID == id)
+                        return basisStations[i];
+                }
+                return new Station();
+            }
+            public override Parcel FindAndGetParcel(int id)
+            {
+                for (int i = 0; i < parcels.Count; i++)
+                {
+                    if (parcels[i].ID == id)
+                        return parcels [i];
+                }
+                return new Parcel();
+            }
+
+            public override DroneCharge FindAndGetDroneInCharge(int id)
+            {
+                for (int i = 0; i < dronesInCharge.Count; i++)
+                {
+                    if (dronesInCharge[i].droneID == id)
+                        return dronesInCharge[i];
+                }
+                return new DroneCharge();
+            }
+            #endregion
+
             #region  מתודות לעדכון מאגרי הנתונים
             //מתודה לשיוך חבילה לרחפן
             public override void ParcelToDrone(int parcelID, int droneId)
             {
-                if (parcelID > parcels.Count )
-                    throw new ObjectNotFoundException("this parcel is not existing in the storage");
-                if (FindDrone(droneId) < 0)
-                    throw new ObjectNotFoundException("this drone is not existing in the storage");
-                    Parcel p = parcels[parcelID - 1];
+                Parcel p = parcels[parcelID - 1];
                 p.droneID = droneId;
+                p.scheduled = DateTime.Now;
                 parcels[parcelID - 1] = p;
             }
 
             //איסוף חבילה ע"י רחפן
             public override void ParcelCollection(int parcelId, int collectorId)
             {
-                if (parcelId > parcels.Count )
-                    throw new ObjectNotFoundException("this parcel is not existing in the storage");
-                if (FindDrone(collectorId) < 0)
-                    throw new ObjectNotFoundException("this drone is not existing in the storage");
                 Parcel temp = parcels[parcelId - 1];
                 temp.droneID = collectorId;
+                temp.pickedUp = DateTime.Now;
                 parcels[parcelId - 1] = temp;
             }
 
             //אספקת חבילה ללקוח
             public override void DeliveryParcel(int parcelID, int customerId)
             {
-                if (parcelID > parcels.Count )
-                    throw new ObjectNotFoundException("this parcel is not existing in the storage");
-                if (FindCustomer(customerId) < 0)
-                    throw new ObjectNotFoundException("this customer is not existing in the storage");
-                
                 Parcel temp = parcels[parcelID - 1];
                 temp.targetID = customerId;
+                temp.delivered = DateTime.Now;
                 parcels[parcelID - 1] = temp;
             }
 
             //שליחת רחפן לטעינה
-            public override void DroneCharge(int stationId,int droneId)
+            public override void CreateDroneCharge(int stationId,int droneId)
             {
-                if (FindStation(stationId) < 0)
-                    throw new ObjectNotFoundException("this station is not existing in the storage");
-                if (FindDrone(droneId) < 0)
-                    throw new ObjectNotFoundException("this drone is not existing in the storage");
+                int indexD = FindDrone (droneId ), indexS = FindStation (stationId );
+                if (indexD < 0)
+                    throw new ObjectNotFoundException("drone not found\n");
+                if (indexS < 0)
+                    throw new ObjectNotFoundException("station not found\n");
 
-                int indexD = 0, indexS = 0;
-                for (indexD = 0; indexD < drones.Count; indexD++)
+                //עדכון נתוני התחנה שבה מטעינים את הרחפן
+                Station tempStation = basisStations[indexS];
+                tempStation.chargeSlots--; //עדכון מספר חריצי הטעינה בתחנה
+                basisStations[indexS] = tempStation;
+                
+                //הוספת רחפן לרשימת הרחפנים בטעינה
+                int indexDroneInCharge = FindDroneInCharge(droneId);
+                bool check = indexDroneInCharge < 0;
+                if (check) //אם הרחפן לא קיים ברשימת הרחפנים בטעינה
+                    dronesInCharge.Add(new DroneCharge(droneId, stationId, true, DateTime.Now)); //הוספת ישות טעינת רחפן 
+                else
                 {
-                    if (drones[indexD].ID == droneId)
-                        break;
+                    DroneCharge dc = dronesInCharge[indexDroneInCharge];
+                    if (dc.stationID != tempStation.stationID) //אם הרחפן קיים ברשימה אך זו טעינה בתחנה אחרת
+                        dronesInCharge.Add(new DroneCharge(droneId, stationId, true, DateTime.Now)); //הוספת ישות טעינת רחפן
+                    else
+                    {
+                        dc.activeCharge = true;
+                        dc.start = DateTime.Now;
+                        dronesInCharge[indexDroneInCharge] = dc;
+                    }
                 }
-                for (indexS = 0; indexS < basisStations.Count; indexS++)
-                {
-                    if (basisStations[indexS].stationID == stationId)
-                        break;
-                }
-
-                Station temp2 = basisStations[indexS];
-                temp2.chargeSlots--; //עדכון מספר חריצי הטעינה בתחנה
-                basisStations[indexS] = temp2;
-
-                dronesInCharge.Add(new DroneCharge(droneId, stationId, true)); //הוספת ישות טעינת רחפן
-
+                
                 Config.countActive++;
             }
 
             //שחרור רחפן מטעינה בתחנת בסיס
-            public override void EndDroneCharge(int dID)
+            public override void EndDroneCharge(int dID, int hoursOfCharging)
             {
-                if (FindDrone(dID) < 0)
-                    throw new ObjectNotFoundException("this drone is not existing in the storage");
-                if (FindDroneInCharge(dID) < 0)
-                    throw new ObjectNotFoundException("this drone is not in charging");
-
-                int indexD = 0, indexS = 0, indexDcharge = 0;
-                for (indexD = 0; indexD < drones.Count; indexD++)
-                {
-                    if (drones[indexD].ID == dID)
-                        break;
-                }
-
-                int stationNum = dronesInCharge[indexD].stationID;//מספר התחנה שהתפנתה
-
-                for (indexS = 0; indexS < basisStations.Count; indexS++)
-                {
-                    if (basisStations[indexS].stationID == stationNum)
-                        break;
-                }
-
+                int indexDcharge = FindDroneInCharge(dID);
+                if (indexDcharge < 0)
+                    throw new ObjectNotFoundException("The drone is not in charge\n");
+                int stationNum = dronesInCharge[indexDcharge].stationID;//מספר התחנה שהתפנתה
+                int indexS = FindStation(stationNum);
+                if (indexS < 0)
+                    throw new ObjectNotFoundException("The station where the drone was charged does not exist.\n");
+                //עדכון נתוני התחנה שממנה שחררנו את הרחפן
                 Station tempS = basisStations[indexS];
                 tempS.chargeSlots++;
                 basisStations[indexS] = tempS;
 
-                for (indexDcharge = 0; indexDcharge < dronesInCharge.Count; indexDcharge++)
-                {
-                    if (dronesInCharge[indexDcharge].droneID == dID)
-                        break;
-                }
-
+                //עדכון נתוני הרחפן ששחררנו מטעינה ברשימת רחפנים בטעינה
                 DroneCharge tempDC = dronesInCharge[indexDcharge];
                 tempDC.activeCharge = false;
+                tempDC.end = tempDC.start.AddHours(hoursOfCharging);
                 dronesInCharge[indexDcharge] = tempDC;
 
                 Config.countActive--;
@@ -323,19 +423,23 @@ namespace DAL
 
             public override double[] GetPowerConsumption() //בקשת צריכת חשמל ע"י רחפן
             {
-                double[] power = new double[5];
+                double[] power = new double[4];
                 power[0] = Config.idlePowerConsumption;
                 power[1] = Config.lightPowerConsumption;
                 power[2] = Config.mediumPowerConsumption;
                 power[3] = Config.heavyPowerConsumption;
-                power[4] = Config.droneLoadingRate;
 
                 return power;
             }
 
+            public override int[] GetParcelsPriority() //מערך מונים של מספר החבילות בכל עדיפות
+            {
+                return Config.CountParcelsPriority;
+            }
+            public override int GetDroneLoadingRate() { return Config.droneLoadingRate; }
         }
 
-        public class DalObject
+        public class DalObject 
         {
 
             public static DataSource ds;
@@ -345,6 +449,8 @@ namespace DAL
                 ds.Initialize();
             }
             public DataSource GetDS() { return ds; }
+
+
 
         }
 

@@ -24,13 +24,17 @@ namespace DAL
             get;
             set;
         }
+        public DateTime start { get; set; } //זמן התחלת הטעינה
+        public DateTime end { get; set; } //זמן סיום הטעינה
 
         //parameters costructor of drone in charge
-        public DroneCharge(int did, int sid, bool active)
+        public DroneCharge(int did, int sid, bool active,DateTime s)
         {
             droneID = did;
             stationID = sid;
             activeCharge = active;
+            start = s;
+            end = new DateTime(1, 1, 1);
         }
 
         //printing details of drone in charge

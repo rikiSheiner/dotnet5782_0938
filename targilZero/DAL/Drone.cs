@@ -24,7 +24,7 @@ namespace DAL
             get; 
             set;
         }
-
+        
         //parameters costructor of drone
         public Drone(int id, string m, WeightCategories mw)
         {

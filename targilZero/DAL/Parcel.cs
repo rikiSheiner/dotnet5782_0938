@@ -62,19 +62,19 @@ namespace DAL
         }
 
         //parameters constructor of parcel
-        public Parcel(int id, int sid, int tid, WeightCategories w, Priorities p, DateTime r,
-            int did, DateTime s, DateTime pi, DateTime d) 
+        public Parcel(int id, int sid, int tid, WeightCategories w, Priorities p, int did) 
         {
             ID = id;
             senderID = sid;
             targetID = tid;
             weight = w;
             priority = p;
-            requested = r;
+            requested = DateTime .Now ;  //זמן יצירת החבילה 
             droneID = did;
-            scheduled = s;
-            pickedUp = pi;
-            delivered = d;
+            DateTime timeOne = new DateTime(1, 1, 1);
+            scheduled = timeOne;
+            pickedUp = timeOne;
+            delivered = timeOne; 
         }
 
         //printing details of parcel
