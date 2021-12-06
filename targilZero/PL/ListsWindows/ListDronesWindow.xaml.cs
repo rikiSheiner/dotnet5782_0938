@@ -13,7 +13,6 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using BL.IBL;
 using BL.IBL.BO;
-using PL.SingleEntityWindows;
 
 namespace PL
 {

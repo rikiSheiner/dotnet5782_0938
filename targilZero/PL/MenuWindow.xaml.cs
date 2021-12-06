@@ -27,9 +27,6 @@ namespace PL
             InitializeComponent();
             mainData = data;
             this.GoToListDronesWindow.MouseDoubleClick += GoToListDronesWindow_MouseDoubleClick;
-            this.GoToListParcelsWindow.MouseDoubleClick += GoToListParcelsWindow_MouseDoubleClick;
-            this.GoToListStationsWindow.MouseDoubleClick += GoToListStationsWindow_MouseDoubleClick;
-            this.GoToListCustomersWindow.MouseDoubleClick  += GoToListCustomersWindow_MouseDoubleClick;
             this.closeWindow.Click += closeWindow_Click;
         }
 
@@ -45,25 +42,5 @@ namespace PL
             Close();
         }
 
-        private void GoToListCustomersWindow_MouseDoubleClick(object sender, RoutedEventArgs e)
-        {
-            CustomersListWindow customersListWindow = new CustomersListWindow(mainData);
-            customersListWindow.Show();
-            Close();
-        }
-
-        private void GoToListParcelsWindow_MouseDoubleClick(object sender, RoutedEventArgs e)
-        {
-            ParcelsListWindow parcelsListWindow = new ParcelsListWindow(mainData);
-            parcelsListWindow.Show();
-            Close();
-        }
-
-        private void GoToListStationsWindow_MouseDoubleClick(object sender, RoutedEventArgs e)
-        {
-            StationsListWindow stationsListWindow = new StationsListWindow(mainData);
-            stationsListWindow.Show();
-            Close();
-        }
     }
 }
