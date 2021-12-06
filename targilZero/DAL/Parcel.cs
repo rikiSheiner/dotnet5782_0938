@@ -34,7 +34,7 @@ namespace DAL
             get; 
             set;
         }
-        public DateTime requested
+        public DateTime? requested
         {
             get;
             set;
@@ -45,17 +45,17 @@ namespace DAL
             set;
         }
 
-        public DateTime scheduled
+        public DateTime? scheduled
         {
             get; 
             set;
         }
-        public DateTime pickedUp
+        public DateTime? pickedUp
         {
             get; 
             set;
         }
-        public DateTime delivered
+        public DateTime? delivered
         {
             get;
             set;
@@ -69,12 +69,11 @@ namespace DAL
             targetID = tid;
             weight = w;
             priority = p;
-            requested = DateTime .Now ;  //זמן יצירת החבילה 
+            requested = DateTime.Now ;  //זמן יצירת החבילה 
             droneID = did;
-            DateTime timeOne = new DateTime(1, 1, 1);
-            scheduled = timeOne;
-            pickedUp = timeOne;
-            delivered = timeOne; 
+            scheduled = null;
+            pickedUp = null;
+            delivered = null; 
         }
 
         //printing details of parcel

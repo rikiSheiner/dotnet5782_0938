@@ -1,0 +1,35 @@
+﻿<Window x:Class="PL.ListDronesWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PL"
+        mc:Ignorable="d"
+        Title="ListDronesWindow" Height="450" Width="800" >
+    <Grid x:Name="MainGrid">
+        <Grid.Background>
+            <ImageBrush ImageSource="/רקע לחלונות.png"/>
+        </Grid.Background>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="39*"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Button x:Name="closeWindow"  Margin="757,-3,0,399" Grid.ColumnSpan="2" Click="closeWindow_Click">
+            <Button.Background>
+                <ImageBrush ImageSource="/כפתור לסגירת חלון.png"/>
+            </Button.Background>
+        </Button>
+        <Button x:Name="AddDroneButton" Content="Add Drone" FontSize="15" Margin="621,323,16,46" Background="Bisque" Click="AddDroneButton_MouseDoubleClick"></Button >
+        <TextBlock x:Name="Drones" Text="Drones " FontSize="25" Margin="26,10,605,375" />
+        <ListBox x:Name="ListOfDrones" Margin="26,82,491,24"  Background="Bisque" ItemsSource="{Binding  }" SelectionChanged="ListOfDrones_SelectionChanged" ></ListBox>
+        <ComboBox x:Name="FilterDronesList" Margin="352,64,211,312" Text="Filter Drones" SelectionChanged="FilterDronesList_SelectionChanged">
+            <ComboBoxItem x:Name="All" Content="All" ></ComboBoxItem>
+            <ComboBoxItem x:Name="DroneStatusAvailable" Content="Status = Available"></ComboBoxItem>
+            <ComboBoxItem x:Name="DroneStatusMaintenance" Content="Status = Maintenance"></ComboBoxItem>
+            <ComboBoxItem x:Name="DroneStatusDelivery" Content="Status = Delivery" ></ComboBoxItem>
+            <ComboBoxItem x:Name="MaxWeightLight" Content="Max Weight = Light" ></ComboBoxItem>
+            <ComboBoxItem x:Name="MaxWeightIntermediate" Content="Max Weight = Intermediate" ></ComboBoxItem>
+            <ComboBoxItem x:Name="MaxWeightHeavy" Content="Max Weight = Heavy" ></ComboBoxItem>
+        </ComboBox>
+    </Grid>
+</Window>

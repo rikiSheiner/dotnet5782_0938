@@ -58,10 +58,10 @@ namespace DAL
             {
                 internal static int idNumberParcels=1;//מספר מזהה רץ עבור חבילות
                 internal static int countActive = 0;
-                internal static double idlePowerConsumption = 1; //צריכת חשמל במצב פנוי
-                internal static double lightPowerConsumption = 2; //צריכת חשמל במצב נושא משקל קל
-                internal static double mediumPowerConsumption = 3; //צריכת חשמל במצב נושא משקל בינוני
-                internal static double heavyPowerConsumption = 4; //צריכת חשמל במצב נושא משקל כבד
+                internal static double idlePowerConsumption = 0.01; //צריכת חשמל במצב פנוי
+                internal static double lightPowerConsumption = 0.02; //צריכת חשמל במצב נושא משקל קל
+                internal static double mediumPowerConsumption = 0.03; //צריכת חשמל במצב נושא משקל בינוני
+                internal static double heavyPowerConsumption = 0.04; //צריכת חשמל במצב נושא משקל כבד
                 internal static int droneLoadingRate = 40; //קצב טעינת רחפן בשעה באחוזים
                 internal static int[] CountParcelsPriority = new int[3]; //מערך עבור מניית מספר החבילות שהן בעדיפות מסוימת
                                                                          //מקום 0=normal, מקום 1=quick,מקום 2 =emergency
@@ -125,7 +125,7 @@ namespace DAL
 
                 //הוספת 2 תחנות בסיס
                 basisStations.Add(new Station(1, 111, r.Next(1, 360), r.Next(1, 360), 10));
-                basisStations.Add(new Station(2, 222, r.Next(1, 360), r.Next(1, 360), 3));
+                basisStations.Add(new Station(2, 222, r.Next(1, 360), r.Next(1, 360), 13));
 
                 //הוספת 5 רחפנים למאגר
                 for (int i = 0; i < 5; i++)
@@ -156,8 +156,8 @@ namespace DAL
             #region מתודות להוספת איבר למערכי ישויות הנתונים
             public override void AddDrone(int id,string n, int w)
             {
-                if (FindDrone(id) >= 0)
-                    throw new ExistIdException("this drone  id is already in the sortage");
+                //if (FindDrone(id) >= 0)
+                //    throw new ExistIdException("this drone  id is already in the sortage");
                 drones.Add(new Drone(id, n, (WeightCategories)w));
             }
 

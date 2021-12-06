@@ -1,0 +1,29 @@
+﻿<Window x:Class="PL.StationsListWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PL"
+        mc:Ignorable="d"
+        Title="StationsListWindow" Height="450" Width="800">
+    <Grid>
+        <Grid.Background>
+            <ImageBrush ImageSource="/רקע לחלונות.png"/>
+        </Grid.Background>
+        <Button x:Name="closeWindow"  Margin="757,-3,0,399" Grid.ColumnSpan="2" Click="closeWindow_Click">
+            <Button.Background>
+                <ImageBrush ImageSource="/כפתור לסגירת חלון.png"/>
+            </Button.Background>
+        </Button>
+
+        <Button x:Name="AddStationButton" Content="Add Station" FontSize="15" Margin="621,323,16,46" Background="Bisque"></Button >
+        <TextBlock x:Name="Stations" Text="Stations " FontSize="25" Margin="26,10,605,375" />
+        <ListBox x:Name="ListOfStations" ItemsSource="{Binding }" Margin="26,82,491,24"  Background="Bisque"  ></ListBox>
+        <ComboBox x:Name="FilterStationsList" Margin="352,64,211,312" Text="Filter Stations" >
+            <ComboBoxItem Name="All" Content="all"></ComboBoxItem>
+            <ComboBoxItem Name="Available" Content="available"></ComboBoxItem>
+            <ComboBoxItem Name="Full" Content="full"></ComboBoxItem>
+        </ComboBox>
+
+    </Grid>
+</Window>

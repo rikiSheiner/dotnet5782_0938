@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net5.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="כפתור לסגירת חלון.png" />
+    <None Remove="מסך פתיחה לפרויקט רחפנים.png" />
+    <None Remove="רקע לחלונות.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BL\BL.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="כפתור לסגירת חלון.png" />
+    <Resource Include="מסך פתיחה לפרויקט רחפנים.png" />
+    <Resource Include="רקע לחלונות.png" />
+  </ItemGroup>
+
+</Project>

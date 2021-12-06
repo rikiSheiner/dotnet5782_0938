@@ -10,7 +10,7 @@ namespace BL.IBL.BO
     public class HelpMethods
     {
 
-        /*נניח כי מרחק של מעלה 1 בקו אורך וכן בקו רוחב הוא 50 ק"מ */
+        /*נניח כי מרחק של מעלה 1 בקו אורך וכן בקו רוחב הוא 1 ק"מ */
         /// <summary>
         /// calculates the distance betwen two locations and returns it
         /// </summary>
@@ -22,7 +22,7 @@ namespace BL.IBL.BO
             //נשתמש בנוסחת מרחק לחישוב המרחק בין שני מיקומים
             double x1 = location2.longitude - location1.longitude;
             double x2 = location2.latitude - location1.latitude;
-            return 50 * Math.Sqrt(x1 * x1 + x2 * x2);
+            return  Math.Sqrt(x1 * x1 + x2 * x2);
         }
 
         public struct DataCloseStation
@@ -39,7 +39,7 @@ namespace BL.IBL.BO
         // אחרת נעדכן רק אם יש בתחנה חריצי טעינה פנויים
 
         /*נניח כי ליחידת מרחק של 1 ק"מ צריכת הסוללה היא 1%
-         * נניח כי מרחק של מעלה 1 בקו אורך וכן בקו רוחב הוא 50 ק"מ */
+         * נניח כי מרחק של מעלה 1 בקו אורך וכן בקו רוחב הוא 1 ק"מ */
         /// <summary>
         /// finds the close station to the drone with empty charge slots and returns it
         /// we also check whether the drone has enough battery 

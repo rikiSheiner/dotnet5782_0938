@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using BL.IBL;
 using BL.IBL.BO;
 
@@ -96,11 +97,6 @@ namespace ConsoleUI_BL
             }
 
         }
-
-
-     
-
-
         public static void Updating(BL.IBL.BL datasource)
         {
             int secondChoose;
@@ -219,7 +215,7 @@ namespace ConsoleUI_BL
                 Console.WriteLine("ERROR");
             }
 
-        }
+        }                       
         public static void ListsPresent(BL.IBL.BL datasource)
         {
             int secondChoose;
@@ -257,13 +253,16 @@ namespace ConsoleUI_BL
                     }
                     break;
                 case 5:
-                    foreach (ParcelToList parcelToPrint in datasource.GetListParcelsNoDrone())
+                    bool noDrone(ParcelToList p) { return p.droneSender.ID == 0; }
+                    foreach (ParcelToList parcelToPrint in datasource.GetListParcelsWithCondition(noDrone))
                     {
                         Console.WriteLine(parcelToPrint);
                     }
+                    
                     break;
                 case 6:
-                    foreach (StationToList stationToPrint in datasource.GetListStationsNotFull())
+                    bool stationNotFull(StationToList s) { return s.availableChargeSlots>0; }
+                    foreach (StationToList stationToPrint in datasource.GetListStationsWithCondition(stationNotFull))
                     {
                         Console.WriteLine(stationToPrint);
                     }

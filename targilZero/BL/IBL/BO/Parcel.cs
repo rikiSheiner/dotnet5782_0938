@@ -32,7 +32,7 @@ namespace BL.IBL.BO
         /// <summary>
         /// The time of creation of a parcel for delivery
         /// </summary>
-        public DateTime requested {get; set; }
+        public DateTime? requested {get; set; }
         /// <summary>
         /// The identity number of the drone that picked up the parcel
         /// </summary>
@@ -40,15 +40,15 @@ namespace BL.IBL.BO
         /// <summary>
         /// The time of assignment the package to the drone
         /// </summary>
-        public DateTime scheduled {get; set; }
+        public DateTime? scheduled {get; set; }
         /// <summary>
         /// The package collection time from the sender
         /// </summary>
-        public DateTime pickedUp { get; set; }
+        public DateTime? pickedUp { get; set; }
         /// <summary>
         /// The time of arrival of the package to the recipient
         /// </summary>
-        public DateTime delivered { get; set; }
+        public DateTime? delivered { get; set; }
        
 
         /// <summary>

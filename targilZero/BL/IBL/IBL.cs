@@ -11,7 +11,7 @@ namespace BL.IBL
     {
         #region Adding new entity
         public abstract void AddStation(int id, int name, double longitude, double latitude,int cs);
-        public abstract void AddDrone(int id, string model, int maxWeight, int stationNum/*, LogicalEntities.Location location*/);
+        public abstract void AddDrone(int id, string model, int maxWeight, int stationNum);
         public abstract void AddCustomer(int id, string name, string phoneNumber, double longitude, double latitude);
         public abstract void AddParcel(int senderID, int targetID, int weight, int priority);
         #endregion
@@ -39,8 +39,10 @@ namespace BL.IBL
         public abstract IEnumerable<DroneToList> GetListDrones();
         public abstract IEnumerable<CustomerToList> GetListCustomers();
         public abstract IEnumerable<ParcelToList> GetListParcels();
-        public abstract IEnumerable<ParcelToList> GetListParcelsNoDrone();
-        public abstract IEnumerable<StationToList> GetListStationsNotFull();
+        public abstract IEnumerable<ParcelToList> GetListParcelsWithCondition(Predicate <ParcelToList> parcelCondition);
+        public abstract IEnumerable<StationToList> GetListStationsWithCondition(Predicate<StationToList> stationCondition);
+        public abstract IEnumerable<DroneToList> GetListDronesWithCondition(Predicate<DroneToList> droneCondition);
+        public abstract IEnumerable<CustomerToList> GetListCustomersWithCondition(Predicate<CustomerToList> customerCondition);
         #endregion
 
         # region Converting an entity to entity in list

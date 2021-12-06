@@ -27,7 +27,7 @@ namespace BL.IBL.BO
         /// <summary>
         /// The end time of the charging
         /// </summary>
-        public DateTime end { get; set; } 
+        public DateTime? end { get; set; } 
 
         /// <summary>
         /// returns the details of the drone in charge

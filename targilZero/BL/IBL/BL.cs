@@ -11,10 +11,12 @@ namespace BL.IBL
 {
     public class BL : IBL
     {
+        #region fields
         private IDal datafield;
         private List<Drone> dronesBL;
         private double[] powerConsumption;
-        int droneChargeRate;
+        private int droneChargeRate;
+        #endregion 
 
         #region Constructor
         public BL()
@@ -46,7 +48,6 @@ namespace BL.IBL
             bool parcelToDrone = false, findParcel = false;
             DAL.Parcel desired = new DAL.Parcel();
 
-            DateTime one = new DateTime(1, 1, 1);
             for (int i = 0; i < dronesList.Count(); i++)
             {
                 tempD = dronesBL[i];
@@ -59,7 +60,7 @@ namespace BL.IBL
                         break; 
                     }
                 }
-                parcelToDrone = desired.scheduled < DateTime.Now && desired.scheduled != one && (desired.delivered == one || desired.delivered > DateTime.Now);
+                parcelToDrone = desired.scheduled != null && desired.scheduled < DateTime.Now  && (desired.delivered == null || desired.delivered > DateTime.Now);
                 if (parcelToDrone) //אם החבילה שויכה אך לא נאספה
                 {
                     //עדכון מצב הרחפן למבצע משלוח
@@ -73,7 +74,7 @@ namespace BL.IBL
                     LogicalEntities.Location locationTarget = new LogicalEntities.Location(dest.longitude, dest.latitude);
 
                     //מיקום הרחפן
-                    if (desired.pickedUp > DateTime.Now || desired.pickedUp == one) //אם החבילה שויכה ולא נאספה
+                    if ( desired.pickedUp == null || desired.pickedUp > DateTime.Now) //אם החבילה שויכה ולא נאספה
                     {
                         //מיקום הרחפן בתחנה הקרובה לשולח
                         var closeStation = HelpMethods.FindCloseStation(locationSender, datafield.GetBasisStations());
@@ -81,7 +82,7 @@ namespace BL.IBL
                         tempD.location = new LogicalEntities.Location(s.longitude, s.latitude);
 
                     }
-                    else if (desired.delivered > DateTime.Now || desired.delivered == one) //אם החבילה נאספה אך עוד לא סופקה 
+                    else if ( desired.delivered == null || desired.delivered > DateTime.Now) //אם החבילה נאספה אך עוד לא סופקה 
                     {
                         //מיקום הרחפן במיקום השולח
                         tempD.location = locationSender;
@@ -93,18 +94,19 @@ namespace BL.IBL
                     battery *= powerConsumption[(int)desired.weight + 1];
                     battery += powerConsumption[0] * closeStationToDest.distance;
                     tempD.battery = r.Next(Math.Min((int)battery, 100), 101);
+
                     dronesBL[i] = tempD;
                 }
                 else
                 {
-                    tempD.droneStatus = (Enums.DroneStatuses)(r.Next(0, 2));
+                    tempD.droneStatus = (Enums.DroneStatuses)r.Next(0, 2);
                     dronesBL[i] = tempD;
                 }
 
                 if (dronesBL[i].droneStatus == Enums.DroneStatuses.available)
                 {
                     HelpMethods.DataCloseStation cs = HelpMethods.FindCloseStation(dronesBL[i], datafield.GetBasisStations());
-                    int min = Math.Min((int)cs.distance * (int)powerConsumption[0], 101);
+                    int min = Math.Min((int)cs.distance * (int)powerConsumption[3], 101);
                     tempD.battery = r.Next(min, 101);
                     
                     List<DAL.Customer> help = GetListCustomersGotParcelsFromDrone(dronesBL [i].ID );
@@ -118,11 +120,14 @@ namespace BL.IBL
                 }
                 else if (dronesBL[i].droneStatus == Enums.DroneStatuses.maintenance)
                 {
-                    tempD.battery = r.Next(0, 21);
+                    tempD.battery = r.Next(0,21);
                     DAL.Station helpStation = datafield.GetBasisStations().ElementAt(r.Next(0, datafield.GetBasisStations().Count()));
                     tempD.location = new LogicalEntities.Location(helpStation.longitude, helpStation.latitude);
+                    
+                    datafield.CreateDroneCharge(helpStation.stationID, tempD.ID);
                 }
 
+                dronesBL[i] = tempD;
             }
 
         }
@@ -174,8 +179,7 @@ namespace BL.IBL
             datafield.AddDrone(id, model, maxWeight);
             dronesBL.Add(d);
 
-            //charge the new drone in station
-            datafield.AddDroneCharge(id, stationNum, true, DateTime.Now);
+            datafield.CreateDroneCharge(d.stationID , d.ID);
         }
 
         public override void AddCustomer(int id, string name, string phoneNumber, double longitude, double latitude)
@@ -273,7 +277,7 @@ namespace BL.IBL
             if (index < 0 || indexInDronesDAL < 0)
                 throw new UpdateProblemException("Drone not found.");
 
-            if (dronesBL[index].droneStatus != Enums.DroneStatuses.available)
+            if (dronesBL[index].droneStatus == Enums.DroneStatuses.delivery)
                 throw new UpdateProblemException("Can't charge drone " + droneID);
 
             HelpMethods.DataCloseStation closeStation = HelpMethods.FindCloseStation(dronesBL[index], datafield.GetBasisStations());
@@ -307,9 +311,9 @@ namespace BL.IBL
 
             Drone temp = dronesBL[indexDrone];
 
-            int indexStation = datafield.FindStation(temp.stationID);
-            if (indexStation < 0)
-                throw new UpdateProblemException("The station where the drone was charged does not exist.");
+            //int indexStation = datafield.FindStation(temp.stationID);
+            //if (indexStation < 0)
+            //    throw new UpdateProblemException("The station where the drone was charged does not exist.");
 
             datafield.EndDroneCharge(droneID, hoursOfCharging);
             //עדכון נתוני הרחפן שאותו משחררים מטעינה
@@ -467,13 +471,13 @@ namespace BL.IBL
 
             //מציאת החבילה שאותה הרחפן שולח
             IEnumerable<DAL.Parcel> parcelsList = datafield.GetParcels();
-            DateTime timeOne = new DateTime(1, 1, 1);
+            
             int i = 0; //מיקום החבילה שאותה הרחפן שולח ברשימת החבילות
             for (i = 0; i < parcelsList.Count(); i++)
             {
                 if (parcelsList.ElementAt(i).droneID == droneID)
                 {
-                    if (parcelsList.ElementAt(i).pickedUp != timeOne)
+                    if (parcelsList.ElementAt(i).pickedUp != null)
                         throw new UpdateProblemException("The parcel has been delivered already.");
                     break;
                 }
@@ -502,13 +506,13 @@ namespace BL.IBL
 
             //מציאת החבילה שאותה הרחפן מספק
             IEnumerable<DAL.Parcel> parcelsList = datafield.GetParcels();
-            DateTime timeOne = new DateTime(1, 1, 1);
+            
             int i = 0; //מיקום החבילה שאותה הרחפן מספק ברשימת החבילות
             for (i = 0; i < parcelsList.Count(); i++)
             {
                 if (parcelsList.ElementAt(i).droneID == droneID)
                 {
-                    if (parcelsList.ElementAt(i).delivered != timeOne)
+                    if (parcelsList.ElementAt(i).delivered != null)
                         throw new UpdateProblemException("The parcel has been delivered already.");
                     break;
                 }
@@ -602,21 +606,37 @@ namespace BL.IBL
             }
             return listParcels;
         }
-        public override IEnumerable<ParcelToList> GetListParcelsNoDrone()
+        public override IEnumerable<ParcelToList> GetListParcelsWithCondition(Predicate<ParcelToList> parcelCondition)
         {
             IEnumerable<ParcelToList> parcels = GetListParcels();
-            IEnumerable<ParcelToList> parcelsNoDrone = from ParcelToList item in parcels
-                                                       where item.ID < 0
+            IEnumerable<ParcelToList> parcelsWithCondition = from ParcelToList item in parcels
+                                                       where parcelCondition (item)
                                                        select item;
-            return parcelsNoDrone;
+            return parcelsWithCondition;
         }
-        public override IEnumerable<StationToList> GetListStationsNotFull()
+        public override IEnumerable<StationToList> GetListStationsWithCondition(Predicate<StationToList> stationCondition)
         {
             IEnumerable<StationToList> stations = GetListStations();
-            IEnumerable<StationToList> stationsNotFull = from StationToList item in stations
-                                                         where item.availableChargeSlots > 0
+            IEnumerable<StationToList> stationsWithCondition = from StationToList item in stations
+                                                         where stationCondition (item)
                                                          select item;
-            return stationsNotFull;
+            return stationsWithCondition;
+        }
+        public override IEnumerable<DroneToList> GetListDronesWithCondition(Predicate<DroneToList> droneCondition)
+        {
+            IEnumerable<DroneToList> drones = GetListDrones();
+            IEnumerable<DroneToList> dronesWithCondition = from DroneToList item in drones
+                                                                 where droneCondition(item)
+                                                                 select item;
+            return dronesWithCondition;
+        }
+        public override IEnumerable<CustomerToList> GetListCustomersWithCondition(Predicate<CustomerToList> customerCondition)
+        {
+            IEnumerable<CustomerToList> customers = GetListCustomers();
+            IEnumerable<CustomerToList> customersWithCondition = from CustomerToList item in customers
+                                                               where customerCondition(item)
+                                                               select item;
+            return customersWithCondition;
         }
         #endregion
 
@@ -657,10 +677,10 @@ namespace BL.IBL
             parcelToList.nameOfSender = datafield.FindAndGetCustomer(p.senderID).name;
             parcelToList.nameOfTarget = datafield.FindAndGetCustomer(p.targetID).name;
 
-            DateTime oneTime = new DateTime(1, 1, 1);
-            if (p.delivered < DateTime.Now && p.delivered != oneTime)
+            
+            if ( p.delivered != null && p.delivered < DateTime.Now)
                 parcelToList.parcelStatus = Enums.ParcelStatuses.supplied;
-            else if (p.pickedUp < DateTime.Now && p.pickedUp != oneTime)
+            else if (p.pickedUp != null && p.pickedUp < DateTime.Now )
                 parcelToList.parcelStatus = Enums.ParcelStatuses.collected;
             else if (p.droneID != 0)
                 parcelToList.parcelStatus = Enums.ParcelStatuses.assigned;
