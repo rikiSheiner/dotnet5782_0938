@@ -6,23 +6,33 @@
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
         Title="ListDronesWindow" Height="450" Width="800" >
-    <Grid x:Name="MainGrid">
+    <Grid >
+        
         <Grid.Background>
             <ImageBrush ImageSource="/רקע לחלונות.png"/>
         </Grid.Background>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="39*"/>
-            <ColumnDefinition/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50*"/>
+            <RowDefinition Height="50*"/>
+            <RowDefinition Height="400*"/>
+            <RowDefinition Height="100*"></RowDefinition>
+            <RowDefinition Height="50*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions >
+            <ColumnDefinition Width="300*"></ColumnDefinition>
+            <ColumnDefinition Width="60*"></ColumnDefinition>
+            <ColumnDefinition Width="100*"></ColumnDefinition>
+            <ColumnDefinition Width="40*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <Button x:Name="closeWindow"  Margin="757,-3,0,399" Grid.ColumnSpan="2" Click="closeWindow_Click">
+        <Button x:Name="closeWindow" Grid.Row="0" Grid.Column="3" Click="closeWindow_Click">
             <Button.Background>
                 <ImageBrush ImageSource="/כפתור לסגירת חלון.png"/>
             </Button.Background>
         </Button>
-        <Button x:Name="AddDroneButton" Content="Add Drone" FontSize="15" Margin="621,323,16,46" Background="Bisque" Click="AddDroneButton_MouseDoubleClick"></Button >
-        <TextBlock x:Name="Drones" Text="Drones " FontSize="25" Margin="26,10,605,375" />
-        <ListBox x:Name="ListOfDrones" Margin="26,82,491,24"  Background="Bisque" ItemsSource="{Binding  }" SelectionChanged="ListOfDrones_SelectionChanged" ></ListBox>
-        <ComboBox x:Name="FilterDronesList" Margin="352,64,211,312" Text="Filter Drones" SelectionChanged="FilterDronesList_SelectionChanged">
+        <Button x:Name="AddDroneButton" Content="Add Drone" Grid.Row="3" Grid.Column="2" FontSize="15" Background="Bisque" Click="AddDroneButton_MouseDoubleClick"></Button >
+        <TextBlock x:Name="Drones" Text="Drones " FontSize="25" Grid.Row="1" />
+        <ListBox x:Name="ListOfDrones" Grid.Row="2" Background="Bisque" ItemsSource="{Binding  }" SelectionChanged="ListOfDrones_SelectionChanged" ></ListBox>
+        <ComboBox x:Name="FilterDronesList" Grid.Row="2" Grid.Column="2" Margin="0,0,0,214" Text="Filter Drones" SelectionChanged="FilterDronesList_SelectionChanged" >
             <ComboBoxItem x:Name="All" Content="All" ></ComboBoxItem>
             <ComboBoxItem x:Name="DroneStatusAvailable" Content="Status = Available"></ComboBoxItem>
             <ComboBoxItem x:Name="DroneStatusMaintenance" Content="Status = Maintenance"></ComboBoxItem>

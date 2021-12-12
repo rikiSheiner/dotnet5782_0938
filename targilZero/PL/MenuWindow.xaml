@@ -7,14 +7,28 @@
         mc:Ignorable="d"
         Title="MenuWindow" Height="450" Width="800">
     <Grid>
+        <Grid.RowDefinitions >
+            <RowDefinition Height="50*"></RowDefinition>
+            <RowDefinition Height="50*"></RowDefinition>
+            <RowDefinition Height="100*"></RowDefinition>
+            <RowDefinition Height="100*"></RowDefinition>
+            <RowDefinition Height="100*"></RowDefinition>
+            <RowDefinition Height="100*"></RowDefinition>
+            <RowDefinition Height="100*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions >
+            <ColumnDefinition Width="100*"></ColumnDefinition>
+            <ColumnDefinition Width="100*"></ColumnDefinition>
+            <ColumnDefinition Width="50"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
         <Grid.Background>
             <ImageBrush ImageSource="/רקע לחלונות.png"/>
         </Grid.Background>
-        <Button x:Name="GoToListDronesWindow" Content="press here to drones list " Background="Bisque"  Margin="37,80,437,294" FontSize="20" Click="GoToListDronesWindow_MouseDoubleClick"    ></Button>
-        <Button x:Name="GoToListCustomersWindow" Content="press here to customers list" Background="Bisque"   FontSize="20" Margin="34,162,437,212" ></Button>
-        <Button x:Name="GoToListStationsWindow" Content="press here to stations list" Background="Bisque"  Margin="37,240,437,134" FontSize="20"    ></Button>
-        <Button x:Name="GoToListParcelsWindow" Content="press here to parcels list" Background="Bisque"  Margin="37,319,437,55" FontSize="20"  ></Button>
-    <Button x:Name="closeWindow"  Margin="757,-3,0,399" Grid.ColumnSpan="2" Click="closeWindow_Click">
+        <Button x:Name="GoToListDronesWindow" Content="drones list " Background="Bisque"  Grid.Row="2" FontSize="20" Click="GoToListDronesWindow_MouseDoubleClick"  ></Button>
+        <Button x:Name="GoToListCustomersWindow" Content="customers list" Background="Bisque"  Grid.Row="3" FontSize="20" Click="GoToListCustomersWindow_MouseDoubleClick" />
+        <Button x:Name="GoToListStationsWindow" Content="stations list" Background="Bisque" Grid.Row="4" FontSize="20" Click="GoToListStationsWindow_MouseDoubleClick"   ></Button>
+        <Button x:Name="GoToListParcelsWindow" Content="parcels list" Background="Bisque" Grid.Row="5" FontSize="20" Click="GoToListParcelsWindow_MouseDoubleClick" ></Button>
+        <Button x:Name="closeWindow"  Grid.Row="0" Grid.Column="2" Click="closeWindow_Click">
             <Button.Background>
                 <ImageBrush ImageSource="/כפתור לסגירת חלון.png"/>
             </Button.Background>

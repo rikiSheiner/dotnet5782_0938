@@ -25,7 +25,7 @@
         <Button x:Name="chargeOrEndCahrge" Background="Bisque" FontSize="15" Margin="30,51,-120,-99" Grid.Row="1"></Button>
         <Button x:Name="parcelDelivery" Background="Bisque" FontSize="15" Margin="30,129,-120,-182" Grid.Row="1" ></Button>
         <TextBox x:Name="updatedDroneModel" FontStyle="Italic" Visibility="Collapsed" IsEnabled="False"  Background="White"  Margin="30,51,-120,-98" Grid.Row="1"></TextBox>
-        <Button x:Name="submitModel" Background="Bisque" Visibility="Collapsed"  Content="submit" Margin="58,129,-68,-182" Grid.Row="1" Click="submitModel_MouseDoubleClick"></Button>
+        <Button x:Name="submitModel" Background="Bisque" Visibility="Collapsed"  Content="update" Margin="58,129,-68,-182" Grid.Row="1" Click="submitModel_MouseDoubleClick"></Button>
         
         <TextBox x:Name="newID" Margin="-492,40,492,-66" Grid.Row="1" TextChanged="newID_TextChanged"></TextBox >
         <TextBox x:Name="newModel" Margin="-492,84,492,-112" Grid.Row="1" TextChanged="newModel_TextChanged"></TextBox >

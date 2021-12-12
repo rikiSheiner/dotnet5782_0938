@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using BL.IBL;
-using BL.IBL.BO;
+using BL.BlApi;
+using BL.BO;
 
 namespace ConsoleUI_BL
 {
@@ -87,7 +87,7 @@ namespace ConsoleUI_BL
             {
                 Console.WriteLine(addingError.Message);
             }
-            catch(DAL.IDAL.DO.ExistIdException existID)
+            catch(DAL.DO.ExistIdException existID)
             {
                 Console.WriteLine(existID .Message );
             }
@@ -166,7 +166,7 @@ namespace ConsoleUI_BL
             {
                 Console.WriteLine(updatingError.Message);
             }
-            catch(DAL .IDAL .DO.ObjectNotFoundException onf)
+            catch(DAL.DO.ObjectNotFoundException onf)
             {
                 Console.WriteLine(onf.Message );
             }
@@ -202,11 +202,11 @@ namespace ConsoleUI_BL
                         break;
                 }
             }
-            catch (BL.IBL.BO.GetDetailsProblemException  presentError)
+            catch (GetDetailsProblemException  presentError)
             {
                 Console.WriteLine(presentError.Message);
             }
-            catch (DAL.IDAL.DO.ObjectNotFoundException onf)
+            catch (DAL.DO.ObjectNotFoundException onf)
             {
                 Console.WriteLine(onf.Message);
             }
@@ -272,7 +272,7 @@ namespace ConsoleUI_BL
         }
         public static void Menu()
         {
-            BL.IBL.BL blObject = new();
+            BL.BL blObject = new();
 
             int mainChoose;
             Console.WriteLine("menu:\nEnter 1 for adding.\nEnter 2 for updating.\n" +

@@ -11,8 +11,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using BL.IBL;
-using BL.IBL.BO;
+using BL.BlApi;
+using BL.BO;
 
 namespace PL
 {
@@ -27,7 +27,11 @@ namespace PL
             InitializeComponent();
             mainData = data;
             this.GoToListDronesWindow.MouseDoubleClick += GoToListDronesWindow_MouseDoubleClick;
+            this.GoToListParcelsWindow.MouseDoubleClick += GoToListParcelsWindow_MouseDoubleClick;
+            this.GoToListStationsWindow.MouseDoubleClick += GoToListStationsWindow_MouseDoubleClick;
+            this.GoToListCustomersWindow.MouseDoubleClick  += GoToListCustomersWindow_MouseDoubleClick;
             this.closeWindow.Click += closeWindow_Click;
+           
         }
 
         private void GoToListDronesWindow_MouseDoubleClick(object sender, RoutedEventArgs e)
@@ -41,6 +45,28 @@ namespace PL
         {
             Close();
         }
+
+        private void GoToListCustomersWindow_MouseDoubleClick(object sender, RoutedEventArgs e)
+        {
+            CustomersListWindow customersListWindow = new CustomersListWindow(mainData);
+            customersListWindow.Show();
+            Close();
+        }
+
+        private void GoToListParcelsWindow_MouseDoubleClick(object sender, RoutedEventArgs e)
+        {
+            ParcelsListWindow parcelsListWindow = new ParcelsListWindow(mainData);
+            parcelsListWindow.Show();
+            Close();
+        }
+
+        private void GoToListStationsWindow_MouseDoubleClick(object sender, RoutedEventArgs e)
+        {
+            StationsListWindow stationsListWindow = new StationsListWindow(mainData);
+            stationsListWindow.Show();
+            Close();
+        }
+
 
     }
 }

@@ -11,8 +11,9 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using BL.IBL;
-using BL.IBL.BO;
+using BL.BlApi;
+using BL.BO;
+using PL.SingleEntityWindows;
 
 namespace PL
 {

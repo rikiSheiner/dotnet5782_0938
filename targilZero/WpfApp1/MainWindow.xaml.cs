@@ -12,35 +12,18 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using BL.BlApi;
-using BL.BO;
 
-namespace PL
+namespace WpfApp1
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
     {
-        private IBL mainData = BlFactory.GetBl ();
         public MainWindow()
         {
             InitializeComponent();
-            SignUp.MouseDoubleClick += SignUp_MouseDoubleClick;
-            LogIn.MouseDoubleClick += LogIn_MouseDoubleClick;
-        }
-
-
-        private void SignUp_MouseDoubleClick(object sender, RoutedEventArgs e)
-        {
-            new SignUpWindow(mainData ).Show();
-            Close();
-        }
-
-        private void LogIn_MouseDoubleClick(object sender, RoutedEventArgs e)
-        {
-            new LogInWindow(mainData ).Show();
-            Close();
+            
         }
     }
 }

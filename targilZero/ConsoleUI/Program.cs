@@ -1,6 +1,5 @@
 ﻿using System;
 using DAL.DalObject;
-using DAL.IDAL.DO;
 using DAL;
 using System.Collections.Generic;
 
@@ -15,7 +14,7 @@ namespace ConsoleUI
 {
     class Program
     {
-        public static void Adding(DataSource datasource)
+        public static void Adding(DalObject datasource)
         {
             int secondChoose;
 
@@ -95,7 +94,7 @@ namespace ConsoleUI
             }
 
         }
-        public static void Updating(DataSource datasource)
+        public static void Updating(DalObject datasource)
         {
             int secondChoose;
             Console.WriteLine("Enter 1 for assigning of parcel.\nEnter 2 for collecting of parcel.\n" +
@@ -148,7 +147,7 @@ namespace ConsoleUI
                     case 5:
                         Console.Write("enter drone ID for ending of charging: ");
                         int dID = int.Parse(Console.ReadLine()); //קבלת מספר הרחפן לשחרור
-                        datasource.EndDroneCharge(dID);
+                        datasource.EndDroneCharge(dID,1);
                         break;
                 }
             }
@@ -160,12 +159,12 @@ namespace ConsoleUI
             {
                 Console.WriteLine(eID .Message );
             }
-            catch(Exception e)
+            catch(Exception)
             {
                 Console.WriteLine("ERROR");
             }
         }
-        public static void ItemPresent(DataSource datasource)
+        public static void ItemPresent(DalObject datasource)
         {
             int secondChoose, id;
             Console.WriteLine("Enter 1 for presentation of basis station.\nEnter 2 for presentation of drone." +
@@ -206,7 +205,7 @@ namespace ConsoleUI
             }
 
         }
-        public static void ListsPresent(DataSource datasource)
+        public static void ListsPresent(DalObject  datasource)
         {
             int secondChoose;
             
@@ -274,19 +273,19 @@ namespace ConsoleUI
                 switch (mainChoose)
                 {
                     case 1: //adding 
-                        Adding(dalobject.GetDS ());
+                        Adding(dalobject);
                         break;
 
                     case 2://updating
-                        Updating(dalobject.GetDS ());
+                        Updating(dalobject);
                         break;
 
                     case 3: //item's presentation
-                        ItemPresent(dalobject.GetDS ());
+                        ItemPresent(dalobject);
                         break;
 
                     case 4: //presentation of lists
-                        ListsPresent(dalobject.GetDS ());
+                        ListsPresent(dalobject);
                         break;
 
                     default:
