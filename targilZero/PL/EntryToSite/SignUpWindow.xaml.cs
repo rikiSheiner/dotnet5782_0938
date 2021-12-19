@@ -39,9 +39,10 @@ namespace PL
         {
             try
             {
-                mainData.AddUser(newUserName.Text.ToString (), newUserPassword.Text.ToString ());
+                mainData.AddUser(newUserName.Text.ToString (), newUserPassword.Text.ToString (),false);
                 MessageBox.Show("Congratulation! welcome to our site " + newUserName .Text);
-                new MenuWindow(mainData).Show();
+                DAL.DalApi.DO.User currentUser = mainData.FindAndGetUser(newUserName.Text, newUserPassword.Text);
+                new MenuWindow(mainData,currentUser).Show();
                 Close();
             }
             catch (AddingProblemException ape)

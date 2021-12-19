@@ -27,11 +27,13 @@ namespace PL
         {
             mainData = data;
             InitializeComponent();
-            this.DataContext = mainData.GetListCustomers ();
+            ListOfCustomers.ItemsSource = mainData.GetListCustomers();
+
             closeWindow.Click += closeWindow_Click;
             AddCustomerButton.MouseDoubleClick += AddCustomerButton_MouseDoubleClick;
             ListOfCustomers.SelectionChanged += ListOfCustomers_SelectionChanged;
             FilterCustomersList.SelectionChanged += FilterCustomersList_SelectionChanged;
+            refreshWindow.MouseDoubleClick += refreshWindow_MouseDoubleClick;
         }
         private void closeWindow_Click(object sender, RoutedEventArgs e) { this.Close(); }
 
@@ -47,19 +49,19 @@ namespace PL
             switch (FilterCustomersList.SelectedIndex)
             {
                 case 0:
-                    this.DataContext = mainData.GetListCustomers ();
+                    ListOfCustomers.ItemsSource = mainData.GetListCustomers();
                     break;
                 case 1:
-                    this.DataContext = mainData.GetListCustomersWithCondition(x => x.numParcelsRecieved>0);
+                    ListOfCustomers.ItemsSource= mainData.GetListCustomersWithCondition(x => x.numParcelsRecieved > 0); 
                     break;
                 case 2:
-                    this.DataContext = mainData.GetListCustomersWithCondition(x => x.numParcelsRecieved <1);
+                    ListOfCustomers.ItemsSource= mainData.GetListCustomersWithCondition(x => x.numParcelsRecieved < 1);
                     break;
                 case 3:
-                    this.DataContext = mainData.GetListCustomersWithCondition(x => x.numParcelsSentAndDelivered + x.numParcelsSentNotDelivered > 0);
+                    ListOfCustomers .ItemsSource = mainData.GetListCustomersWithCondition(x => x.numParcelsSentAndDelivered + x.numParcelsSentNotDelivered > 0);
                     break;
                 case 4:
-                    this.DataContext = mainData.GetListCustomersWithCondition(x => x.numParcelsSentAndDelivered + x.numParcelsSentNotDelivered <1);
+                    ListOfCustomers .ItemsSource = mainData.GetListCustomersWithCondition(x => x.numParcelsSentAndDelivered + x.numParcelsSentNotDelivered < 1);
                     break;
                 default:
                     break;
@@ -72,6 +74,14 @@ namespace PL
             CustomerWindow customerActions = new CustomerWindow(mainData, (CustomerToList)ListOfCustomers.SelectedItem);
             customerActions.Show();
             this.Close();
+        }
+
+        private void refreshWindow_MouseDoubleClick(object sender, RoutedEventArgs e)
+        {
+            CustomersListWindow newWindow = new CustomersListWindow(mainData);
+            Application.Current.MainWindow = newWindow;
+            newWindow.Show();
+            Close();
         }
     }
 }

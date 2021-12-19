@@ -12,22 +12,19 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using BL.BlApi;
-using BL.BO;
-using DAL.DalApi;
-
 
 namespace PL
 {
     /// <summary>
-    /// Interaction logic for LogInWindow.xaml
+    /// Interaction logic for LogInCustomerWindow.xaml
     /// </summary>
-    public partial class LogInWindow : Window
+    public partial class LogInCustomerWindow : Window
     {
-        IBL mainData;
-        public LogInWindow(IBL data)
+        private IBL mainData;
+        public LogInCustomerWindow(IBL data)
         {
+            mainData = data;
             InitializeComponent();
-            mainData = data; 
             closeWindow.Click += closeWindow_Click;
             ButtonLogIn.MouseDoubleClick += ButtonLogIn_MouseDoubleClick;
         }
@@ -40,18 +37,19 @@ namespace PL
         {
             try
             {
-                if (mainData.IsUserExist(currentUserName.Text, currentUserPassword.Text))
+                
+                int id = int.Parse(currentID.Text);
+                if (mainData.FindCustomer(id )>=0)
                 {
-                    MessageBox.Show("Welcome " + currentUserName.Text + "!");
-                    new MenuWindow(mainData).Show();
+                    new CustomerActionsWindow(mainData, mainData.ConvertCustomerToCustomerInList(mainData.FindAndGetCustomer(id))).Show ();
                     Close();
                 }
                 else
                 {
-                    MessageBox.Show("wrong password or user name. Please try again");
+                    MessageBox.Show("wrong ID number of customer. Please try again");
                 }
             }
-            catch(Exception )
+            catch (Exception)
             {
                 MessageBox.Show("ERROR");
             }

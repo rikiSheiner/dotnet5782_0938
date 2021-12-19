@@ -12,7 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using BL.BlApi;
-using BL.BO;
+using DAL.DalApi.DO;
 
 namespace PL
 {
@@ -21,24 +21,28 @@ namespace PL
     /// </summary>
     public partial class MenuWindow : Window
     {
-        IBL mainData;
-        public MenuWindow(IBL data)
+        private IBL mainData;
+        private User currentUser;
+        public MenuWindow(IBL data, User user)
         {
             InitializeComponent();
             mainData = data;
+            currentUser = user;
             this.GoToListDronesWindow.MouseDoubleClick += GoToListDronesWindow_MouseDoubleClick;
             this.GoToListParcelsWindow.MouseDoubleClick += GoToListParcelsWindow_MouseDoubleClick;
             this.GoToListStationsWindow.MouseDoubleClick += GoToListStationsWindow_MouseDoubleClick;
             this.GoToListCustomersWindow.MouseDoubleClick  += GoToListCustomersWindow_MouseDoubleClick;
             this.closeWindow.Click += closeWindow_Click;
+            signOut.MouseDoubleClick += signOut_MouseDoubleClick;
            
         }
+
 
         private void GoToListDronesWindow_MouseDoubleClick(object sender, RoutedEventArgs e)
         {
             ListDronesWindow listDronesWindow = new ListDronesWindow(mainData);
             listDronesWindow.Show();
-            this.Close();
+            //this.Close();
         }
 
         private void closeWindow_Click(object sender, RoutedEventArgs e)
@@ -50,23 +54,27 @@ namespace PL
         {
             CustomersListWindow customersListWindow = new CustomersListWindow(mainData);
             customersListWindow.Show();
-            Close();
+            //Close();
         }
 
         private void GoToListParcelsWindow_MouseDoubleClick(object sender, RoutedEventArgs e)
         {
             ParcelsListWindow parcelsListWindow = new ParcelsListWindow(mainData);
             parcelsListWindow.Show();
-            Close();
+            //Close();
         }
 
         private void GoToListStationsWindow_MouseDoubleClick(object sender, RoutedEventArgs e)
         {
             StationsListWindow stationsListWindow = new StationsListWindow(mainData);
             stationsListWindow.Show();
-            Close();
+            //Close();
         }
 
-
+        private void signOut_MouseDoubleClick(object sender, RoutedEventArgs e)
+        {
+            new MainWindow().Show();
+            Close();
+        }
     }
 }

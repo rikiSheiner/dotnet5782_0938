@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace DAL.DalApi.DO
 {
+    /// <summary>
+    /// struct for representing a user of the site
+    /// </summary>
     public class User
     {
         /// <summary>

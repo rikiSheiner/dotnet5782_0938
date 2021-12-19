@@ -28,10 +28,11 @@ namespace PL
             mainData = data;
             InitializeComponent();
             closeWindow.Click += closeWindow_Click;
-            this.DataContext = mainData.GetListStations ();
+            ListOfStations .ItemsSource = mainData.GetListStations();
             AddStationButton.MouseDoubleClick += AddStationButton_MouseDoubleClick;
             ListOfStations.SelectionChanged += ListOfStations_SelectionChanged;
             FilterStationsList.SelectionChanged += FilterStationsList_SelectionChanged;
+            refreshWindow.MouseDoubleClick += refreshWindow_MouseDoubleClick;
         }
         private void closeWindow_Click(object sender, RoutedEventArgs e) { this.Close(); }
 
@@ -46,13 +47,13 @@ namespace PL
             switch (FilterStationsList.SelectedIndex)
             {
                 case 0:
-                    this.DataContext = mainData.GetListStations();
+                    ListOfStations .ItemsSource = mainData.GetListStations();
                     break;
                 case 1:
-                    this.DataContext = mainData.GetListStationsWithCondition(x => x.availableChargeSlots>0);
+                    ListOfStations .ItemsSource = mainData.GetListStationsWithCondition(x => x.availableChargeSlots>0);
                     break;
                 case 2:
-                    this.DataContext = mainData.GetListStationsWithCondition(x => x.availableChargeSlots <1);
+                    ListOfStations.ItemsSource = mainData.GetListStationsWithCondition(x => x.availableChargeSlots <1);
                     break;
                 default:
                     break;
@@ -66,6 +67,14 @@ namespace PL
             StationWindow stationActions = new StationWindow(mainData, (StationToList)ListOfStations.SelectedItem);
             stationActions.Show();
             this.Close();
+        }
+
+        private void refreshWindow_MouseDoubleClick(object sender, RoutedEventArgs e)
+        {
+            StationsListWindow newWindow = new StationsListWindow(mainData);
+            Application.Current.MainWindow = newWindow;
+            newWindow.Show();
+            Close();
         }
     }
 }

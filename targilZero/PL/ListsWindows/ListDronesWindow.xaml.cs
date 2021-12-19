@@ -27,10 +27,11 @@ namespace PL
         {
             InitializeComponent();
             this.mainData = data;
-            this.DataContext = mainData.GetListDrones();
+            ListOfDrones.ItemsSource = mainData.GetListDrones();
             this.FilterDronesList.SelectionChanged += FilterDronesList_SelectionChanged;
             this.closeWindow.Click += closeWindow_Click;
             AddDroneButton.MouseDoubleClick += AddDroneButton_MouseDoubleClick;
+            refreshWindow.MouseDoubleClick += refreshWindow_MouseDoubleClick;
         }
 
         private void FilterDronesList_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -38,25 +39,25 @@ namespace PL
             switch (FilterDronesList.SelectedIndex)
             {
                 case 0:
-                    this.DataContext = mainData.GetListDrones();
+                    ListOfDrones .ItemsSource = mainData.GetListDrones();
                     break;
                 case 1:
-                    this.DataContext = mainData.GetListDronesWithCondition(x => x.droneStatus == Enums.DroneStatuses.available);
+                    ListOfDrones.ItemsSource = mainData.GetListDronesWithCondition(x => x.droneStatus == Enums.DroneStatuses.available);
                     break;
                 case 2:
-                    this.DataContext = mainData.GetListDronesWithCondition(x => x.droneStatus == Enums.DroneStatuses.maintenance);
+                    ListOfDrones.ItemsSource = mainData.GetListDronesWithCondition(x => x.droneStatus == Enums.DroneStatuses.maintenance);
                     break;
                 case 3:
-                    this.DataContext = mainData.GetListDronesWithCondition(x => x.droneStatus == Enums.DroneStatuses.delivery);
+                    ListOfDrones.ItemsSource = mainData.GetListDronesWithCondition(x => x.droneStatus == Enums.DroneStatuses.delivery);
                     break;
                 case 4:
-                    this.DataContext = mainData.GetListDronesWithCondition(x => x.maxWeight == Enums.WeightCategories.light );
+                    ListOfDrones.ItemsSource = mainData.GetListDronesWithCondition(x => x.maxWeight == Enums.WeightCategories.light );
                     break;
                 case 5:
-                    this.DataContext = mainData.GetListDronesWithCondition(x => x.maxWeight == Enums.WeightCategories.intermediate );
+                    ListOfDrones.ItemsSource = mainData.GetListDronesWithCondition(x => x.maxWeight == Enums.WeightCategories.intermediate );
                     break;
                 case 6:
-                    this.DataContext = mainData.GetListDronesWithCondition(x => x.maxWeight == Enums.WeightCategories.heavy );
+                    ListOfDrones.ItemsSource = mainData.GetListDronesWithCondition(x => x.maxWeight == Enums.WeightCategories.heavy );
                     break;
                 default:
                     break;
@@ -70,15 +71,25 @@ namespace PL
         
         private void AddDroneButton_MouseDoubleClick(object sender, RoutedEventArgs e)
         {
-            DroneWindow droneWindowAdding = new DroneWindow(mainData);
+            DroneWindow1 droneWindowAdding = new DroneWindow1(mainData);
             droneWindowAdding.Show();
         }
 
         private void ListOfDrones_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            DroneWindow droneActions = new DroneWindow(mainData, (DroneToList)ListOfDrones .SelectedItem  );
+            DroneWindow1 droneActions = new DroneWindow1(mainData, (DroneToList)ListOfDrones .SelectedItem  );
             droneActions.Show();
             this.Close();
         }
+
+        private void refreshWindow_MouseDoubleClick(object sender, RoutedEventArgs e)
+        {
+            ListDronesWindow newWindow = new ListDronesWindow(mainData);
+            Application.Current.MainWindow = newWindow;
+            newWindow.Show();
+            Close();
+        }
+
+        
     }
 }

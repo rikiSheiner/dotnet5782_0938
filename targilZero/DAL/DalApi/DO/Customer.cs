@@ -6,33 +6,31 @@ using System.Threading.Tasks;
 
 namespace DAL.DalApi.DO
 {
-    public struct Customer  //מבנה לייצוג לקוח
+    /// <summary>
+    /// struct for representing customer
+    /// </summary>
+    public struct Customer  
     {
-        public int ID 
-        {
-            get; 
-            set;
-        }
-        public string name 
-        {
-            get;
-            set;
-        }
-        public string phone 
-        {
-            get;
-            set;
-        }
-        public double longitude 
-        {
-            get;
-            set;
-        }
-        public double latitude 
-        {
-            get; 
-            set;
-        }
+        /// <summary>
+        /// The identity number of the customer
+        /// </summary>
+        public int ID { get; set; }
+        /// <summary>
+        /// The name of the customer
+        /// </summary>
+        public string name { get; set; }
+        /// <summary>
+        /// The phone number of the customer
+        /// </summary>
+        public string phone { get; set; }
+        /// <summary>
+        /// The longitude of the location of the customer
+        /// </summary>
+        public double longitude { get; set; }
+        /// <summary>
+        /// The latitude of the location of the customer
+        /// </summary>
+        public double latitude { get; set; }
 
         //parameters constructor of customer
         public Customer(int id, string n, string p, double lo, double la)

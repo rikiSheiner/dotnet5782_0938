@@ -21,7 +21,7 @@
             <ColumnDefinition Width="40*" ></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Grid.Background>
-            <ImageBrush ImageSource="/רקע לחלונות.png"/>
+            <ImageBrush ImageSource="/SingleEntityWindows/רקע תכלת.png"/>
         </Grid.Background>
         <Button x:Name="closeWindow"  Grid.Row="0" Grid.Column="3" Click="closeWindow_Click">
             <Button.Background>
@@ -29,7 +29,17 @@
             </Button.Background>
         </Button>
 
-        <Button x:Name="AddParcelButton" Content="Add Parcel" FontSize="15" Grid.Row="3" Grid.Column="2" Background="Bisque"></Button >
+        <Button Name="refreshWindow" Grid.Row="1" Grid.Column="3" >
+            <Button.Background>
+                <ImageBrush ImageSource="/ListsWindows/חץ מסובב.png"/>
+            </Button.Background>
+        </Button>
+
+        <Button x:Name="AddParcelButton" Content="Add Parcel" FontSize="16" Grid.Row="3" Grid.Column="2" FontWeight="Bold" Foreground="#FFF9F4F4">
+            <Button.Background>
+                <ImageBrush ImageSource="/רקע אדום כהה.png"/>
+            </Button.Background>
+        </Button >
         <TextBlock x:Name="Parcels" Text="Parcels " FontSize="25" Grid.Row="1" />
         <ListBox x:Name="ListOfParcels"  Grid.Row="2" ItemsSource="{Binding }" Background="Bisque"  ></ListBox>
         <ComboBox x:Name="FilterParcelsList" Grid.Row="2" Grid.Column="2" Margin="0,0,0,214" Text="Filter Parcels" >
@@ -44,8 +54,8 @@
             <ComboBoxItem Name="statusAssigned" Content="status = assigned "></ComboBoxItem>
             <ComboBoxItem Name="statusCollected" Content="status = collected "></ComboBoxItem>
             <ComboBoxItem Name="statusSuplied" Content="status = suplied"></ComboBoxItem>
-
+            <ComboBoxItem Name="senderOfParcel" Content="sender customer"></ComboBoxItem>
+            <ComboBoxItem Name="targetOfParcel" Content="destination customer"></ComboBoxItem>
         </ComboBox>
-
     </Grid>
 </Window>

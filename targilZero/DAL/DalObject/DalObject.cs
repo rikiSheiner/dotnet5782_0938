@@ -18,7 +18,7 @@ namespace DAL.DalObject
         /// <summary>
         /// constructor of DalObject
         /// </summary>
-        public DalObject()
+        internal DalObject()
         {
             DataSource.Initialize();
         }
@@ -76,40 +76,35 @@ namespace DAL.DalObject
             //    throw new ExistIdException("this drone  id is already in the sortage");
             DataSource.drones.Add(new Drone(id, n, (Enums.WeightCategories)w));
         }
-
         public override void AddCustomer(int id, string n, string p, double lo, double la)
         {
             if (FindCustomer(id) >= 0)
                 throw new ExistIdException("this customer id is already in the sortage");
             DataSource.customers.Add(new Customer(id, n, p, lo, la));
         }
-
         public override void AddStation(int id, int n, double lo, double la, int cs)
         {
             if (FindStation(id) >= 0)
                 throw new ExistIdException("this station id is already in the sortage");
             DataSource.basisStations.Add(new Station(id, n, lo, la, cs));
         }
-
-        public override void AddParcel(int sid, int tid, int w, int p, int did)
+        public override void AddParcel(int sid, int tid, int w, int p/*, int did*/)
         {
             int id = DataSource.Config.idNumberParcels;
             DataSource.Config.idNumberParcels++;
             DataSource.Config.CountParcelsPriority[p]++;
-            DataSource.parcels.Add(new Parcel(id, sid, tid, (Enums.WeightCategories)w, (Enums.Priorities)p, did));
+            DataSource.parcels.Add(new Parcel(id, sid, tid, (Enums.WeightCategories)w, (Enums.Priorities)p/*, did*/));
         }
-
         public override void AddDroneCharge(int dID, int sID, bool active, DateTime s)
         {
             DroneCharge dc = new DroneCharge(dID, sID, active, s);
             DataSource.dronesInCharge.Add(dc);
         }
-
-        public override void AddUser(string name, string password)
+        public override void AddUser(string name, string password,bool access)
         {
             if (FindUser(name,password ) >= 0)
                 throw new ExistIdException("Exist user name");
-            DataSource.users.Add(new User(name, password, false));
+            DataSource.users.Add(new User(name, password,access));
         }
         #endregion
 
@@ -308,6 +303,7 @@ namespace DAL.DalObject
             Parcel temp = DataSource.parcels[parcelID - 1];
             temp.targetID = customerId;
             temp.delivered = DateTime.Now;
+            temp.droneID = -1;
             DataSource.parcels[parcelID - 1] = temp;
         }
 

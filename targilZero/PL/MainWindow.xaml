@@ -8,19 +8,38 @@
         Title="MainWindow" Height="450" Width="800" >
     <Grid>
         <Grid.ColumnDefinitions >
-            <ColumnDefinition Width="400*"></ColumnDefinition>
-            <ColumnDefinition Width="70*"></ColumnDefinition>
+            <ColumnDefinition Width="80*"></ColumnDefinition>
+            <ColumnDefinition Width="300*"></ColumnDefinition>
             <ColumnDefinition Width="70*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions >
             <RowDefinition Height="400*"></RowDefinition>
             <RowDefinition Height="70*"></RowDefinition>
             <RowDefinition Height="70*"></RowDefinition>
+            <RowDefinition Height="70*"></RowDefinition>
         </Grid.RowDefinitions>
         <Grid.Background>
-            <ImageBrush ImageSource="/מסך פתיחה לפרויקט רחפנים.png"/>
+            <ImageBrush ImageSource="/רקע למסך פתיחה לפרויקט.png"/>
         </Grid.Background>
-        <Button x:Name="LogIn" Content="log in" FontSize="30" FontStyle="Italic" Background="Lavender"  Grid.Row="1" Grid.Column="2" ></Button>
-        <Button x:Name="SignUp" Content="sign up" FontSize="30" FontStyle="Italic" Background="Lavender"  Grid.Row="2" Grid.Column="2" ></Button>
+        <Button x:Name="LogIn" Content="log in user" FontSize="25" FontStyle="Italic"  Grid.Row="2" Grid.Column="2" FontFamily="Tw Cen MT Condensed Extra Bold" Foreground="#FFFFFDFD" >
+            <Button.Background>
+                <ImageBrush ImageSource="/רקע אדום כהה.png"/>
+            </Button.Background>
+        </Button>
+        <Button x:Name="SignUp" Content="sign up user" FontSize="25" FontStyle="Italic"  Grid.Row="3" Grid.Column="2" FontFamily="Tw Cen MT Condensed Extra Bold" Foreground="#FFFFF9F9" >
+            <Button.Background>
+                <ImageBrush ImageSource="/רקע אדום כהה.png"/>
+            </Button.Background>
+        </Button>
+        <Button x:Name="LogInCustomer" Content="log in customer" FontSize="20" Grid.Row="2" Grid.Column="0" FontFamily="Tw Cen MT Condensed Extra Bold" Foreground="#FFFFF9F9"  >
+            <Button.Background>
+                <ImageBrush ImageSource="/רקע אדום כהה.png"/>
+            </Button.Background>
+        </Button>
+        <Button x:Name="SignUpCustomer" Content="sign up customer" FontSize="20" Grid.Row="3" Grid.Column="0" FontFamily="Tw Cen MT Condensed Extra Bold" Foreground="#FFFFF9F9"    >
+            <Button.Background>
+                <ImageBrush ImageSource="/רקע אדום כהה.png"/>
+            </Button.Background>
+        </Button>
     </Grid>
 </Window>

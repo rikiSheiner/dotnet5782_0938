@@ -8,24 +8,23 @@ using DAL.DalApi;
 
 namespace DAL.DalApi.DO
 {
-    public struct Drone //מבנה לייצוג רחפן
+    /// <summary>
+    /// struct for representing a drone 
+    /// </summary>
+    public struct Drone 
     {
-        public int ID
-        {
-            get;
-            set;
-        }
-        public string model
-        {
-            get;
-            set;
-        }
-        public Enums.WeightCategories maxWeight
-        {
-            get; 
-            set;
-        }
-        
+        /// <summary>
+        /// the identity number of the drone
+        /// </summary>
+        public int ID { get; set; }
+        /// <summary>
+        /// the name of the model of the drone
+        /// </summary>
+        public string model { get; set; }
+        /// <summary>
+        /// the maximum weight that the drone can carry
+        /// </summary>
+        public Enums.WeightCategories maxWeight { get; set; }
         //parameters costructor of drone
         public Drone(int id, string m, Enums.WeightCategories mw)
         {

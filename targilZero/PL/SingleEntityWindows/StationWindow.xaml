@@ -8,7 +8,7 @@
         Title="StationWindow" Height="450" Width="800">
     <Grid>
         <Grid.Background>
-            <ImageBrush ImageSource="/רקע לחלונות.png"/>
+            <ImageBrush ImageSource="/SingleEntityWindows/רקע תכלת.png"/>
         </Grid.Background>
         <Button x:Name="closeWindow" Margin="747,-1,1,383" Click="closeWindow_Click" >
             <Button.Background>
@@ -24,19 +24,42 @@
         <TextBox x:Name="updatedName" Visibility="Collapsed"    Margin="596,174,40,220"></TextBox>
         <TextBox x:Name="updatedChargeSlots" Visibility="Collapsed"    Margin="595,233,40,160"></TextBox>
 
-        <TextBlock x:Name="enterID" Text="enter ID:" Margin="31,114,669,279"></TextBlock>
-        <TextBlock x:Name="enterName" Text="enter name:" Margin="31,169,669,224"></TextBlock>
-        <TextBlock x:Name="enterLongitude" Text="enter longitude:" Margin="31,231,669,162"></TextBlock>
-        <TextBlock x:Name="enterLatitude" Text="enter latitude:" Margin="31,287,669,106"></TextBlock>
-        <TextBlock x:Name="enterChargeSlots" Text="enter charge slots:" Margin="31,340,669,53"></TextBlock>
+        <TextBlock x:Name="enterID" Text="ID:" FontSize=" 15" Margin="31,114,669,279"></TextBlock>
+        <TextBlock x:Name="enterName" Text="Name:" FontSize=" 15" Margin="31,169,669,224"></TextBlock>
+        <TextBlock x:Name="enterLongitude" Text="Longitude:" FontSize=" 15" Margin="31,231,669,162"></TextBlock>
+        <TextBlock x:Name="enterLatitude" Text="Latitude:" FontSize=" 15" Margin="31,287,669,106"></TextBlock>
+        <TextBlock x:Name="enterChargeSlots" Text="Charge slots:" FontSize=" 15" Margin="31,340,669,53"></TextBlock>
         <TextBlock x:Name="StationDetails" FontSize="10" Margin="22,24,145,335" ></TextBlock>
         <TextBlock x:Name="enterUpdatedName"  Visibility="Collapsed"   Text="enter new name: " Margin="441,175,231,221"></TextBlock>
         <TextBlock x:Name="enterUpdatedChargeSlots" Visibility="Collapsed"    Text="enter charge slots number: " Margin="435,235,203,158"></TextBlock>
 
-        <Button x:Name="addTheStation" Content="Add station" Margin="134,386,521,4" Background="#FF00FF46" />
-        <Button x:Name="cancelAdding" Content="cancel adding" Margin="319,387,346,3" Background="#FF00FF46" />
-        <Button x:Name="updateStation" Content="update station details" FontSize="15" Background="Bisque" Margin="563,107,21,272"   ></Button>
+        <Button x:Name="addTheStation" Content="Add station" Margin="134,386,521,4" FontSize="14" FontWeight="Bold" Foreground="#FFFCF7F7" >
+            <Button.Background>
+                <ImageBrush ImageSource="/רקע אדום כהה.png"/>
+            </Button.Background>
+        </Button>
+        <Button x:Name="cancelAdding" Content="cancel adding" Margin="319,387,346,3" Foreground="#FFF6EFEF" FontSize="14" FontWeight="Bold" >
+            <Button.Background>
+                <ImageBrush ImageSource="/רקע אדום כהה.png"/>
+            </Button.Background>
+        </Button>
+        <Button x:Name="updateStation" Content="update station details" FontSize="16" Margin="563,107,21,272" FontWeight="Bold" Foreground="#FFF7F3F3"   >
+            <Button.Background>
+                <ImageBrush ImageSource="/רקע אדום כהה.png"/>
+            </Button.Background>
+        </Button>
         <Button x:Name="submitButton" Content="update" Visibility="Collapsed"   FontSize="15" Background="Bisque" Margin="598,287,44,89" ></Button>
+        <ListBox x:Name="ListOfDrones" Visibility="Collapsed" ItemsSource="{Binding }" Margin="34,137,588,82"  >
+            <ListBox.Background>
+                <ImageBrush/>
+            </ListBox.Background>
+        </ListBox>
+        <TextBlock x:Name="chooseDrone" Text="choose drone in charge" Visibility="Collapsed" FontSize="14" Width="160" Height="50" Margin="34,96,606,288"></TextBlock>
+        <Button x:Name="deleteStation" Content="delete station" Foreground="#FFFCF6F6" FontSize="15" FontWeight="Bold" Margin="375,106,263,273" >
+            <Button.Background>
+                <ImageBrush ImageSource="/רקע אדום כהה.png"/>
+            </Button.Background>
+        </Button>
 
     </Grid>
 </Window>

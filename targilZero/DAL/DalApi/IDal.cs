@@ -25,9 +25,9 @@ namespace DAL
             abstract public void AddDrone(int id, string n, int w);
             abstract public void AddCustomer(int id, string n, string p, double lo, double la);
             abstract public void AddStation(int id, int n, double lo, double la, int cs);
-            abstract public void AddParcel(int sid, int tid, int w, int p, int did);
+            abstract public void AddParcel(int sid, int tid, int w, int p);
             abstract public void AddDroneCharge(int dID, int sID, bool active,DateTime s);
-            abstract public void AddUser(string name, string password);
+            abstract public void AddUser(string name, string password, bool access);
             #endregion
 
             #region delete item

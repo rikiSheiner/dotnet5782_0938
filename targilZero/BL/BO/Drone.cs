@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BL.BO
 {
-    public struct Drone //מבנה לייצוג רחפן
+    public struct Drone 
     {
         /// <summary>
         /// The identity number of the drone
@@ -83,7 +83,7 @@ namespace BL.BO
                 + ", battery=" + battery + ", location=" + location ;
             //print number of parcel only if there is parcel in delivery in this drone
             if (parcelInDroneID > -1)
-                str += (" id of parcel in drone=" + parcelInDroneID);
+                str += " id of parcel in drone=" + parcelInDroneID;
             str += '\n';
             return  str;
         }

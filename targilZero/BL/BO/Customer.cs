@@ -27,11 +27,11 @@ namespace BL.BO
         /// <summary>
         /// List of parcels in delivery from the customer
         /// </summary>
-        public List <Parcel > parcelsFromCustomer { get; set; }
+        public List <ParcelToList > parcelsFromCustomer { get; set; }
         /// <summary>
         /// List of parcels in delivery to the customer
         /// </summary>
-        public List<Parcel > parcelsToCustomer { get; set; }
+        public List<ParcelToList > parcelsToCustomer { get; set; }
 
         /// <summary>
         /// returns the details of the customer

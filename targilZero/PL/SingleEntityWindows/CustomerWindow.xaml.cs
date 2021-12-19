@@ -46,16 +46,32 @@ namespace PL.SingleEntityWindows
 
             addTheCustomer.Visibility = Visibility.Collapsed;
             cancelAdding.Visibility = Visibility.Collapsed;
-            
+
             enterID.Visibility = Visibility.Collapsed;
             enterLatitude.Visibility = Visibility.Collapsed;
             enterLongitude.Visibility = Visibility.Collapsed;
-            enterName.Visibility = Visibility.Collapsed; 
+            enterName.Visibility = Visibility.Collapsed;
             enterPhone.Visibility = Visibility.Collapsed;
+
+            chooseParcel.Visibility = Visibility.Visible;
+            ListOfParcels.Visibility = Visibility.Visible;
 
             CustomerDetails.Text = customerCurrent.ToString();
             updateCustomer.MouseDoubleClick += updateCustomer_MouseDoubleClick;
             submitButton.MouseDoubleClick += submitButton_MouseDoubleClick;
+            deleteCustomer.MouseDoubleClick += deleteCustomer_MouseDoubleClick;
+
+            //הוספת  החבילות שהלקוח שולח או מקבל אל רשימת החבילות
+            var helpCustomerBL = mainData.ConvertCustomerDalToCustomerBL(mainData.FindAndGetCustomer(customerCurrent.ID));
+            foreach (ParcelToList parcel in helpCustomerBL.parcelsFromCustomer )
+            {
+                ListOfParcels.Items.Add(parcel);
+            }
+            foreach (ParcelToList parcel in helpCustomerBL.parcelsToCustomer)
+            {
+                ListOfParcels.Items.Add(parcel);
+            }
+            ListOfParcels.SelectionChanged += ListOfParcels_SelectionChanged;
         }
 
         public CustomerWindow(IBL data)
@@ -66,6 +82,7 @@ namespace PL.SingleEntityWindows
             //הסתרת כל הכפתורים שקשורים חלון לקוח במצב פעולות
             CustomerDetails.Visibility = Visibility.Collapsed;
             updateCustomer.Visibility = Visibility.Collapsed;
+            deleteCustomer.Visibility = Visibility.Collapsed;
             
             closeWindow.Click += closeWindow_Click;
             cancelAdding.MouseDoubleClick += cancelAdding_MouseDoubleClick;
@@ -126,6 +143,38 @@ namespace PL.SingleEntityWindows
 
             CustomerDetails.Text = customerCurrent.ToString();
 
+        }
+
+        private void deleteCustomer_MouseDoubleClick(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                mainData.DeleteCustomer(customerCurrent.ID);
+                MessageBox.Show("The customer has been deleted successfuly");
+                new CustomersListWindow(mainData).Show();
+                Close();
+            }
+            catch(DeletedProblemException dpe)
+            {
+                MessageBox.Show(dpe.Message);
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Can't delete customer");
+            }
+        }
+        private void ListOfParcels_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            try
+            {
+                ParcelWindow parcelActions = new ParcelWindow(mainData, (ParcelToList)ListOfParcels.SelectedItem);
+                parcelActions.Show();
+                this.Close();
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("ERROR");
+            }
         }
 
     }

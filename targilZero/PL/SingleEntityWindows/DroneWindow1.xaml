@@ -1,0 +1,80 @@
+﻿<Window x:Class="PL.SingleEntityWindows.DroneWindow1"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PL.SingleEntityWindows"
+        mc:Ignorable="d"
+        Title="DroneWindow1" Height="450" Width="800">
+    <Grid>
+        <Grid.Background>
+            <ImageBrush ImageSource="/SingleEntityWindows/רקע תכלת.png"/>
+        </Grid.Background>
+        <Button x:Name="closeWindow" Margin="745,1,1,382" Click="closeWindow_Click" >
+            <Button.Background>
+                <ImageBrush ImageSource="/כפתור לסגירת חלון.png"/>
+            </Button.Background>
+        </Button>
+
+        <TextBlock x:Name="enterID" Text="ID:" FontSize="15" Margin="31,114,669,279"></TextBlock>
+        <TextBlock x:Name="enterModel" Text="Model:" FontSize="15" Margin="31,169,669,224"></TextBlock>
+        <TextBlock x:Name="enterWeight" Text="Weight: " FontSize="15" Margin="31,231,669,162"></TextBlock>
+        <TextBlock  x:Name="enterStationNum" Text="Station ID:" FontSize="15" Margin="31,287,669,106"></TextBlock>
+        <TextBlock x:Name="DroneDetails" FontSize="10" Margin="22,24,145,335" ></TextBlock>
+        <TextBlock x:Name="enterHoursCharging" Text="enter hours of charging: "  Visibility="Collapsed" Margin="450,233,40,160"></TextBlock>
+
+        <TextBox x:Name="updatedDroneModel" FontStyle="Italic" IsEnabled="False" Background="Bisque" Visibility="Collapsed" Margin="596,174,40,220"></TextBox>
+
+        <Button x:Name="submitModel" Background="Bisque" Visibility="Collapsed"  Content="update" Margin="595,233,40,149" Click="submitModel_MouseDoubleClick"></Button>
+        <Button x:Name="updateDrone" Content="update model" FontSize="16" Margin="595,107,40,272" Foreground="#FFFAF4F4" FontWeight="Bold" >
+            <Button.Background>
+                <ImageBrush ImageSource="/רקע אדום כהה.png"/>
+            </Button.Background>
+        </Button>
+        <Button x:Name="chargeOrEndCahrge" FontSize="16" Margin="595,174,40,212" FontWeight="Bold" Foreground="#FFFCF8F8" >
+            <Button.Background>
+                <ImageBrush ImageSource="/רקע אדום כהה.png"/>
+            </Button.Background>
+        </Button>
+        <Button x:Name="parcelDelivery" FontSize="16" Margin="595,233,40,149" Foreground="#FFFAF7F7" FontWeight="Bold" >
+            <Button.Background>
+                <ImageBrush ImageSource="/רקע אדום כהה.png"/>
+            </Button.Background>
+        </Button>
+
+        <TextBox x:Name="newID" Margin="133,114,521,279" TextChanged="newID_TextChanged"></TextBox >
+        <TextBox x:Name="newModel"  Margin="133,171,521,224" TextChanged="newModel_TextChanged"></TextBox >
+        <TextBox x:Name="hoursOfCharging" Visibility="Collapsed" Margin="595,233,40,160" ></TextBox>
+
+        <ComboBox Name="newWeightCategory" Background="White"  Margin="133,229,521,166"></ComboBox>
+        <ComboBox Name="newStationID" Background="White" Margin="134,286,520,109"></ComboBox>
+
+        <Button x:Name="addTheDrone" Content="add drone" Margin="134,386,521,4" Click="addTheDrone_MouseDoubleClick" Foreground="#FFF3F0F0" FontSize="16" FontWeight="Bold">
+            <Button.Background>
+                <ImageBrush ImageSource="/רקע אדום כהה.png"/>
+            </Button.Background>
+        </Button>
+        <Button x:Name="cancelAdding" Content="cancel adding" Margin="319,387,346,3" Click="cancelAdding_MouseDoubleClick" Foreground="#FFF0E7E7" FontSize="16" FontWeight="Bold" >
+            <Button.Background>
+                <ImageBrush ImageSource="/רקע אדום כהה.png"/>
+            </Button.Background>
+        </Button>
+        <Button x:Name="submitHours" Content="end" FontSize="16" Visibility="Collapsed" IsEnabled="True" Margin="595,273,40,120" >
+            <Button.Background>
+                <ImageBrush/>
+            </Button.Background>
+        </Button>
+
+        <Button Name="parcelInDrone" Content="parcel in drone" FontSize="14" FontFamily="Trebuchet MS" Margin="598,51,40,339" >
+            <Button.Background>
+                <ImageBrush/>
+            </Button.Background>
+        </Button>
+
+        <Button x:Name="deleteDrone" Content="delete drone" Foreground="#FFFCF6F6" FontSize="15" FontWeight="Bold" Margin="375,106,263,273"  >
+            <Button.Background>
+                <ImageBrush ImageSource="/רקע אדום כהה.png"/>
+            </Button.Background>
+        </Button>
+    </Grid>
+</Window>

@@ -28,6 +28,8 @@ namespace PL
             InitializeComponent();
             SignUp.MouseDoubleClick += SignUp_MouseDoubleClick;
             LogIn.MouseDoubleClick += LogIn_MouseDoubleClick;
+            LogInCustomer.MouseDoubleClick += LogInCustomer_MouseDoubleClick;
+            SignUpCustomer.MouseDoubleClick += SignUpCustomer_MouseDoubleClick;
         }
 
 
@@ -40,6 +42,18 @@ namespace PL
         private void LogIn_MouseDoubleClick(object sender, RoutedEventArgs e)
         {
             new LogInWindow(mainData ).Show();
+            Close();
+        }
+
+        private void LogInCustomer_MouseDoubleClick(object sender, RoutedEventArgs e)
+        {
+            new LogInCustomerWindow(mainData).Show();
+            Close();
+        }
+
+        private void SignUpCustomer_MouseDoubleClick(object sender, RoutedEventArgs e)
+        {
+            new SignUpCustomerWindow(mainData).Show();
             Close();
         }
     }

@@ -7,9 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="ListsWindows\חץ מסובב.png" />
+    <None Remove="SingleEntityWindows\רקע תכלת.png" />
     <None Remove="כפתור לסגירת חלון.png" />
-    <None Remove="מסך פתיחה לפרויקט רחפנים.png" />
+    <None Remove="רקע אדום כהה.png" />
     <None Remove="רקע לחלונות.png" />
+    <None Remove="רקע למסך פתיחה לפרויקט רחפנים.png" />
+    <None Remove="רקע למסך פתיחה לפרויקט.png" />
+    <None Remove="רקע תכלת ואדום.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -17,9 +22,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="ListsWindows\חץ מסובב.png" />
+    <Resource Include="SingleEntityWindows\רקע תכלת.png" />
     <Resource Include="כפתור לסגירת חלון.png" />
-    <Resource Include="מסך פתיחה לפרויקט רחפנים.png" />
+    <Resource Include="רקע אדום כהה.png" />
     <Resource Include="רקע לחלונות.png" />
+    <Resource Include="רקע למסך פתיחה לפרויקט רחפנים.png" />
+    <Resource Include="רקע למסך פתיחה לפרויקט.png" />
+    <Resource Include="רקע תכלת ואדום.png" />
   </ItemGroup>
 
 </Project>

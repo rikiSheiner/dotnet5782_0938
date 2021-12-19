@@ -14,7 +14,17 @@ namespace BL.BlApi
         public abstract void AddDrone(int id, string model, int maxWeight, int stationNum);
         public abstract void AddCustomer(int id, string name, string phoneNumber, double longitude, double latitude);
         public abstract void AddParcel(int senderID, int targetID, int weight, int priority);
-        public abstract void AddUser(string name, string password);
+        public abstract void AddUser(string name, string password,bool access);
+        #endregion
+
+        #region Removing of item from list
+        abstract public void DeleteDrone(int id);
+        abstract public void DeleteCustomer(int id);
+        abstract public void DeleteStation(int id);
+        abstract public void DeleteParcel(int id);
+        abstract public void DeleteDroneInCharge(int id);
+        abstract public void DeleteUser(string name, string password);
+
         #endregion
 
         #region Updating
@@ -31,7 +41,25 @@ namespace BL.BlApi
 
         #region Check if item exist
         public abstract bool IsUserExist(string name, string password);
-        #endregion 
+        #endregion
+
+        #region Find item's index in list
+        abstract public int FindDrone(int id);
+        abstract public int FindCustomer(int id);
+        abstract public int FindStation(int id);
+        abstract public int FindParcel(int id);
+        abstract public int FindDroneInCharge(int id);
+        abstract public int FindUser(string name, string password);
+        #endregion
+
+        #region Find and get item
+        abstract public DAL.DalApi.DO.Drone FindAndGetDrone(int id);
+        abstract public DAL.DalApi.DO.Customer FindAndGetCustomer(int id);
+        abstract public DAL.DalApi.DO.Station FindAndGetStation(int id);
+        abstract public DAL.DalApi.DO.Parcel FindAndGetParcel(int id);
+        abstract public DAL.DalApi.DO.DroneCharge FindAndGetDroneInCharge(int id);
+        abstract public DAL.DalApi.DO.User FindAndGetUser(string name, string password);
+        #endregion
 
         #region Getting item for presenting
         public abstract StationToList GetStation(int id);
@@ -50,17 +78,23 @@ namespace BL.BlApi
         public abstract IEnumerable<StationToList> GetListStationsWithCondition(Predicate<StationToList> stationCondition);
         public abstract IEnumerable<DroneToList> GetListDronesWithCondition(Predicate<DroneToList> droneCondition);
         public abstract IEnumerable<CustomerToList> GetListCustomersWithCondition(Predicate<CustomerToList> customerCondition);
+        public abstract IEnumerable<User> GetListUsersWithCondition(Predicate<User> userCondition);
         #endregion
 
         # region Converting an entity to entity in list
-        internal abstract StationToList ConvertStationToStationInList(DAL.DalApi.DO.Station s);
-        internal abstract DroneToList ConvertDroneToDroneInList(Drone d);
-        internal abstract ParcelToList ConvertParcelToParcelInList(DAL.DalApi.DO.Parcel p);
-        internal abstract CustomerToList ConvertCustomerToCustomerInList(DAL.DalApi.DO.Customer c);
+        public abstract StationToList ConvertStationToStationInList(DAL.DalApi.DO.Station s);
+        public abstract DroneToList ConvertDroneToDroneInList(Drone d);
+        public abstract ParcelToList ConvertParcelToParcelInList(DAL.DalApi.DO.Parcel p);
+        public abstract CustomerToList ConvertCustomerToCustomerInList(DAL.DalApi.DO.Customer c);
         #endregion
 
+        #region Converting of entity of DAL to enetity of BL
+        public abstract Customer ConvertCustomerDalToCustomerBL(DAL.DalApi.DO.Customer customerDAL);
+        public abstract Drone ConvertDroneDalToDroneBL(DAL.DalApi.DO.Drone droneDAL);
+        #endregion 
+
         #region Help methods
-        public abstract int FindDrone(int id);
+        public abstract int FindDroneBL(int id);
         /// <summary>
         /// The method gets station ID number and counts the number of drones in charge in this station
         /// </summary>

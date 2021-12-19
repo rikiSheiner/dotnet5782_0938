@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace BL.BO
 {
    
-    public class Station //תחנה לטעינת רחפן
+    public class Station 
     {
         /// <summary>
         /// The identity number of the station
@@ -46,7 +46,7 @@ namespace BL.BO
         public string name { get; set; }
         public int fullChargeSlots { get; set; }
         public int availableChargeSlots { get; set; }
-        public List<DAL.DalApi.DO.Drone> dronesInCharge { get; set; } 
+        public List</*DAL.DalApi.DO.Drone*/DroneToList > dronesInCharge { get; set; } 
         public override string ToString()
         {
             string str = "Station: ID=" + ID + ", name=" + name + ", full charge slots=" + fullChargeSlots +
@@ -54,7 +54,7 @@ namespace BL.BO
             if(dronesInCharge .Count ()>0)
             {
                 str += "\ndrones in charge:";
-                foreach (DAL.DalApi.DO.Drone drone in dronesInCharge )
+                foreach (/*DAL.DalApi.DO.Drone*/DroneToList  drone in dronesInCharge )
                 {
                     str += " ID="+drone.ID+" ";
                 }

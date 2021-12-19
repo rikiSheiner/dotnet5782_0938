@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using BL.BlApi;
 using BL.BO;
+using PL.SingleEntityWindows;
 
 namespace PL
 {
@@ -36,6 +37,7 @@ namespace PL
             mainData = data;
             stationCurrent = station;
             closeWindow.Click += closeWindow_Click;
+            
 
             //הסתרת כל הכפתורים הקשורים לחלון תחנה במצב הוספה
             newChargeSlots.Visibility = Visibility.Collapsed;
@@ -51,20 +53,35 @@ namespace PL
             addTheStation.Visibility = Visibility.Collapsed;
             cancelAdding.Visibility = Visibility.Collapsed;
 
+            ListOfDrones.Visibility = Visibility.Visible;
+            chooseDrone.Visibility = Visibility.Visible;
+
             StationDetails.Text = stationCurrent.ToString();
 
             updateStation.MouseDoubleClick += updateStation_MouseDoubleClick;
             submitButton.MouseDoubleClick += submitButton_MouseDoubleClick;
+            ListOfDrones.SelectionChanged += ListOfDrones_SelectionChanged;
+            deleteStation.MouseDoubleClick += deleteStation_MouseDoubleClick;
+
+            foreach (DroneToList drone in stationCurrent.dronesInCharge)
+            {
+                ListOfDrones.Items.Add(drone);
+            }
+
+
         }
         public StationWindow(IBL data)
         {
             mainData = data;
             InitializeComponent();
-            StationDetails.Visibility = Visibility.Collapsed;
+            
             closeWindow.Click += closeWindow_Click;
             cancelAdding.MouseDoubleClick += cancelAdding_MouseDoubleClick;
             addTheStation.MouseDoubleClick += addTheStation_MouseDoubleClick;
             updateStation.Visibility = Visibility.Collapsed;
+            StationDetails.Visibility = Visibility.Collapsed;
+            deleteStation.Visibility = Visibility.Collapsed;
+
         }
 
         private void closeWindow_Click(object sender, RoutedEventArgs e)
@@ -128,6 +145,40 @@ namespace PL
 
             StationDetails.Text = stationCurrent.ToString();
 
+        }
+
+        private void ListOfDrones_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            try
+            {
+                DroneWindow1 droneActions = new DroneWindow1(mainData, (DroneToList )ListOfDrones .SelectedItem  );
+                droneActions.Show();
+                this.Close();
+            }
+            catch(Exception )
+            {
+                MessageBox.Show("ERROR");
+            }
+        }
+
+        private void deleteStation_MouseDoubleClick(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                mainData.DeleteStation(stationCurrent.ID);
+                MessageBox.Show("The station has been deleted successfuly");
+                new StationsListWindow(mainData).Show();
+                Close();
+            }
+            catch (DeletedProblemException dpe)
+            {
+                MessageBox.Show(dpe.Message);
+            }
+            catch (Exception )
+            {
+                MessageBox.Show("Can't delete station");
+            }
+            
         }
     }
 }

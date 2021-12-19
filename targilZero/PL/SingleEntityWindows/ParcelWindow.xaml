@@ -8,7 +8,7 @@
         Title="ParcelWindow" Height="450" Width="800">
     <Grid>
         <Grid.Background>
-            <ImageBrush ImageSource="/רקע לחלונות.png"/>
+            <ImageBrush ImageSource="/SingleEntityWindows/רקע תכלת.png"/>
         </Grid.Background>
 
         <Button x:Name="closeWindow" Margin="747,-1,1,383" Click="closeWindow_Click" >
@@ -22,14 +22,41 @@
         <ComboBox x:Name="newWeight" Margin="133,229,521,166"></ComboBox>
         <ComboBox x:Name="newPriority" Margin="134,286,520,109"></ComboBox>
 
-        <TextBlock x:Name="enterSenderID" Text="choose sender ID:" Margin="31,114,669,279"></TextBlock>
-        <TextBlock x:Name="enterTargetID" Text="choose target ID:" Margin="31,169,669,224"></TextBlock>
-        <TextBlock x:Name="enterWeight" Text="choose weight:" Margin="31,231,673,162"></TextBlock>
-        <TextBlock x:Name="enterPriority" Text="choose priority:" Margin="31,287,669,106"></TextBlock>
+        <TextBlock x:Name="enterSenderID" Text="Sender ID:" FontSize=" 15" Margin="31,114,669,279"></TextBlock>
+        <TextBlock x:Name="enterTargetID" Text="Target ID:"  FontSize=" 15" Margin="31,169,669,224"></TextBlock>
+        <TextBlock x:Name="enterWeight" Text="Weight:" FontSize=" 15" Margin="31,231,673,162"></TextBlock>
+        <TextBlock x:Name="enterPriority" Text="Priority:" FontSize=" 15" Margin="31,287,669,106"></TextBlock>
         <TextBlock x:Name="ParcelDetails" FontSize="10" Margin="22,24,145,335" ></TextBlock>
 
-        <Button x:Name="addTheParcel" Content="add parcel" Margin="134,386,521,4" Background="#FF00FF46" />
-        <Button x:Name="cancelAdding" Content="cancel adding" Margin="319,387,346,3" Background="#FF00FF46" />
-
+        <Button x:Name="addTheParcel" Content="add parcel" Margin="134,386,521,4" FontSize="16" FontWeight="Bold" Foreground="#FFF4EEEE"  >
+            <Button.Background>
+                <ImageBrush ImageSource="/רקע אדום כהה.png"/>
+            </Button.Background>
+        </Button>
+        <Button x:Name="cancelAdding" Content="cancel adding" Margin="319,387,346,3" FontSize="16" FontWeight="Bold" Foreground="#FFF4F1F1" >
+            <Button.Background>
+                <ImageBrush ImageSource="/רקע אדום כהה.png"/>
+            </Button.Background>
+        </Button>
+        <Button x:Name="deleteParcel" Content="delete parcel" Foreground="#FFFCF6F6" FontSize="15" FontWeight="Bold" Margin="375,106,263,273" >
+            <Button.Background>
+                <ImageBrush ImageSource="/רקע אדום כהה.png"/>
+            </Button.Background>
+        </Button>
+        <Button Name="droneProvideParcel" Content="drone provide parcel" Visibility="Collapsed"  FontSize="14" FontFamily="Trebuchet MS" Margin="123,110,493,280" >
+            <Button.Background>
+                <ImageBrush/>
+            </Button.Background>
+        </Button>
+        <Button Name="senderOfParcel" Content="customer send the parcel" Visibility="Collapsed"  FontSize="14" FontFamily="Trebuchet MS" Margin="123,168,493,222" >
+            <Button.Background>
+                <ImageBrush/>
+            </Button.Background>
+        </Button>
+        <Button Name="targetOfParcel" Content="customer get the parcel" Visibility="Collapsed"  FontSize="14" FontFamily="Trebuchet MS" Margin="123,226,493,164" >
+            <Button.Background>
+                <ImageBrush/>
+            </Button.Background>
+        </Button>
     </Grid>
 </Window>

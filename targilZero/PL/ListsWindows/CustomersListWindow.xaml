@@ -21,17 +21,26 @@
             <ColumnDefinition Width="40*" ></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Grid.Background>
-            <ImageBrush ImageSource="/רקע לחלונות.png"/>
+            <ImageBrush ImageSource="/SingleEntityWindows/רקע תכלת.png"/>
         </Grid.Background>
         <Button x:Name="closeWindow"  Grid.Row="0" Grid.Column="3" Click="closeWindow_Click" >
             <Button.Background>
                 <ImageBrush ImageSource="/כפתור לסגירת חלון.png"/>
             </Button.Background>
         </Button>
+        <Button Name="refreshWindow" Grid.Row="1" Grid.Column="3" >
+            <Button.Background>
+                <ImageBrush ImageSource="/ListsWindows/חץ מסובב.png"/>
+            </Button.Background>
+        </Button>
 
-        <Button x:Name="AddCustomerButton" Content="Add Customer" FontSize="15" Grid.Row="3" Grid.Column="2" Background="Bisque" Click="AddCustomerButton_MouseDoubleClick"></Button >
+        <Button x:Name="AddCustomerButton" Content="Add Customer" FontSize="16" Grid.Row="3" Grid.Column="2" Click="AddCustomerButton_MouseDoubleClick" Foreground="#FFF7F1F1" FontWeight="Bold">
+            <Button.Background>
+                <ImageBrush ImageSource="/רקע אדום כהה.png"/>
+            </Button.Background>
+        </Button >
         <TextBlock x:Name="Customers" Text="Customers " FontSize="25" Grid.Row="1" />
-        <ListBox x:Name="ListOfCustomers" ItemsSource="{Binding }"  Grid.Row="2" Background="Bisque"   />
+        <ListBox x:Name="ListOfCustomers" ItemsSource="{Binding}" Grid.Row="2" Background="Bisque"   />
         <ComboBox x:Name="FilterCustomersList" Grid.Row="2" Grid.Column="2" Margin="0,0,0,214" Text="Filter Customers"  >
             <ComboBoxItem Name="All" Content="all"></ComboBoxItem>
             <ComboBoxItem Name="GotParcels" Content="got parcels"></ComboBoxItem>

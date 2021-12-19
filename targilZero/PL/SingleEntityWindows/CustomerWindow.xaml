@@ -8,7 +8,7 @@
         Title="CustomerWindow" Height="450" Width="800">
     <Grid>
         <Grid.Background>
-            <ImageBrush ImageSource="/רקע לחלונות.png"/>
+            <ImageBrush ImageSource="/SingleEntityWindows/רקע תכלת.png"/>
         </Grid.Background>
         <Button x:Name="closeWindow" Margin="745,1,1,382" Click="closeWindow_Click" >
             <Button.Background>
@@ -21,21 +21,51 @@
         <TextBox x:Name="newPhoneNum" Margin="133,229,521,166"></TextBox>
         <TextBox x:Name="newLongitude" Margin="134,286,520,109"></TextBox>
         <TextBox x:Name="newLatitude" Margin="135,340,519,55"></TextBox>
-        <TextBox x:Name="updatedName" Visibility="Collapsed"    Margin="596,174,40,220"></TextBox>
-        <TextBox x:Name="updatedPhoneNum" Visibility="Collapsed"    Margin="595,233,40,160"></TextBox>
-        
-        <TextBlock x:Name="enterID" Text="enter ID:" Margin="31,114,669,279"></TextBlock>
-        <TextBlock x:Name="enterName" Text="enter name:" Margin="31,169,669,224"></TextBlock>
-        <TextBlock x:Name="enterPhone" Text="enter phone:" Margin="31,231,669,162"></TextBlock>
-        <TextBlock  x:Name="enterLongitude" Text="enter longitude:" Margin="31,287,669,106"></TextBlock>
-        <TextBlock x:Name="enterLatitude" Text="enter latitude:" Margin="31,340,669,53"></TextBlock>
+        <TextBox x:Name="updatedName" Visibility="Collapsed" Margin="596,174,40,220"></TextBox>
+        <TextBox x:Name="updatedPhoneNum" Visibility="Collapsed" Margin="595,233,40,160"></TextBox>
+
+        <TextBlock x:Name="enterID" Text="ID:" FontSize="15" Margin="31,114,669,279"></TextBlock>
+        <TextBlock x:Name="enterName" Text="Name:" FontSize="15" Margin="31,169,669,224"></TextBlock>
+        <TextBlock x:Name="enterPhone" Text="Phone:" FontSize="15" Margin="31,231,669,162"></TextBlock>
+        <TextBlock  x:Name="enterLongitude" Text="Longitude:" FontSize="15" Margin="31,287,669,106"></TextBlock>
+        <TextBlock x:Name="enterLatitude" Text="Latitude:" FontSize="15" Margin="31,340,669,53"></TextBlock>
         <TextBlock x:Name="CustomerDetails" FontSize="10" Margin="22,24,145,335" ></TextBlock>
         <TextBlock x:Name="enterUpdatedName"  Visibility="Collapsed"   Text="enter new name: " Margin="441,175,231,221"></TextBlock>
         <TextBlock x:Name="enterUpdatedPhoneNum" Visibility="Collapsed"    Text="enter new phone number: " Margin="435,235,203,158"></TextBlock>
-        
-        <Button x:Name="addTheCustomer" Content="Add customer" Margin="134,386,521,4" Background="#FF00FF46" />
-        <Button x:Name="cancelAdding" Content="cancel adding" Margin="319,387,346,3" Background="#FF00FF46" />
-        <Button x:Name="updateCustomer" Content="update customer details" FontSize="15" Background="Bisque" Margin="563,107,21,272"   ></Button>
-        <Button x:Name="submitButton" Content="update" Visibility="Collapsed"   FontSize="15" Background="Bisque" Margin="598,287,44,89" ></Button>
+
+        <Button x:Name="addTheCustomer" Content="add customer" Margin="134,386,521,4" FontWeight="Bold" FontSize="16" Foreground="#FFF4EFEF" >
+            <Button.Background>
+                <ImageBrush ImageSource="/רקע אדום כהה.png"/>
+            </Button.Background>
+        </Button>
+        <Button x:Name="cancelAdding" Content="cancel adding" Margin="319,387,346,3" FontSize="16" FontWeight="Bold" Foreground="#FFECE0E0" >
+            <Button.Background>
+                <ImageBrush ImageSource="/רקע אדום כהה.png"/>
+            </Button.Background>
+        </Button>
+        <Button x:Name="updateCustomer" Content="update customer details" FontSize="18" Margin="563,107,21,272" FontWeight="Bold" Foreground="#FFF6EFEF"   >
+            <Button.Background>
+                <ImageBrush ImageSource="/רקע אדום כהה.png"/>
+            </Button.Background>
+        </Button>
+        <Button x:Name="submitButton" Content="update"  Visibility="Collapsed" FontSize="18" Margin="598,287,44,89" Foreground="#FFF4EDED" FontWeight="Bold" >
+            <Button.Background>
+                <ImageBrush ImageSource="/רקע אדום כהה.png"/>
+            </Button.Background>
+        </Button>
+
+        <Button x:Name="deleteCustomer" Content="delete customer" Foreground="#FFFCF6F6" FontSize="15" FontWeight="Bold" Margin="375,106,263,273"  >
+            <Button.Background>
+                <ImageBrush ImageSource="/רקע אדום כהה.png"/>
+            </Button.Background>
+        </Button>
+
+        <TextBlock x:Name="chooseParcel" Text="choose parcel" Visibility="Collapsed" FontSize="14" Width="160" Height="50" Margin="34,96,606,288"></TextBlock>
+        <ListBox x:Name="ListOfParcels" Visibility="Collapsed" ItemsSource="{Binding }" Margin="34,137,588,82"  >
+            <ListBox.Background>
+                <ImageBrush/>
+            </ListBox.Background>
+        </ListBox>
+
     </Grid>
 </Window>

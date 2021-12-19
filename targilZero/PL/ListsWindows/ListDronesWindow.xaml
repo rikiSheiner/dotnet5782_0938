@@ -7,9 +7,9 @@
         mc:Ignorable="d"
         Title="ListDronesWindow" Height="450" Width="800" >
     <Grid >
-        
+
         <Grid.Background>
-            <ImageBrush ImageSource="/רקע לחלונות.png"/>
+            <ImageBrush ImageSource="/SingleEntityWindows/רקע תכלת.png"/>
         </Grid.Background>
         <Grid.RowDefinitions>
             <RowDefinition Height="50*"/>
@@ -29,9 +29,19 @@
                 <ImageBrush ImageSource="/כפתור לסגירת חלון.png"/>
             </Button.Background>
         </Button>
-        <Button x:Name="AddDroneButton" Content="Add Drone" Grid.Row="3" Grid.Column="2" FontSize="15" Background="Bisque" Click="AddDroneButton_MouseDoubleClick"></Button >
+        <Button x:Name="AddDroneButton" Content="Add Drone" Grid.Row="3" Grid.Column="2" FontSize="16" Click="AddDroneButton_MouseDoubleClick" Foreground="#FFFFF8F8" FontWeight="Bold">
+            <Button.Background>
+                <ImageBrush ImageSource="/רקע אדום כהה.png"/>
+            </Button.Background>
+        </Button >
+        <Button Name="refreshWindow" Grid.Row="1" Grid.Column="3">
+            <Button.Background>
+                <ImageBrush ImageSource="/ListsWindows/חץ מסובב.png"/>
+            </Button.Background>
+        </Button>
+        
         <TextBlock x:Name="Drones" Text="Drones " FontSize="25" Grid.Row="1" />
-        <ListBox x:Name="ListOfDrones" Grid.Row="2" Background="Bisque" ItemsSource="{Binding  }" SelectionChanged="ListOfDrones_SelectionChanged" ></ListBox>
+        <ListBox x:Name="ListOfDrones" Grid.Row="2" Background="Bisque" ItemsSource="{Binding }" SelectionChanged="ListOfDrones_SelectionChanged" ></ListBox>
         <ComboBox x:Name="FilterDronesList" Grid.Row="2" Grid.Column="2" Margin="0,0,0,214" Text="Filter Drones" SelectionChanged="FilterDronesList_SelectionChanged" >
             <ComboBoxItem x:Name="All" Content="All" ></ComboBoxItem>
             <ComboBoxItem x:Name="DroneStatusAvailable" Content="Status = Available"></ComboBoxItem>

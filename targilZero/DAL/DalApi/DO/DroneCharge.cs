@@ -6,13 +6,31 @@ using System.Threading.Tasks;
 
 namespace DAL.DalApi.DO
 {
-    public struct DroneCharge //מבנה לייצוג הטענת רחפן
+    /// <summary>
+    /// struct for representing drone in charge
+    /// </summary>
+    public struct DroneCharge 
     {
+        /// <summary>
+        /// The identity number of the drone in charge
+        /// </summary>
         public int droneID { get; set; }
+        /// <summary>
+        /// The identity number of the station where the drone is being charged
+        /// </summary>
         public int stationID { get; set; }
-        public bool activeCharge { get; set; }//מייצג האם הישות בטעינה או לא
-        public DateTime start { get; set; } //זמן התחלת הטעינה
-        public DateTime? end { get; set; } //זמן סיום הטעינה
+        /// <summary>
+        /// The status of the charging - is the charging of the drone is active or not
+        /// </summary>
+        public bool activeCharge { get; set; }
+        /// <summary>
+        /// The start time of the charging
+        /// </summary>
+        public DateTime start { get; set; }
+        /// <summary>
+        /// The end time of the charging
+        /// </summary>
+        public DateTime? end { get; set; } 
 
         //parameters costructor of drone in charge
         public DroneCharge(int did, int sid, bool active,DateTime s)

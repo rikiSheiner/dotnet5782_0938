@@ -18,17 +18,36 @@
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions >
             <ColumnDefinition Width="100*"></ColumnDefinition>
-            <ColumnDefinition Width="100*"></ColumnDefinition>
+            <ColumnDefinition Width="160*"></ColumnDefinition>
+            <ColumnDefinition Width="50*"></ColumnDefinition>
             <ColumnDefinition Width="50"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Grid.Background>
-            <ImageBrush ImageSource="/רקע לחלונות.png"/>
+            <ImageBrush ImageSource="/רקע תכלת ואדום.png"/>
         </Grid.Background>
-        <Button x:Name="GoToListDronesWindow" Content="drones list " Background="Bisque"  Grid.Row="2" FontSize="20" Click="GoToListDronesWindow_MouseDoubleClick"  ></Button>
-        <Button x:Name="GoToListCustomersWindow" Content="customers list" Background="Bisque"  Grid.Row="3" FontSize="20" Click="GoToListCustomersWindow_MouseDoubleClick" />
-        <Button x:Name="GoToListStationsWindow" Content="stations list" Background="Bisque" Grid.Row="4" FontSize="20" Click="GoToListStationsWindow_MouseDoubleClick"   ></Button>
-        <Button x:Name="GoToListParcelsWindow" Content="parcels list" Background="Bisque" Grid.Row="5" FontSize="20" Click="GoToListParcelsWindow_MouseDoubleClick" ></Button>
-        <Button x:Name="closeWindow"  Grid.Row="0" Grid.Column="2" Click="closeWindow_Click">
+        <Button x:Name="GoToListDronesWindow" Content="drones list " Grid.Row="2" Grid.Column="1" FontSize="24" Click="GoToListDronesWindow_MouseDoubleClick" Foreground="#FFF7FCFA" FontWeight="Bold"  >
+            <Button.Background>
+                <ImageBrush ImageSource="/רקע אדום כהה.png"/>
+            </Button.Background>
+
+        </Button>
+        <Button x:Name="signOut" Content="sign out" FontSize=" 15" Grid.Column="1" Background="{x:Null}" Grid.ColumnSpan="2" Margin="387,0,0,0" />
+        <Button x:Name="GoToListCustomersWindow" Content="customers list"  Grid.Row="3" Grid.Column="1" FontSize="24" Click="GoToListCustomersWindow_MouseDoubleClick" Foreground="#FFF3EDED" FontWeight="Bold" >
+            <Button.Background>
+                <ImageBrush ImageSource="/רקע אדום כהה.png"/>
+            </Button.Background>
+        </Button>
+        <Button x:Name="GoToListStationsWindow" Content="stations list" Grid.Row="4" Grid.Column="1" FontSize="24" Click="GoToListStationsWindow_MouseDoubleClick" Foreground="#FFFCF7F7" FontWeight="Bold"   >
+            <Button.Background>
+                <ImageBrush ImageSource="/רקע אדום כהה.png"/>
+            </Button.Background>
+        </Button>
+        <Button x:Name="GoToListParcelsWindow" Content="parcels list" Grid.Row="5" Grid.Column="1" FontSize="24" Click="GoToListParcelsWindow_MouseDoubleClick" Foreground="#FFF6F3F3" FontWeight="Bold" >
+            <Button.Background>
+                <ImageBrush ImageSource="/רקע אדום כהה.png"/>
+            </Button.Background>
+        </Button>
+        <Button x:Name="closeWindow"  Grid.Row="0" Grid.Column="3" Click="closeWindow_Click">
             <Button.Background>
                 <ImageBrush ImageSource="/כפתור לסגירת חלון.png"/>
             </Button.Background>

@@ -7,62 +7,54 @@ using DAL.DalApi;
 
 namespace DAL.DalApi.DO
 {
-    public struct Parcel //מבנה לייצוג חבילה
+    /// <summary>
+    /// struct for representing a parcel
+    /// </summary>
+    public struct Parcel 
     {
-        public int ID
-        {
-            get;
-            set;
-        }
-        public int senderID 
-        {
-            get; 
-            set;
-        }
-        public int targetID
-        {
-            get; 
-            set;
-        }
-        public Enums.WeightCategories weight
-        {
-            get; 
-            set;
-        }
-        public Enums.Priorities priority
-        {
-            get; 
-            set;
-        }
-        public DateTime? requested
-        {
-            get;
-            set;
-        }
-        public int droneID
-        {
-            get;
-            set;
-        }
-
-        public DateTime? scheduled
-        {
-            get; 
-            set;
-        }
-        public DateTime? pickedUp
-        {
-            get; 
-            set;
-        }
-        public DateTime? delivered
-        {
-            get;
-            set;
-        }
+        /// <summary>
+        /// The identity number of the parcel to delivery
+        /// </summary>
+        public int ID { get; set; }
+        /// <summary>
+        /// The identity number of the sender of the parcel
+        /// </summary>
+        public int senderID { get; set; }
+        /// <summary>
+        /// The identity number of the accepter of the parcel
+        /// </summary>
+        public int targetID { get; set; }
+        /// <summary>
+        /// The weight category of the parcel: if it is light, intermediate or heavy
+        /// </summary>
+        public Enums.WeightCategories weight { get; set; }
+        /// <summary>
+        /// The priority of the delivery of the parcel: if it is normal, quick or emergency case
+        /// </summary>
+        public Enums.Priorities priority { get; set; }
+        /// <summary>
+        /// The time of creation of a parcel for delivery
+        /// </summary>
+        public DateTime? requested { get; set; }
+        /// <summary>
+        /// The identity number of the drone that picked up the parcel
+        /// </summary>
+        public int droneID { get; set; }
+        /// <summary>
+        /// The time of assignment the package to the drone
+        /// </summary>
+        public DateTime? scheduled { get; set; }
+        /// <summary>
+        /// The package collection time from the sender
+        /// </summary>
+        public DateTime? pickedUp { get; set; }
+        /// <summary>
+        /// The time of arrival of the package to the recipient
+        /// </summary>
+        public DateTime? delivered { get; set; }
 
         //parameters constructor of parcel
-        public Parcel(int id, int sid, int tid, Enums.WeightCategories w, Enums.Priorities p, int did) 
+        public Parcel(int id, int sid, int tid, Enums.WeightCategories w, Enums.Priorities p) 
         {
             ID = id;
             senderID = sid;
@@ -70,7 +62,7 @@ namespace DAL.DalApi.DO
             weight = w;
             priority = p;
             requested = DateTime.Now ;  //זמן יצירת החבילה 
-            droneID = did;
+            droneID = -1;
             scheduled = null;
             pickedUp = null;
             delivered = null; 
@@ -79,10 +71,12 @@ namespace DAL.DalApi.DO
         //printing details of parcel
         public override string ToString()
         {
-            return "Parcel ID: " + ID + "\nsender ID: " + senderID + "\ntarget ID: " + targetID
-                + "\nweight: " + weight + "\npriority: " + priority + "\nrequested: " + requested
-                + "\ndrone ID: " + droneID + "\nscheduled: " + scheduled + "\npicked up:" +
-                pickedUp + "\ndelivered: " + delivered + '\n';
+            string str=  "Parcel ID: " + ID + "\nsender ID: " + senderID + "\ntarget ID: " + targetID
+                + "\nweight: " + weight + "\npriority: " + priority + "\nrequested: " + requested+
+                 "\nscheduled: " + scheduled + "\npicked up:" + pickedUp + "\ndelivered: " + delivered + '\n';
+            if (droneID >-1)
+                str += "\ndrone ID: " + droneID;
+            return str;
         }
     }
 

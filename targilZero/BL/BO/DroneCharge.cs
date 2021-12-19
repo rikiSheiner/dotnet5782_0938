@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BL.BO
 {
-    public struct DroneCharge //מחלקה לייצוג הטענת רחפן
+    public struct DroneCharge 
     {
         /// <summary>
         /// The identity number of the drone in chraging 

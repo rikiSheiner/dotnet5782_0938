@@ -56,10 +56,13 @@ namespace BL.BO
         /// string
         public override string ToString()
         {
-            return "Parcel ID: " + ID + "\nsender ID: " + senderID + "\ntarget ID: " + targetID
+            string str= "Parcel ID: " + ID + "\nsender ID: " + senderID + "\ntarget ID: " + targetID
                 + "\nweight: " + weight + "\npriority: " + priority + "\nrequested: " + requested
-                + "\ndrone ID: " + droneID + "\nscheduled: " + scheduled + "\npicked up:" +
+                + "\nscheduled: " + scheduled + "\npicked up:" +
                 pickedUp + "\ndelivered: " + delivered + '\n';
+            if (droneID >-1)
+                str += "\ndrone ID: " + droneID;
+            return str;
         }
     }
 
@@ -77,8 +80,10 @@ namespace BL.BO
         {
             string str = "Parcel: ID=" + ID + " name of sender=" + nameOfSender + " name of target=" + nameOfTarget +
                 "\nweight=" + weight + " priority=" + priority + " parcel status=" + parcelStatus;
+
             if (parcelStatus == Enums.ParcelStatuses.collected)
-                str += ", ID of drone sender="+ droneSender.ID; 
+                    str += ", ID of drone sender=" + droneSender.ID;
+
             str += "\n";
             return str;
         }

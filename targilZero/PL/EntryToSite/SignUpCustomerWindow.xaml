@@ -1,0 +1,48 @@
+﻿<Window x:Class="PL.SignUpCustomerWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PL"
+        mc:Ignorable="d"
+        Title="SignUpCustomerWindow" Height="450" Width="800">
+    <Grid>
+        <Grid.Background>
+            <ImageBrush ImageSource="/רקע תכלת ואדום.png"/>
+        </Grid.Background>
+        <Grid.RowDefinitions >
+            <RowDefinition Height="60*"></RowDefinition>
+            <RowDefinition Height="40*"></RowDefinition>
+            <RowDefinition Height="40*"></RowDefinition>
+            <RowDefinition Height="40*"></RowDefinition>
+            <RowDefinition Height="40*"></RowDefinition>
+            <RowDefinition Height="40*"></RowDefinition>
+            <RowDefinition Height="60*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions >
+            <ColumnDefinition Width="80*"></ColumnDefinition>
+            <ColumnDefinition Width="60*"></ColumnDefinition>
+            <ColumnDefinition Width="60*"></ColumnDefinition>
+            <ColumnDefinition Width="100*"></ColumnDefinition>
+            <ColumnDefinition Width="30*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
+        <TextBlock x:Name="enterID" Text="ID:" FontSize="20" Grid.Row="1" Grid.Column="1"></TextBlock>
+        <TextBlock x:Name="enterName" Text="Name:" FontSize="20" Grid.Row="2" Grid.Column="1"></TextBlock>
+        <TextBlock x:Name="enterPhone" Text="Phone:" FontSize="20" Grid.Row="3" Grid.Column="1"></TextBlock>
+        <TextBlock  x:Name="enterLongitude" Text="Longitude:" FontSize="20" Grid.Row="4" Grid.Column="1"></TextBlock>
+        <TextBlock x:Name="enterLatitude" Text="Latitude:" FontSize="20" Grid.Row="5" Grid.Column="1"></TextBlock>
+
+        <TextBox x:Name="newID" Grid.Row="1" Grid.Column="2" FontSize="20"></TextBox>
+        <TextBox x:Name="newName"  Grid.Row="2" Grid.Column="2" FontSize="20"></TextBox>
+        <TextBox x:Name="newPhoneNum"  Grid.Row="3" Grid.Column="2" FontSize="20"></TextBox>
+        <TextBox x:Name="newLongitude"  Grid.Row="4" Grid.Column="2" FontSize="20"></TextBox>
+        <TextBox x:Name="newLatitude"  Grid.Row="5" Grid.Column="2" FontSize="20"></TextBox>
+
+        <Button x:Name="addTheCustomer" Content="sign up" Grid.Row="6" Grid.Column="1" FontWeight="Bold" FontSize="20" Foreground="#FFF4EFEF" Grid.ColumnSpan="3" Margin="145,18,242,11"  >
+            <Button.Background>
+                <ImageBrush ImageSource="/רקע אדום כהה.png"/>
+            </Button.Background>
+        </Button>
+    </Grid>
+</Window>

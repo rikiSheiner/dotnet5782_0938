@@ -55,24 +55,19 @@ namespace DAL.DalObject
                 drones.Add(new Drone(i + 1, "m" + (i + 1), (Enums.WeightCategories)(r.Next(0, 3))));
             }
 
-            //הוספת 10 לקוחות
+            // הוספת 10 לקוחות ו-10 חבילות
             for (int i = 0; i < 10; i++)
             {
-                customers.Add(new Customer(id, ((Enums.NamesOfPeople)(i)).ToString(), (r.Next(0520000000, 0589999999)).ToString(), r.Next(1, 360), r.Next(1, 360)));
+                customers.Add(new Customer(id, ((Enums.NamesOfPeople)(i)).ToString(), r.Next(0520000000, 0589999999).ToString(), r.Next(1, 360), r.Next(1, 360)));
+                
+                parcels.Add(new Parcel(Config.idNumberParcels, id, id+1-i, (Enums.WeightCategories)(i % 3),(Enums.Priorities)((i + 1) % 3)));
+                Config.CountParcelsPriority[(i + 1) % 3]++;
+                Config.idNumberParcels++;
                 id++;
             }
 
-            //הוספת 10 חבילות
-            for (int i = 0; i < 10; i++)
-            {
-                parcels.Add(new Parcel(Config.idNumberParcels, r.Next(1, 5), r.Next(6, 10), (Enums.WeightCategories)(i % 3),
-                    (Enums.Priorities)((i + 1) % 3), i));
-                Config.CountParcelsPriority[(i + 1) % 3]++;
-                Config.idNumberParcels++;
-            }
-
             //הוספת משתמש אחד למערכת שהוא המנהל
-            users.Add(new User("rsheiner", "riki3240", true));
+            users.Add(new User("riki", "3240", true));
 
         }
         #endregion
