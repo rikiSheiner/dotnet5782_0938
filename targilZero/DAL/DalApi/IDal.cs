@@ -63,6 +63,8 @@ namespace DAL
             abstract public void DeliveryParcel(int parcelID, int customerId);
             abstract public void CreateDroneCharge(int stationId, int droneId);
             abstract public void EndDroneCharge(int dID, int hoursOfCharging);
+            public abstract void UpdateSendingOfParcel(int parcelID);
+            public abstract void UpdateRecievingOfParcel(int parcelID);
             #endregion
 
             #region get fields of class config

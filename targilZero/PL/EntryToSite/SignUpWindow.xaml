@@ -31,8 +31,10 @@
             </Button.Background>
         </Button>
         <TextBlock x:Name="enterUserName" Text="user name "  FontSize="25" FontWeight="SemiBold" Grid.Row="2" Grid.Column="1" ></TextBlock>
+        <TextBlock x:Name="enterUserType" Text="user type " Visibility="Collapsed"  FontSize="25" FontWeight="SemiBold" Grid.Row="3" Grid.Column="1" ></TextBlock>
         <TextBlock  x:Name="enterUserPassword" Text="password " FontSize="25" FontWeight="SemiBold" Grid.Row="4" Grid.Column="1" ></TextBlock>
         <TextBox x:Name="newUserName" FontSize="20" Grid.Row=" 2" Grid.Column="2" ></TextBox>
+        <ComboBox x:Name="typesOfUsers" Visibility="Collapsed" Grid.Row="3" Grid.Column="2"></ComboBox>
         <TextBox x:Name="newUserPassword"  FontSize="20" Grid.Row=" 4" Grid.Column="2" ></TextBox>
         <Button x:Name="ButtonSignUp" Content="sign up" FontSize="25" Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="3" Margin="145,27,242,38" FontWeight="Bold" Foreground="#FFF7F5F5" >
             <Button.Background>

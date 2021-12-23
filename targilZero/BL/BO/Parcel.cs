@@ -48,7 +48,14 @@ namespace BL.BO
         /// The time of arrival of the package to the recipient
         /// </summary>
         public DateTime? delivered { get; set; }
-       
+        /// <summary>
+        /// true if the customer approves that the parcel has been sent , false else
+        /// </summary>
+        public bool confirmedSending { get; set; }
+        /// <summary>
+        /// true if the customer approves that the parcel has been recieved , false else
+        /// </summary>
+        public bool confirmRecieving { get; set; }
 
         /// <summary>
         /// returns the details of the parcel
@@ -74,13 +81,21 @@ namespace BL.BO
         public Enums.WeightCategories weight { get; set; }
         public Enums.Priorities priority { get; set; }
         public Enums.ParcelStatuses parcelStatus { get; set; }
-
+        /// <summary>
+        /// true if the customer approves that the parcel has been sent , false else
+        /// </summary>
+        public bool confirmedSending { get; set; }
+        /// <summary>
+        /// true if the customer approves that the parcel has been recieved , false else
+        /// </summary>
+        public bool confirmRecieving { get; set; }
         public DAL.DalApi.DO.Drone droneSender { get; set; }
         public override string ToString()
         {
-            string str = "Parcel: ID=" + ID + " name of sender=" + nameOfSender + " name of target=" + nameOfTarget +
-                "\nweight=" + weight + " priority=" + priority + " parcel status=" + parcelStatus;
-
+            string str = "Parcel: ID=" + ID + " name of sender=" + nameOfSender;
+            if (parcelStatus != Enums.ParcelStatuses.supplied)
+                str += " ,name of target=" + nameOfTarget;
+            str+= "\nweight=" + weight + " priority=" + priority + " parcel status=" + parcelStatus;
             if (parcelStatus == Enums.ParcelStatuses.collected)
                     str += ", ID of drone sender=" + droneSender.ID;
 

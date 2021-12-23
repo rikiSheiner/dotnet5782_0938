@@ -27,7 +27,7 @@ namespace PL
         {
             mainData = data;
             InitializeComponent();
-            ListOfParcels.ItemsSource = mainData.GetListParcels();
+            this.DataContext = mainData.GetListParcels();
             this.closeWindow.Click += closeWindow_Click;
             AddParcelButton.MouseDoubleClick += AddParcelButton_MouseDoubleClick;
             ListOfParcels.SelectionChanged += ListOfParcels_SelectionChanged;
@@ -54,37 +54,37 @@ namespace PL
             switch (FilterParcelsList.SelectedIndex)
             {
                 case 0:
-                    ListOfParcels .ItemsSource = mainData.GetListParcels();
+                    this.DataContext = mainData.GetListParcels();
                     break;
                 case 1:
-                    ListOfParcels.ItemsSource = mainData.GetListParcelsWithCondition(x => x.priority == Enums.Priorities.normal) ;
+                    this.DataContext = mainData.GetListParcelsWithCondition(x => x.priority == Enums.Priorities.normal) ;
                     break;
                 case 2:
-                    ListOfParcels.ItemsSource = mainData.GetListParcelsWithCondition(x => x.priority == Enums.Priorities.quick);
+                    this.DataContext = mainData.GetListParcelsWithCondition(x => x.priority == Enums.Priorities.quick);
                     break;
                 case 3:
-                    ListOfParcels.ItemsSource = mainData.GetListParcelsWithCondition(x => x.priority == Enums.Priorities.emergency);
+                    this.DataContext = mainData.GetListParcelsWithCondition(x => x.priority == Enums.Priorities.emergency);
                     break;
                 case 4:
-                    ListOfParcels.ItemsSource = mainData.GetListParcelsWithCondition(x => x.weight == Enums.WeightCategories .light );
+                    this.DataContext = mainData.GetListParcelsWithCondition(x => x.weight == Enums.WeightCategories .light );
                     break;
                 case 5:
-                    ListOfParcels.ItemsSource = mainData.GetListParcelsWithCondition(x => x.weight == Enums.WeightCategories.intermediate );
+                    this.DataContext = mainData.GetListParcelsWithCondition(x => x.weight == Enums.WeightCategories.intermediate );
                     break;
                 case 6:
-                    ListOfParcels.ItemsSource = mainData.GetListParcelsWithCondition(x => x.weight == Enums.WeightCategories.heavy);
+                    this.DataContext = mainData.GetListParcelsWithCondition(x => x.weight == Enums.WeightCategories.heavy);
                     break;
                 case 7:
-                    ListOfParcels.ItemsSource = mainData.GetListParcelsWithCondition(x => x.parcelStatus == Enums.ParcelStatuses .defined );
+                    this.DataContext = mainData.GetListParcelsWithCondition(x => x.parcelStatus == Enums.ParcelStatuses .defined );
                     break;
                 case 8:
-                    ListOfParcels.ItemsSource = mainData.GetListParcelsWithCondition(x => x.parcelStatus == Enums.ParcelStatuses.assigned);
+                    this.DataContext = mainData.GetListParcelsWithCondition(x => x.parcelStatus == Enums.ParcelStatuses.assigned);
                     break;
                 case 9:
-                    ListOfParcels.ItemsSource = mainData.GetListParcelsWithCondition(x => x.parcelStatus == Enums.ParcelStatuses.collected);
+                    this.DataContext = mainData.GetListParcelsWithCondition(x => x.parcelStatus == Enums.ParcelStatuses.collected);
                     break;
                 case 10:
-                    ListOfParcels.ItemsSource = mainData.GetListParcelsWithCondition(x => x.parcelStatus == Enums.ParcelStatuses.supplied );
+                    this.DataContext = mainData.GetListParcelsWithCondition(x => x.parcelStatus == Enums.ParcelStatuses.supplied );
                     break;
                 case 11:// specific sender of parcel
                     

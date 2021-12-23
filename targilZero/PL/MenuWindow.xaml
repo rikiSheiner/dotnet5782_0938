@@ -29,7 +29,6 @@
             <Button.Background>
                 <ImageBrush ImageSource="/רקע אדום כהה.png"/>
             </Button.Background>
-
         </Button>
         <Button x:Name="signOut" Content="sign out" FontSize=" 15" Grid.Column="1" Background="{x:Null}" Grid.ColumnSpan="2" Margin="387,0,0,0" />
         <Button x:Name="GoToListCustomersWindow" Content="customers list"  Grid.Row="3" Grid.Column="1" FontSize="24" Click="GoToListCustomersWindow_MouseDoubleClick" Foreground="#FFF3EDED" FontWeight="Bold" >
@@ -50,6 +49,12 @@
         <Button x:Name="closeWindow"  Grid.Row="0" Grid.Column="3" Click="closeWindow_Click">
             <Button.Background>
                 <ImageBrush ImageSource="/כפתור לסגירת חלון.png"/>
+            </Button.Background>
+        </Button>
+        <TextBlock x:Name="HelloUser" Text="hello user" FontSize=" 25" Grid.Column="1"></TextBlock >
+        <Button x:Name="AddUser" Content=" add user " Grid.Row="6" Grid.Column="1" Visibility="Collapsed" FontSize="24" Foreground="#FFF6F3F3" FontWeight="Bold" Click="AddUser_MouseDoubleClick" >
+            <Button.Background>
+                <ImageBrush ImageSource="/רקע אדום כהה.png"/>
             </Button.Background>
         </Button>
     </Grid>

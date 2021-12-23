@@ -27,7 +27,7 @@ namespace PL
         {
             mainData = data;
             InitializeComponent();
-            ListOfCustomers.ItemsSource = mainData.GetListCustomers();
+            this.DataContext = mainData.GetListCustomers();
 
             closeWindow.Click += closeWindow_Click;
             AddCustomerButton.MouseDoubleClick += AddCustomerButton_MouseDoubleClick;
@@ -49,19 +49,19 @@ namespace PL
             switch (FilterCustomersList.SelectedIndex)
             {
                 case 0:
-                    ListOfCustomers.ItemsSource = mainData.GetListCustomers();
+                    this.DataContext = mainData.GetListCustomers();
                     break;
                 case 1:
-                    ListOfCustomers.ItemsSource= mainData.GetListCustomersWithCondition(x => x.numParcelsRecieved > 0); 
+                    this.DataContext = mainData.GetListCustomersWithCondition(x => x.numParcelsRecieved > 0); 
                     break;
                 case 2:
-                    ListOfCustomers.ItemsSource= mainData.GetListCustomersWithCondition(x => x.numParcelsRecieved < 1);
+                    this.DataContext = mainData.GetListCustomersWithCondition(x => x.numParcelsRecieved < 1);
                     break;
                 case 3:
                     ListOfCustomers .ItemsSource = mainData.GetListCustomersWithCondition(x => x.numParcelsSentAndDelivered + x.numParcelsSentNotDelivered > 0);
                     break;
                 case 4:
-                    ListOfCustomers .ItemsSource = mainData.GetListCustomersWithCondition(x => x.numParcelsSentAndDelivered + x.numParcelsSentNotDelivered < 1);
+                    this.DataContext = mainData.GetListCustomersWithCondition(x => x.numParcelsSentAndDelivered + x.numParcelsSentNotDelivered < 1);
                     break;
                 default:
                     break;

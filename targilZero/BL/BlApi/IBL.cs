@@ -28,6 +28,8 @@ namespace BL.BlApi
         #endregion
 
         #region Updating
+        public abstract void UpdateSendingOfParcel(int parcelID);
+        public abstract void UpdateRecievingOfParcel(int parcelID);
         public abstract void UpdateDrone(int id, string name);
         public abstract void UpdateStation(int id, int name, int chargeSlots);
         public abstract void UpdateCustomer(int id, string name = "", string phoneNum = "");

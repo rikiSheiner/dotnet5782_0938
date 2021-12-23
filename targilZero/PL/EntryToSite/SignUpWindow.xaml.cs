@@ -21,14 +21,32 @@ namespace PL
     /// </summary>
     public partial class SignUpWindow : Window
     {
-        IBL mainData;
+        private IBL mainData;
+        private bool isWorker;
         public SignUpWindow(IBL data)
         {
             InitializeComponent();
+            isWorker = false;
             mainData = data;
             closeWindow.Click += closeWindow_Click;
             ButtonSignUp.MouseDoubleClick += ButtonSignUp_MouseDoubleClick;
             
+        }
+        public SignUpWindow(IBL data, bool chooseUserType)
+        {
+            InitializeComponent();
+            isWorker = chooseUserType;
+            mainData = data;
+            closeWindow.Click += closeWindow_Click;
+            ButtonSignUp.MouseDoubleClick += ButtonSignUp_MouseDoubleClick;
+
+            if(chooseUserType )
+            {
+                enterUserType.Visibility = Visibility.Visible;
+                typesOfUsers.Visibility = Visibility.Visible;
+                typesOfUsers.Items.Add("wroker");
+                typesOfUsers.Items.Add("normal");
+            }    
         }
         private void closeWindow_Click(object sender, RoutedEventArgs e)
         {
@@ -39,10 +57,28 @@ namespace PL
         {
             try
             {
-                mainData.AddUser(newUserName.Text.ToString (), newUserPassword.Text.ToString (),false);
-                MessageBox.Show("Congratulation! welcome to our site " + newUserName .Text);
-                DAL.DalApi.DO.User currentUser = mainData.FindAndGetUser(newUserName.Text, newUserPassword.Text);
-                new MenuWindow(mainData,currentUser).Show();
+                if(!isWorker )
+                {
+                    mainData.AddUser(newUserName.Text.ToString(), newUserPassword.Text.ToString(), false);
+                    MessageBox.Show("Congratulation! welcome to our site " + newUserName.Text);
+                    DAL.DalApi.DO.User currentUser = mainData.FindAndGetUser(newUserName.Text, newUserPassword.Text);
+                    new MenuWindow(mainData, currentUser).Show();
+
+                }
+                else
+                {
+                    if(typesOfUsers .SelectedItem.ToString () == "worker")
+                    {
+                        mainData.AddUser(newUserName.Text.ToString(), newUserPassword.Text.ToString(), true);
+                        MessageBox.Show("The worker has been added successfully");
+                    }
+                    else
+                    {
+                        mainData.AddUser(newUserName.Text.ToString(), newUserPassword.Text.ToString(), false);
+                        MessageBox.Show("The user has been added successfully");
+                    }
+                        
+                }
                 Close();
             }
             catch (AddingProblemException ape)
@@ -60,6 +96,7 @@ namespace PL
 
         }
 
-        
+
+
     }
 }

@@ -27,7 +27,7 @@ namespace PL
         {
             InitializeComponent();
             this.mainData = data;
-            ListOfDrones.ItemsSource = mainData.GetListDrones();
+            this.DataContext = mainData.GetListDrones();
             this.FilterDronesList.SelectionChanged += FilterDronesList_SelectionChanged;
             this.closeWindow.Click += closeWindow_Click;
             AddDroneButton.MouseDoubleClick += AddDroneButton_MouseDoubleClick;
@@ -39,25 +39,25 @@ namespace PL
             switch (FilterDronesList.SelectedIndex)
             {
                 case 0:
-                    ListOfDrones .ItemsSource = mainData.GetListDrones();
+                    this.DataContext = mainData.GetListDrones();
                     break;
                 case 1:
-                    ListOfDrones.ItemsSource = mainData.GetListDronesWithCondition(x => x.droneStatus == Enums.DroneStatuses.available);
+                    this.DataContext = mainData.GetListDronesWithCondition(x => x.droneStatus == Enums.DroneStatuses.available);
                     break;
                 case 2:
-                    ListOfDrones.ItemsSource = mainData.GetListDronesWithCondition(x => x.droneStatus == Enums.DroneStatuses.maintenance);
+                    this.DataContext = mainData.GetListDronesWithCondition(x => x.droneStatus == Enums.DroneStatuses.maintenance);
                     break;
                 case 3:
-                    ListOfDrones.ItemsSource = mainData.GetListDronesWithCondition(x => x.droneStatus == Enums.DroneStatuses.delivery);
+                    this.DataContext = mainData.GetListDronesWithCondition(x => x.droneStatus == Enums.DroneStatuses.delivery);
                     break;
                 case 4:
-                    ListOfDrones.ItemsSource = mainData.GetListDronesWithCondition(x => x.maxWeight == Enums.WeightCategories.light );
+                    this.DataContext = mainData.GetListDronesWithCondition(x => x.maxWeight == Enums.WeightCategories.light );
                     break;
                 case 5:
-                    ListOfDrones.ItemsSource = mainData.GetListDronesWithCondition(x => x.maxWeight == Enums.WeightCategories.intermediate );
+                    this.DataContext = mainData.GetListDronesWithCondition(x => x.maxWeight == Enums.WeightCategories.intermediate );
                     break;
                 case 6:
-                    ListOfDrones.ItemsSource = mainData.GetListDronesWithCondition(x => x.maxWeight == Enums.WeightCategories.heavy );
+                    this.DataContext = mainData.GetListDronesWithCondition(x => x.maxWeight == Enums.WeightCategories.heavy );
                     break;
                 default:
                     break;

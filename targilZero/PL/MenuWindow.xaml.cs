@@ -34,7 +34,20 @@ namespace PL
             this.GoToListCustomersWindow.MouseDoubleClick  += GoToListCustomersWindow_MouseDoubleClick;
             this.closeWindow.Click += closeWindow_Click;
             signOut.MouseDoubleClick += signOut_MouseDoubleClick;
-           
+            AddUser.MouseDoubleClick += AddUser_MouseDoubleClick;
+            if (user.UserAccessManagement == true)
+                AddUser.Visibility = Visibility.Visible;
+
+            DateTime now = DateTime.Now;
+            if (now.Hour >= 4 && now.Hour <= 12)
+                HelloUser.Text = "Good morning " + currentUser.UserName + "!";
+            else if (now.Hour > 12 && now.Hour <= 17)
+                HelloUser.Text = "Good afternoon " + currentUser.UserName + "!";
+            else if (now.Hour > 17 && now.Hour <= 21)
+                HelloUser.Text = "Good evening " + currentUser.UserName + "!";
+            else
+                HelloUser.Text = "Good night " + currentUser.UserName + "!";
+
         }
 
 
@@ -75,6 +88,12 @@ namespace PL
         {
             new MainWindow().Show();
             Close();
+        }
+
+        private void AddUser_MouseDoubleClick(object sender, RoutedEventArgs e)
+        {
+            new SignUpWindow(mainData ,true).Show();
+
         }
     }
 }

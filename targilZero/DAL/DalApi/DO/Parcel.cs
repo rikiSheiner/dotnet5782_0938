@@ -52,6 +52,14 @@ namespace DAL.DalApi.DO
         /// The time of arrival of the package to the recipient
         /// </summary>
         public DateTime? delivered { get; set; }
+        /// <summary>
+        /// true if the customer approves that the parcel has been sent , false else
+        /// </summary>
+        public bool confirmedSending { get; set; }
+        /// <summary>
+        /// true if the customer approves that the parcel has been recieved , false else
+        /// </summary>
+        public bool confirmRecieving { get; set; }
 
         //parameters constructor of parcel
         public Parcel(int id, int sid, int tid, Enums.WeightCategories w, Enums.Priorities p) 
@@ -65,7 +73,9 @@ namespace DAL.DalApi.DO
             droneID = -1;
             scheduled = null;
             pickedUp = null;
-            delivered = null; 
+            delivered = null;
+            confirmedSending = false;
+            confirmRecieving = false;
         }
 
         //printing details of parcel

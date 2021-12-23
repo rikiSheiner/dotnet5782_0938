@@ -24,7 +24,6 @@
             <ColumnDefinition Width="50"></ColumnDefinition>
         </Grid.ColumnDefinitions>
 
-
         <TextBlock x:Name="HelloCustomer" Text="hello customer" FontSize=" 25" Grid.Column="0"></TextBlock >
         <Button x:Name="parcelsOfCustomer" Content="my parcels" Grid.Row="1" FontSize="20" Height="50" FontWeight="Bold" Foreground="#FFFCF7F7" Margin="3,2,103,27">
             <Button.Background>
@@ -59,5 +58,8 @@
                 <ImageBrush ImageSource="/רקע אדום כהה.png"/>
             </Button.Background>
         </Button>
+        <CheckBox Name="confirmSendingOrRecievingCheckBox" Content="do you confirm?" Visibility="Collapsed"  Grid.Row="3" Grid.Column="2" Margin="15,13,15,19"/>
+        
+    
     </Grid>
 </Window>

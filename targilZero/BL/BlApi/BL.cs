@@ -339,9 +339,24 @@ namespace BL.BlApi
         {
             return datafield.FindAndGetUser(name, password);
         }
-        #endregion 
+        #endregion
 
         #region Updating
+        public override void UpdateSendingOfParcel(int parcelID)
+        {
+            DAL.DalApi.DO.Parcel parcelSent = datafield.FindAndGetParcel(parcelID);
+            if (parcelSent.pickedUp == null)
+                throw new UpdateProblemException("Parcel have not been sent");
+            datafield.UpdateSendingOfParcel(parcelID);
+        }
+        public override void UpdateRecievingOfParcel(int parcelID)
+        {
+            DAL.DalApi.DO.Parcel parcelRecieved = datafield.FindAndGetParcel(parcelID);
+            if (parcelRecieved.delivered < DateTime.Now)
+                throw new UpdateProblemException("Parcel have not been recieved");
+            datafield.UpdateRecievingOfParcel(parcelID);
+        }
+
         public override void UpdateDrone(int id, string model) 
         {
             int indexDrone = datafield.FindDrone(id);
@@ -859,6 +874,8 @@ namespace BL.BlApi
             parcelToList.ID = p.ID;
             parcelToList.nameOfSender = datafield.FindAndGetCustomer(p.senderID).name;
             parcelToList.nameOfTarget = datafield.FindAndGetCustomer(p.targetID).name;
+            parcelToList.confirmedSending = p.confirmedSending;
+            parcelToList.confirmRecieving = p.confirmRecieving;
 
             if ( p.delivered != null && p.delivered < DateTime.Now)
                 parcelToList.parcelStatus = Enums.ParcelStatuses.supplied;

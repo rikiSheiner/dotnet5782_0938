@@ -63,6 +63,7 @@ namespace PL
             chooseParcel.Visibility = Visibility.Collapsed;
             ParcelsSentOrRecieved.Visibility = Visibility.Collapsed;
             chooseParcelToConfirm.Visibility = Visibility.Collapsed;
+            confirmSendingOrRecievingCheckBox.Visibility = Visibility.Collapsed;
 
             ListParcelsOfCustomer.ItemsSource = mainData.GetListParcelsWithCondition(parcel=>
             parcel.nameOfSender == currentCustomer .name || parcel .nameOfTarget == currentCustomer .name );
@@ -76,9 +77,10 @@ namespace PL
             chooseParcel.Visibility = Visibility.Visible;
             ParcelsSentOrRecieved.Visibility = Visibility.Collapsed;
             chooseParcelToConfirm.Visibility = Visibility.Collapsed ;
+            confirmSendingOrRecievingCheckBox.Visibility = Visibility.Collapsed;
 
             listOfParcelsToSend.ItemsSource = mainData.GetListParcelsWithCondition(parcel =>
-            parcel.parcelStatus == BL.BO.Enums.ParcelStatuses.assigned && parcel.nameOfSender == currentCustomer .name);
+            parcel.parcelStatus == Enums.ParcelStatuses.assigned && parcel.nameOfSender == currentCustomer .name);
         }
 
         private void listOfParcelsToSend_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -90,6 +92,8 @@ namespace PL
                 mainData.CollectParcel(selectedParcel.droneSender.ID);
                 mainData.ParcelDelivery(selectedParcel.droneSender.ID);
                 listOfParcelsToSend.Visibility = Visibility.Collapsed;
+
+                MessageBox.Show("The parcel has been sent successfully");
             }
             catch (BL.BO.UpdateProblemException upe)
             {
@@ -113,11 +117,13 @@ namespace PL
             ListParcelsOfCustomer.Visibility = Visibility.Collapsed;
             listOfParcelsToSend.Visibility = Visibility.Collapsed;
             chooseParcel.Visibility = Visibility.Collapsed;
+            confirmSendingOrRecievingCheckBox.Visibility = Visibility.Collapsed;
             ParcelsSentOrRecieved.Visibility = Visibility.Visible;
             chooseParcelToConfirm.Visibility = Visibility.Visible;
 
-            ParcelsSentOrRecieved.ItemsSource = mainData.GetListParcelsWithCondition(parcel => parcel.nameOfSender == currentCustomer.name && parcel.parcelStatus != BL.BO.Enums.ParcelStatuses.assigned);
-            
+            ParcelsSentOrRecieved .ItemsSource = mainData.GetListParcelsWithCondition(parcel => parcel.nameOfSender == currentCustomer.name
+            && (parcel.parcelStatus == Enums.ParcelStatuses.collected || parcel.parcelStatus == Enums.ParcelStatuses.supplied));
+           
         }
 
         private void confirmParcelRecievingButton_MouseDoubleClick(object sender, RoutedEventArgs e)
@@ -125,19 +131,53 @@ namespace PL
             ListParcelsOfCustomer.Visibility = Visibility.Collapsed;
             listOfParcelsToSend.Visibility = Visibility.Collapsed;
             chooseParcel.Visibility = Visibility.Collapsed;
+            confirmSendingOrRecievingCheckBox.Visibility = Visibility.Collapsed;
             ParcelsSentOrRecieved.Visibility = Visibility.Visible;
             chooseParcelToConfirm.Visibility = Visibility.Visible;
 
-            ParcelsSentOrRecieved.ItemsSource = mainData.GetListParcelsWithCondition(parcel => parcel.nameOfTarget == currentCustomer.name && parcel.parcelStatus == BL.BO.Enums.ParcelStatuses.supplied);
+            ParcelsSentOrRecieved.ItemsSource = mainData.GetListParcelsWithCondition(parcel => 
+            parcel.nameOfTarget == currentCustomer.name && parcel.parcelStatus == Enums.ParcelStatuses.supplied);
         }
 
         private void ParcelsSentOrRecieved_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            MessageBox.Show("do you confirm? ");
+            try
+            {
+                var selectedParcel = (ParcelToList)ParcelsSentOrRecieved.SelectedItem;
+                if(selectedParcel != null )
+                {
+                    if (selectedParcel.parcelStatus == Enums.ParcelStatuses.supplied && selectedParcel.nameOfTarget == currentCustomer .name)
+                    {
+                        confirmSendingOrRecievingCheckBox.Visibility = Visibility.Visible;
+                        confirmSendingOrRecievingCheckBox.Content = "Did the parcel\n has been collected? ";
+                        if (confirmSendingOrRecievingCheckBox.IsChecked == true)
+                            mainData.UpdateRecievingOfParcel(selectedParcel.ID);
+                    }
+                    else
+                    {
+                        confirmSendingOrRecievingCheckBox.Visibility = Visibility.Visible;
+                        confirmSendingOrRecievingCheckBox.Content = "Did the parcel\n has been supllied? ";
+                        if (confirmSendingOrRecievingCheckBox.IsChecked == true)
+                            mainData.UpdateSendingOfParcel(selectedParcel.ID);
+                    }
+                }
+                
+            }
+            catch (UpdateProblemException upe)
+            {
+                MessageBox.Show(upe.Message);
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("ERROR");
+            }
+
+
         }
 
         private void AddParcelButton_MouseDoubleClick(object sender, RoutedEventArgs e)
         {
+            confirmSendingOrRecievingCheckBox.Visibility = Visibility.Collapsed;
             new ParcelWindow(mainData, currentCustomer).Show ();
 
         }

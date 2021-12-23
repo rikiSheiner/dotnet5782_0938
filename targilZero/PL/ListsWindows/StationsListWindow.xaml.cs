@@ -28,7 +28,7 @@ namespace PL
             mainData = data;
             InitializeComponent();
             closeWindow.Click += closeWindow_Click;
-            ListOfStations .ItemsSource = mainData.GetListStations();
+            this.DataContext = mainData.GetListStations();
             AddStationButton.MouseDoubleClick += AddStationButton_MouseDoubleClick;
             ListOfStations.SelectionChanged += ListOfStations_SelectionChanged;
             FilterStationsList.SelectionChanged += FilterStationsList_SelectionChanged;
@@ -47,13 +47,13 @@ namespace PL
             switch (FilterStationsList.SelectedIndex)
             {
                 case 0:
-                    ListOfStations .ItemsSource = mainData.GetListStations();
+                    this.DataContext = mainData.GetListStations();
                     break;
                 case 1:
-                    ListOfStations .ItemsSource = mainData.GetListStationsWithCondition(x => x.availableChargeSlots>0);
+                    this.DataContext = mainData.GetListStationsWithCondition(x => x.availableChargeSlots>0);
                     break;
                 case 2:
-                    ListOfStations.ItemsSource = mainData.GetListStationsWithCondition(x => x.availableChargeSlots <1);
+                    this.DataContext = mainData.GetListStationsWithCondition(x => x.availableChargeSlots <1);
                     break;
                 default:
                     break;

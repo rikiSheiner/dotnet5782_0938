@@ -365,6 +365,26 @@ namespace DAL.DalObject
 
             DataSource.Config.countActive--;
         }
+
+        public override void UpdateSendingOfParcel(int parcelID)
+        {
+            int indexParcel = FindParcel(parcelID);
+            if (indexParcel < 0)
+                throw new ObjectNotFoundException("parcel not exist");
+            Parcel parcelSent = DataSource.parcels[indexParcel];
+            parcelSent.confirmedSending = true;
+            DataSource.parcels[indexParcel] = parcelSent;
+        }
+
+        public override void UpdateRecievingOfParcel(int parcelID)
+        {
+            int indexParcel = FindParcel(parcelID);
+            if (indexParcel < 0)
+                throw new ObjectNotFoundException("parcel not exist");
+            Parcel parcelSent = DataSource.parcels[indexParcel];
+            parcelSent.confirmRecieving = true;
+            DataSource.parcels[indexParcel] = parcelSent;
+        }
         #endregion
 
         #region get fields of class config
