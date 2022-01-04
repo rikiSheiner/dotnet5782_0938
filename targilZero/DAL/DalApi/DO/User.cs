@@ -9,7 +9,7 @@ namespace DAL.DalApi.DO
     /// <summary>
     /// struct for representing a user of the site
     /// </summary>
-    public class User
+    public struct User
     {
         /// <summary>
         /// the user name
@@ -29,9 +29,7 @@ namespace DAL.DalApi.DO
             UserPassword = password;
             UserAccessManagement = access;
         }
-        public User()
-        {
-        }
+        //public User() { }
         public override string ToString()
         {
             return "user name= " + UserName + " password= " + UserPassword;

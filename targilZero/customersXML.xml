@@ -1,0 +1,80 @@
+<?xml version="1.0"?>
+<ArrayOfCustomer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Customer>
+    <ID>111111111</ID>
+    <name>Chana </name>
+    <phone>0520000000 </phone>
+    <longitude>100</longitude>
+    <latitude>110</latitude>
+  </Customer>
+  <Customer>
+    <ID>111111112</ID>
+    <name>Ester </name>
+    <phone>0546121212 </phone>
+    <longitude>300</longitude>
+    <latitude>314</latitude>
+  </Customer>
+  <Customer>
+    <ID>111111113</ID>
+    <name>Chaya </name>
+    <phone>0546033400 </phone>
+    <longitude>50</longitude>
+    <latitude>55</latitude>
+  </Customer>
+  <Customer>
+    <ID>111111114</ID>
+    <name>dvora</name>
+    <phone>0546770407</phone>
+    <longitude>78</longitude>
+    <latitude>89</latitude>
+  </Customer>
+  <Customer>
+    <ID>111111115</ID>
+    <name>Shalom </name>
+    <phone>0546771987 </phone>
+    <longitude>201</longitude>
+    <latitude>101</latitude>
+  </Customer>
+  <Customer>
+    <ID>111111116</ID>
+    <name>Josef </name>
+    <phone>0549876546 </phone>
+    <longitude>145</longitude>
+    <latitude>32</latitude>
+  </Customer>
+  <Customer>
+    <ID>111111117</ID>
+    <name>Dan </name>
+    <phone>0501998776 </phone>
+    <longitude>214</longitude>
+    <latitude>214</latitude>
+  </Customer>
+  <Customer>
+    <ID>111111118</ID>
+    <name>Shira </name>
+    <phone>0587116546 </phone>
+    <longitude>34</longitude>
+    <latitude>23</latitude>
+  </Customer>
+  <Customer>
+    <ID>111111119</ID>
+    <name>Talya </name>
+    <phone>0586336533 </phone>
+    <longitude>312</longitude>
+    <latitude>320</latitude>
+  </Customer>
+  <Customer>
+    <ID>111111120</ID>
+    <name>Michal </name>
+    <phone>0588006533 </phone>
+    <longitude>209</longitude>
+    <latitude>299</latitude>
+  </Customer>
+  <Customer>
+    <ID>333111333</ID>
+    <name>hadas</name>
+    <phone>0546778989</phone>
+    <longitude>11</longitude>
+    <latitude>11</latitude>
+  </Customer>
+</ArrayOfCustomer>

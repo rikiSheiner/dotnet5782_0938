@@ -11,7 +11,6 @@ namespace DAL.DalObject
     public sealed class DalObject : IDal
     {
         private static readonly Lazy<DalObject> lazy = new Lazy<DalObject>(() => new DalObject());
-
         internal static DalObject Instance { get { return lazy.Value; } }
 
         #region constructor
@@ -279,6 +278,52 @@ namespace DAL.DalObject
         #endregion
 
         #region  updating
+        public override void UpdateDrone(int id, string model)
+        {
+            int indexDrone = FindDrone(id);
+            if (indexDrone < 0)
+                throw new ObjectNotFoundException("The drone does not exist in the system");
+            Drone temp = DataSource.drones[indexDrone];
+            temp.model = model;
+            DataSource.drones[indexDrone] = temp;
+        }
+        public override void UpdateStation(int id, int name, int chargeSlots)
+        {
+            int indexStation = FindStation(id);
+            if (indexStation < 0)
+                throw new ObjectNotFoundException("The station does not exist in the system");
+
+            Station temp =DataSource .basisStations [indexStation ];
+            if (name > 0)
+                temp.name = name;
+            if (chargeSlots >= 0)
+                temp.chargeSlots = chargeSlots;
+            DataSource.basisStations[indexStation] = temp;
+        }
+        public override void UpdateCustomer(int id, string name = "", string phoneNum = "")
+        {
+            int indexCustomer = FindCustomer(id);
+            if (indexCustomer < 0)
+                throw new ObjectNotFoundException("The customer does not exist in the system");
+
+            Customer temp = DataSource.customers[indexCustomer];
+            if (name != "")
+                temp.name = name;
+            if (phoneNum != "")
+                temp.phone = phoneNum;
+            DataSource.customers[indexCustomer] = temp;
+
+        }
+        public override void UpdateUser(string uName, string oldPassword, string newPassword)
+        {
+            int indexUser =FindUser(uName, oldPassword);
+            if (indexUser < 0)
+                throw new ObjectNotFoundException("The user does not exist in the system");
+
+            User tempUser = DataSource.users[indexUser];
+            tempUser.UserPassword = newPassword;
+            DataSource.users[indexUser] = tempUser;
+        }
         //מתודה לשיוך חבילה לרחפן
         public override void ParcelToDrone(int parcelID, int droneId)
         {

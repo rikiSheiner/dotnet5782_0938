@@ -81,11 +81,21 @@ namespace DAL.DalApi.DO
         //printing details of parcel
         public override string ToString()
         {
-            string str=  "Parcel ID: " + ID + "\nsender ID: " + senderID + "\ntarget ID: " + targetID
-                + "\nweight: " + weight + "\npriority: " + priority + "\nrequested: " + requested+
-                 "\nscheduled: " + scheduled + "\npicked up:" + pickedUp + "\ndelivered: " + delivered + '\n';
+            DateTime one = new DateTime(1, 1, 1);
+            string str = "Parcel ID: " + ID + "\nsender ID: " + senderID + "\ntarget ID: " + targetID
+                + "\nweight: " + weight + "\npriority: " + priority + "\nrequested: " + requested;
+            if (scheduled!= null && scheduled != one)
+            {
+                str += "\nscheduled: " + scheduled;
+                /*if(pickedUp != null && pickedUp !=one)
+                {
+                    str += "\npicked up:" + pickedUp;
+                    if(delivered != null && delivered !=one)
+                        str+= "\ndelivered: " + delivered + '\n';
+                } */   
+            }
             if (droneID >-1)
-                str += "\ndrone ID: " + droneID;
+                str += "drone ID: " + droneID;
             return str;
         }
     }

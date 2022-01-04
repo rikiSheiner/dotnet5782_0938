@@ -28,7 +28,9 @@ namespace BL.BlApi
         /// </summary>
         internal BL()
         {
-            datafield = DAL.DalFactory.GetDal("DalObject");
+            //datafield = DAL.DalFactory.GetDal("DalObject");
+            datafield = DAL.DalFactory.GetDal("DALXml");
+
             powerConsumption = datafield.GetPowerConsumption(); //צריכת חשמל ע"י הרחפנים
             droneChargeRate = datafield.GetDroneLoadingRate(); //קצב טעינת הרחפנים
             IEnumerable<DAL.DalApi.DO.Drone> dronesList = datafield.GetDrones();
@@ -45,7 +47,7 @@ namespace BL.BlApi
                 d.ID = temp.ID;
                 d.model = temp.model;
                 d.maxWeight = (Enums.WeightCategories)temp.maxWeight;
-                d.battery = r.Next(20, 41);
+                d.battery = r.Next(30,51);
                 d.droneStatus = Enums.DroneStatuses.available;
                 d.location = new LogicalEntities.Location(r.Next(0, 360), r.Next(0, 360));
                 dronesBL.Add(d);
@@ -356,67 +358,37 @@ namespace BL.BlApi
                 throw new UpdateProblemException("Parcel have not been recieved");
             datafield.UpdateRecievingOfParcel(parcelID);
         }
-
         public override void UpdateDrone(int id, string model) 
         {
-            int indexDrone = datafield.FindDrone(id);
+            if (datafield.FindDrone(id) < 0)
+                throw new UpdateProblemException("The drone does not exist in the system");
+            datafield.UpdateDrone(id, model);
             int indexBL = FindDroneBL(id);
-            if (indexDrone < 0 || indexBL < 0)
+            if (indexBL < 0)
                 throw new UpdateProblemException("This id number of drone does not exist.");
-
-            DAL.DalApi.DO.Drone temp = datafield.GetDrones().ElementAt(indexDrone);
-            datafield.DeleteDrone(id);
-            temp.model = model;
-            datafield.AddDrone(temp.ID, temp.model, (int)temp.maxWeight);
 
             Drone droneInBL = dronesBL[indexBL];
             droneInBL.model = model;
             dronesBL[indexBL] = droneInBL;
         }
-
         public override void UpdateStation(int id, int name = -1, int chargeSlots = -1)
         {
-            int indexStation = datafield.FindStation(id);
-            if (indexStation < 0)
-                throw new UpdateProblemException("This id number of station does not exist.");
-
-            DAL.DalApi.DO.Station temp = datafield.GetBasisStations().ElementAt(indexStation);
-            datafield.DeleteStation(id);
-            if (name > 0)
-                temp.name = name;
-            if (chargeSlots >= 0)
-            {
-                temp.chargeSlots = chargeSlots;
-            }
-            datafield.AddStation(temp.stationID, temp.name, temp.longitude, temp.latitude, temp.chargeSlots);
+            if (datafield.FindStation(id) < 0)
+                throw new UpdateProblemException("The station does not exist in the system");
+            datafield.UpdateStation(id, name, chargeSlots);
         }
-
         public override void UpdateCustomer(int id, string name = "", string phoneNum = "")
         {
-            int indexCustomer = datafield.FindCustomer(id);
-            if (indexCustomer < 0)
-                throw new UpdateProblemException("This id number of customer does not exist.");
-
-            DAL.DalApi.DO.Customer temp = datafield.GetCustomers().ElementAt(indexCustomer);
-            datafield.DeleteCustomer(id);
-            if (name != "")
-                temp.name = name;
-            if (phoneNum != "")
-                temp.phone = phoneNum;
-            datafield.AddCustomer(temp.ID, temp.name, temp.phone, temp.longitude, temp.latitude);
+            if (datafield.FindCustomer(id) < 0)
+                throw new UpdateProblemException("The customer does not exist in the system");
+            datafield.UpdateCustomer(id, name, phoneNum);
         }
-
         public override void UpdateUser(string uName,string oldPassword, string newPassword)
         {
-            int indexUser = datafield.FindUser(uName,oldPassword );
-            if (indexUser < 0)
-                throw new UpdateProblemException("This user name does not exist.");
-
-            DAL.DalApi.DO.User tempUser = datafield.GetUsers().ElementAt(indexUser);
-            datafield.DeleteUser(uName, tempUser.UserPassword);
-            datafield.AddUser(uName, newPassword,tempUser.UserAccessManagement );
+            if (datafield.FindUser(uName, oldPassword ) < 0)
+                throw new UpdateProblemException("The user does not exist in the system");
+            datafield.UpdateUser(uName, oldPassword, newPassword);
         }
-
         public override void CreateDroneCharge(int droneID)
         {
             int index = FindDroneBL(droneID); //find drone in BLdrones
@@ -444,7 +416,6 @@ namespace BL.BlApi
             temp.stationID = stationOfCharging.stationID;
             dronesBL[index] = temp;
         }
-
         public override void EndDroneCharge(int droneID, int hoursOfCharging)
         {
             int indexDrone = FindDroneBL(droneID);
@@ -464,16 +435,16 @@ namespace BL.BlApi
 
             datafield.EndDroneCharge(droneID, hoursOfCharging);
             //עדכון נתוני הרחפן שאותו משחררים מטעינה
-            temp.battery += hoursOfCharging * (int)powerConsumption[3];
+            temp.battery += hoursOfCharging * datafield .GetDroneLoadingRate ();
             if (temp.battery > 100)
                 temp.battery = 100;
             temp.droneStatus = Enums.DroneStatuses.available;
             dronesBL[indexDrone] = temp;
 
         }
-
         public override void AssignParcelToDrone(int droneID)
         {
+            DateTime timeOne = new DateTime(1, 1, 1);
             int indexDrone = datafield.FindDrone(droneID);
             int indexDroneBL = FindDroneBL(droneID);
             if (indexDrone < 0)
@@ -485,7 +456,7 @@ namespace BL.BlApi
 
             bool foundParcel = false; //האם מצאנו חבילה לשיוך לרחפן
             IEnumerable<DAL.DalApi.DO.Parcel> parcelsList =from DAL.DalApi.DO.Parcel item in datafield.GetParcels()
-                                                           where item.pickedUp == null
+                                                           where item.pickedUp == null || item.pickedUp == timeOne
                                                            select item;
             DAL.DalApi.DO.Parcel parcelToAssign = parcelsList.ElementAt(0);
             DAL.DalApi.DO.Parcel helpParcel = parcelsList.ElementAt(0);
@@ -608,7 +579,6 @@ namespace BL.BlApi
             }
 
         }
-
         public override void CollectParcel(int droneID)
         {
             int indexDrone = datafield.FindDrone(droneID);
@@ -616,17 +586,17 @@ namespace BL.BlApi
             if (indexDrone < 0 || indexDroneBL < 0)
                 throw new UpdateProblemException("Wrong drone id number.");
             if (dronesBL[indexDroneBL].droneStatus != Enums.DroneStatuses.delivery)
-                throw new UpdateProblemException("Drone does not do delivery.");
+                throw new UpdateProblemException("Drone does not in delivery.");
 
             //מציאת החבילה שאותה הרחפן שולח
             IEnumerable<DAL.DalApi.DO.Parcel> parcelsList = datafield.GetParcels();
-            
+            DateTime timeOne = new DateTime(1, 1, 1);
             int i = 0; //מיקום החבילה שאותה הרחפן שולח ברשימת החבילות
             for (i = 0; i < parcelsList.Count(); i++)
             {
                 if (parcelsList.ElementAt(i).droneID == droneID)
                 {
-                    if (parcelsList.ElementAt(i).pickedUp != null)
+                    if (parcelsList.ElementAt(i).pickedUp != null && parcelsList.ElementAt(i).pickedUp != timeOne)
                         throw new UpdateProblemException("The parcel has been delivered already.");
                     break;
                 }
@@ -642,7 +612,6 @@ namespace BL.BlApi
             d.location = locationSender;
             dronesBL[indexDroneBL] = d;
         }
-
         public override void ParcelDelivery(int droneID)
         {
             int indexDroneBL = FindDroneBL(droneID);
@@ -655,13 +624,13 @@ namespace BL.BlApi
 
             //מציאת החבילה שאותה הרחפן מספק
             IEnumerable< DAL.DalApi.DO.Parcel > parcelsList = datafield.GetParcels();
-            
+            DateTime timeOne = new DateTime(1, 1, 1);
             int i = 0; //מיקום החבילה שאותה הרחפן מספק ברשימת החבילות
             for (i = 0; i < parcelsList.Count(); i++)
             {
                 if (parcelsList.ElementAt(i).droneID == droneID)
                 {
-                    if (parcelsList.ElementAt(i).delivered != null)
+                    if (parcelsList.ElementAt(i).delivered != null && parcelsList.ElementAt(i).delivered != timeOne)
                         throw new UpdateProblemException("The parcel has been delivered already.");
                     else
                         datafield.DeliveryParcel(parcelsList.ElementAt(i).ID, droneID);
@@ -852,7 +821,6 @@ namespace BL.BlApi
                     }
                 }
             }
-
             return stationToList;
         }
         public override DroneToList ConvertDroneToDroneInList(Drone d)
@@ -876,16 +844,17 @@ namespace BL.BlApi
             parcelToList.nameOfTarget = datafield.FindAndGetCustomer(p.targetID).name;
             parcelToList.confirmedSending = p.confirmedSending;
             parcelToList.confirmRecieving = p.confirmRecieving;
+            DateTime timeOne = new DateTime(1, 1, 1);
 
-            if ( p.delivered != null && p.delivered < DateTime.Now)
+            if ( p.delivered != null &&  p.delivered !=timeOne && p.delivered <= DateTime.Now)
                 parcelToList.parcelStatus = Enums.ParcelStatuses.supplied;
-            else if (p.pickedUp != null && p.pickedUp < DateTime.Now )
+            else if (p.pickedUp != null && p.pickedUp !=timeOne && p.pickedUp <= DateTime.Now )
                 parcelToList.parcelStatus = Enums.ParcelStatuses.collected;
-            else if (p.droneID >-1)
+            else if ((p.scheduled != null && p.scheduled != timeOne && p.scheduled <= DateTime.Now) && p.droneID >-1)
                 parcelToList.parcelStatus = Enums.ParcelStatuses.assigned;
             else
                 parcelToList.parcelStatus = Enums.ParcelStatuses.defined;
-
+            
             parcelToList.weight = (Enums.WeightCategories)p.weight;
             parcelToList.priority = (Enums.Priorities)p.priority;
            
@@ -939,7 +908,10 @@ namespace BL.BlApi
 
         public override Drone ConvertDroneDalToDroneBL(DAL.DalApi.DO.Drone droneDAL)
         {
-            return dronesBL[FindDroneBL(droneDAL.ID)];
+            int indexBL = FindDroneBL(droneDAL.ID);
+            if (indexBL < 0)
+                throw new GetDetailsProblemException("The drone does not exist in the system");
+            return dronesBL[indexBL];
         }
         #endregion
 
@@ -969,9 +941,10 @@ namespace BL.BlApi
         internal override int FindParcelInDrone(int droneID)
         {
             IEnumerable<DAL.DalApi.DO.Parcel> parcels = datafield.GetParcels();
+            DateTime timeOne = new DateTime(1, 1, 1);
             foreach (DAL.DalApi.DO.Parcel current in parcels)
             {
-                if (current.droneID == droneID && current .delivered == null)
+                if (current.droneID == droneID && (current .delivered == null|| current .delivered == timeOne ))
                     return current.ID;
             }
             return -1;
@@ -1022,4 +995,5 @@ namespace BL.BlApi
         }
         #endregion
     }
-}
+
+ }

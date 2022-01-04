@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<ArrayOfDroneCharge xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <DroneCharge>
+    <droneID>1</droneID>
+    <stationID>1</stationID>
+    <activeCharge>false</activeCharge>
+    <start>2022-01-04T19:53:45.327426+02:00</start>
+    <end>2022-01-04T22:53:45.327426+02:00</end>
+  </DroneCharge>
+  <DroneCharge>
+    <droneID>2</droneID>
+    <stationID>4</stationID>
+    <activeCharge>true</activeCharge>
+    <start>2022-01-04T19:53:45.7287696+02:00</start>
+    <end xsi:nil="true" />
+  </DroneCharge>
+  <DroneCharge>
+    <droneID>5</droneID>
+    <stationID>2</stationID>
+    <activeCharge>true</activeCharge>
+    <start>2022-01-04T19:53:45.8620265+02:00</start>
+    <end xsi:nil="true" />
+  </DroneCharge>
+  <DroneCharge>
+    <droneID>3</droneID>
+    <stationID>1</stationID>
+    <activeCharge>true</activeCharge>
+    <start>2022-01-04T19:53:45.9621295+02:00</start>
+    <end xsi:nil="true" />
+  </DroneCharge>
+</ArrayOfDroneCharge>

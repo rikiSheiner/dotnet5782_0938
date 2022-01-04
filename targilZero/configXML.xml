@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Config>
+  <idNumberParcels>16</idNumberParcels>
+  <countActive>162</countActive>
+  <idlePowerConsumption>0.01</idlePowerConsumption>
+  <lightPowerConsumption>0.02</lightPowerConsumption>
+  <mediumPowerConsumption>0.03</mediumPowerConsumption>
+  <heavyPowerConsumption>0.04</heavyPowerConsumption>
+  <droneLoadingRate>40</droneLoadingRate>
+  <CountParcelsPriority>
+    <normal>3</normal>
+    <quick>4</quick>
+    <emergency>3</emergency>
+  </CountParcelsPriority>
+</Config>

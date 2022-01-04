@@ -58,6 +58,10 @@ namespace DAL
             #endregion
 
             #region update 
+            public abstract void UpdateDrone(int id, string model);
+            public abstract void UpdateStation(int id, int name, int chargeSlots);
+            public abstract void UpdateCustomer(int id, string name = "", string phoneNum = "");
+            public abstract void UpdateUser(string uName, string oldPassword, string newPassword);
             abstract public void ParcelToDrone(int parcelID, int droneId);
             abstract public void ParcelCollection(int parcelId, int collectorId);
             abstract public void DeliveryParcel(int parcelID, int customerId);

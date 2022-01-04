@@ -1,0 +1,143 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfParcels>
+  <Parcel>
+    <ID>1 </ID>
+    <senderID>111111111 </senderID>
+    <targetID>111111112</targetID>
+    <weight>light</weight>
+    <priority>quick</priority>
+    <requested>2022-01-04</requested>
+    <droneID>1</droneID>
+    <scheduled>04/01/2022 19:54:04</scheduled>
+    <pickedUp>0001-01-01</pickedUp>
+    <delivered>0001-01-01</delivered>
+    <confirmedSending>false </confirmedSending>
+    <confirmRecieving>false </confirmRecieving>
+  </Parcel>
+  <Parcel>
+    <ID>2 </ID>
+    <senderID>111111112 </senderID>
+    <targetID>111111114 </targetID>
+    <weight>intermediate</weight>
+    <priority>emergency</priority>
+    <requested>2022-01-04</requested>
+    <droneID>-1 </droneID>
+    <scheduled>0001-01-01 </scheduled>
+    <pickedUp>0001-01-01 </pickedUp>
+    <delivered>0001-01-01 </delivered>
+    <confirmedSending>false </confirmedSending>
+    <confirmRecieving>false </confirmRecieving>
+  </Parcel>
+  <Parcel>
+    <ID>3 </ID>
+    <senderID>111111113 </senderID>
+    <targetID>111111112 </targetID>
+    <weight>heavy</weight>
+    <priority>normal</priority>
+    <requested>2022-01-04</requested>
+    <droneID>-1</droneID>
+    <scheduled>0001-01-01</scheduled>
+    <pickedUp>0001-01-01</pickedUp>
+    <delivered>0001-01-01 </delivered>
+    <confirmedSending>false </confirmedSending>
+    <confirmRecieving>false </confirmRecieving>
+  </Parcel>
+  <Parcel>
+    <ID>4 </ID>
+    <senderID>111111114 </senderID>
+    <targetID>111111112 </targetID>
+    <weight>light</weight>
+    <priority>quick</priority>
+    <requested>2022-01-04</requested>
+    <droneID>-1 </droneID>
+    <scheduled>0001-01-01 </scheduled>
+    <pickedUp>0001-01-01 </pickedUp>
+    <delivered>0001-01-01 </delivered>
+    <confirmedSending>false </confirmedSending>
+    <confirmRecieving>false </confirmRecieving>
+  </Parcel>
+  <Parcel>
+    <ID>5 </ID>
+    <senderID>111111115 </senderID>
+    <targetID>111111114 </targetID>
+    <weight>intermediate</weight>
+    <priority>emergency</priority>
+    <requested>2022-01-04</requested>
+    <droneID>-1 </droneID>
+    <scheduled>0001-01-01 </scheduled>
+    <pickedUp>0001-01-01 </pickedUp>
+    <delivered>0001-01-01 </delivered>
+    <confirmedSending>false </confirmedSending>
+    <confirmRecieving>false </confirmRecieving>
+  </Parcel>
+  <Parcel>
+    <ID>6 </ID>
+    <senderID>111111116 </senderID>
+    <targetID>111111114 </targetID>
+    <weight>heavy</weight>
+    <priority>normal</priority>
+    <requested>2022-01-04</requested>
+    <droneID>-1 </droneID>
+    <scheduled>0001-01-01</scheduled>
+    <pickedUp>0001-01-01</pickedUp>
+    <delivered>0001-01-01</delivered>
+    <confirmedSending>false </confirmedSending>
+    <confirmRecieving>false </confirmRecieving>
+  </Parcel>
+  <Parcel>
+    <ID>7 </ID>
+    <senderID>111111117 </senderID>
+    <targetID>111111116 </targetID>
+    <weight>light</weight>
+    <priority>quick</priority>
+    <requested>2022-01-04</requested>
+    <droneID>-1 </droneID>
+    <scheduled>0001-01-01</scheduled>
+    <pickedUp>0001-01-01</pickedUp>
+    <delivered>0001-01-01</delivered>
+    <confirmedSending>false </confirmedSending>
+    <confirmRecieving>false </confirmRecieving>
+  </Parcel>
+  <Parcel>
+    <ID>8 </ID>
+    <senderID>111111118 </senderID>
+    <targetID>111111112 </targetID>
+    <weight>intermediate</weight>
+    <priority>emergency</priority>
+    <requested>2022-01-04</requested>
+    <droneID>-1</droneID>
+    <scheduled>0001-01-01</scheduled>
+    <pickedUp>0001-01-01</pickedUp>
+    <delivered>0001-01-01</delivered>
+    <confirmedSending>false </confirmedSending>
+    <confirmRecieving>false </confirmRecieving>
+  </Parcel>
+  <Parcel>
+    <ID>9 </ID>
+    <senderID>111111119 </senderID>
+    <targetID>111111120 </targetID>
+    <weight>heavy</weight>
+    <priority>normal</priority>
+    <requested>2022-01-04</requested>
+    <droneID>-1 </droneID>
+    <scheduled>0001-01-01 </scheduled>
+    <pickedUp>0001-01-01</pickedUp>
+    <delivered>0001-01-01</delivered>
+    <confirmedSending>false </confirmedSending>
+    <confirmRecieving>false </confirmRecieving>
+  </Parcel>
+  <Parcel>
+    <ID>10 </ID>
+    <senderID>111111120 </senderID>
+    <targetID>111111119 </targetID>
+    <weight>light</weight>
+    <priority>quick</priority>
+    <requested>2022-01-04</requested>
+    <droneID>-1 </droneID>
+    <scheduled>0001-01-01 </scheduled>
+    <pickedUp>0001-01-01 </pickedUp>
+    <delivered>0001-01-01 </delivered>
+    <confirmedSending>false </confirmedSending>
+    <confirmRecieving>false </confirmRecieving>
+  </Parcel>
+</ArrayOfParcels>
