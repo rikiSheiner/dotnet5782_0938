@@ -77,4 +77,11 @@
     <longitude>11</longitude>
     <latitude>11</latitude>
   </Customer>
+  <Customer>
+    <ID>999111888</ID>
+    <name>yair</name>
+    <phone>0547664358</phone>
+    <longitude>123</longitude>
+    <latitude>123</latitude>
+  </Customer>
 </ArrayOfCustomer>

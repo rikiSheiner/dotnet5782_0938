@@ -24,7 +24,6 @@ namespace PL.SingleEntityWindows
         private IBL mainData;
         private ParcelToList parcelCurrent;
         private CustomerToList currentCustomer; 
-        /*int senderID, int targetID, int weight, int priority*/
 
         /// <summary>
         /// constructor for actions on specific parcel

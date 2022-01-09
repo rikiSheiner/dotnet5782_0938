@@ -41,6 +41,16 @@
                 <ImageBrush ImageSource="/רקע אדום כהה.png"/>
             </Button.Background>
         </Button>
+        <Button x:Name="AutomaticButton" Content="Automatic" FontSize="16" Foreground="#FFFAF7F7" FontWeight="Bold" Margin="592,359,36,24" >
+            <Button.Background>
+                <ImageBrush ImageSource="/רקע אדום כהה.png"/>
+            </Button.Background>
+        </Button>
+        <Button x:Name="ManualButton" Content="Manual" FontSize="16" Foreground="#FFFAF7F7" FontWeight="Bold" Margin="592,359,36,24" Visibility="Collapsed" >
+            <Button.Background>
+                <ImageBrush ImageSource="/רקע אדום כהה.png"/>
+            </Button.Background>
+        </Button>
 
         <TextBox x:Name="newID" Margin="133,114,521,279" TextChanged="newID_TextChanged"></TextBox >
         <TextBox x:Name="newModel"  Margin="133,171,521,224" TextChanged="newModel_TextChanged"></TextBox >
@@ -49,7 +59,7 @@
         <ComboBox Name="newWeightCategory" Background="White"  Margin="133,229,521,166"></ComboBox>
         <ComboBox Name="newStationID" Background="White" Margin="134,286,520,109"></ComboBox>
 
-        <Button x:Name="addTheDrone" Content="add drone" Margin="134,386,521,4" Click="addTheDrone_MouseDoubleClick" Foreground="#FFF3F0F0" FontSize="16" FontWeight="Bold">
+        <Button x:Name="addTheDrone" Content="add drone" Margin="142,384,513,6" Click="addTheDrone_MouseDoubleClick" Foreground="#FFF3F0F0" FontSize="16" FontWeight="Bold">
             <Button.Background>
                 <ImageBrush ImageSource="/רקע אדום כהה.png"/>
             </Button.Background>

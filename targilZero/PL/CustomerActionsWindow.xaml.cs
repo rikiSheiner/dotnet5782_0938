@@ -66,7 +66,7 @@ namespace PL
             confirmSendingOrRecievingCheckBox.Visibility = Visibility.Collapsed;
 
             ListParcelsOfCustomer.ItemsSource = mainData.GetListParcelsWithCondition(parcel=>
-            parcel.nameOfSender == currentCustomer .name || parcel .nameOfTarget == currentCustomer .name );
+            parcel.nameOfSender == currentCustomer.name || parcel.nameOfTarget == currentCustomer.name );
 
         }
 
@@ -93,7 +93,7 @@ namespace PL
                 mainData.ParcelDelivery(selectedParcel.droneSender.ID);
                 listOfParcelsToSend.Visibility = Visibility.Collapsed;
 
-                MessageBox.Show("The parcel has been sent successfully");
+                MessageBox.Show("The parcel has been sent successfully",MessageBoxButton.OK.ToString ());
             }
             catch (BL.BO.UpdateProblemException upe)
             {

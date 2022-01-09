@@ -303,7 +303,12 @@ namespace ConsoleUI
         static void Main(string[] args)
         {
             IDal datafield = DAL.DalFactory.GetDal("DALXml");
-           
+            //Console.WriteLine(datafield .GetCustomers ());
+            
+            foreach (var item in datafield .GetCustomers ())
+            {
+                Console.WriteLine(item);
+            }
             
             /*foreach (var item in datafield.GetParcels())
             {

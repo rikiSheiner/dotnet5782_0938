@@ -78,6 +78,7 @@ namespace DAL.DalApi.DO
             confirmRecieving = false;
         }
 
+
         //printing details of parcel
         public override string ToString()
         {
@@ -87,15 +88,15 @@ namespace DAL.DalApi.DO
             if (scheduled!= null && scheduled != one)
             {
                 str += "\nscheduled: " + scheduled;
-                /*if(pickedUp != null && pickedUp !=one)
+                if(pickedUp != null && pickedUp !=one)
                 {
                     str += "\npicked up:" + pickedUp;
                     if(delivered != null && delivered !=one)
                         str+= "\ndelivered: " + delivered + '\n';
-                } */   
+                }   
             }
-            if (droneID >-1)
-                str += "drone ID: " + droneID;
+            if (droneID >0)
+                str += "\ndrone ID: " + droneID;
             return str;
         }
     }

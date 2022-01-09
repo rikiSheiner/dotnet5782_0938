@@ -5,20 +5,20 @@
     <name>111</name>
     <longitude>100</longitude>
     <latitude>150</latitude>
-    <chargeSlots>-6</chargeSlots>
+    <chargeSlots>10</chargeSlots>
   </Station>
   <Station>
     <stationID>2</stationID>
     <name>222</name>
     <longitude>300</longitude>
     <latitude>210</latitude>
-    <chargeSlots>-9</chargeSlots>
+    <chargeSlots>27</chargeSlots>
   </Station>
   <Station>
     <stationID>4</stationID>
     <name>444</name>
     <longitude>4</longitude>
     <latitude>4</latitude>
-    <chargeSlots>2</chargeSlots>
+    <chargeSlots>4</chargeSlots>
   </Station>
 </ArrayOfStation>

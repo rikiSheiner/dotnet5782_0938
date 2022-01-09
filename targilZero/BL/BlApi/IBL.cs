@@ -121,8 +121,10 @@ namespace BL.BlApi
         /// <param name="droneID"></param>
         /// <returns>returns list of customers got parcels from specific drone</returns>
         internal abstract List<DAL.DalApi.DO.Customer> GetListCustomersGotParcelsFromDrone(int droneID);
-        #endregion 
+        #endregion
 
-
+        #region function for acting of the drones' simulator
+        public abstract void AutomaticDroneAct(int droneID, Action updateDisplay, Func<bool> checkStop);
+        #endregion
     }
 }

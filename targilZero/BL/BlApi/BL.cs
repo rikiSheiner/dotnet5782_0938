@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Runtime.CompilerServices;
 using DAL.DalApi;
 using BL.BO;
 
@@ -12,8 +13,8 @@ namespace BL.BlApi
     public class BL : IBL
     {
         #region fields
-        private IDal datafield;
-        private List<Drone> dronesBL;
+        internal IDal datafield;
+        internal List<Drone> dronesBL;
         private double[] powerConsumption;
         private int droneChargeRate;
         #endregion
@@ -143,6 +144,7 @@ namespace BL.BlApi
         #endregion 
 
         #region Adding new entity
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public override void AddStation(int id, int name, double longitude, double latitude, int cs)
         {
             if (id < 0)
@@ -159,7 +161,7 @@ namespace BL.BlApi
 
         }
 
-
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public override void AddDrone(int id, string model, int maxWeight, int stationNum)
         {
             if (id < 0)
@@ -188,7 +190,7 @@ namespace BL.BlApi
 
             datafield.CreateDroneCharge(d.stationID , d.ID);
         }
-
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public override void AddCustomer(int id, string name, string phoneNumber, double longitude, double latitude)
         {
             if (id < 0) //הערה- ניתן להוסיף בדיקת תקינות של מספר ספרות- לדרוש 9 ספרות כמו ת"ז אמיתי
@@ -203,7 +205,7 @@ namespace BL.BlApi
             datafield.AddCustomer(id, name, phoneNumber, longitude, latitude);
 
         }
-
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public override void AddParcel(int senderID, int targetID, int weight, int priority)
         {
             if (datafield.FindCustomer(senderID) < 0)
@@ -217,6 +219,7 @@ namespace BL.BlApi
 
             datafield.AddParcel(senderID, targetID, weight, priority);
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public override void AddUser(string name, string password,bool access)
         {
             if (name == "")
@@ -229,6 +232,7 @@ namespace BL.BlApi
         #endregion
 
         #region Removing of item from list
+        [MethodImpl(MethodImplOptions.Synchronized)]
         override public void DeleteDrone(int id)
         {
             //אי אפשר למחוק רחפן כאשר יש חבילה שמשויכת אליו
@@ -241,6 +245,7 @@ namespace BL.BlApi
             datafield.DeleteDrone(id);
             dronesBL.RemoveAt (dronesBL.FindIndex(drone => drone.ID == id));
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         override public void DeleteCustomer(int id)
         {
             //אי אפשר למחוק לקוח כאשר יש חבילה שהוא המקור או היעד שלה
@@ -254,6 +259,7 @@ namespace BL.BlApi
 
             datafield.DeleteCustomer(id);
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         override public void DeleteStation(int id)
         {
             //אי אפשר למחוק תחנה כאשר יש רחפנים בטעינה בתחנה
@@ -265,6 +271,7 @@ namespace BL.BlApi
 
             datafield.DeleteStation(id);
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         override public void DeleteParcel(int id)
         {
             //אי אפשר למחוק חבילה כאשר החבילה משויכת לרחפן
@@ -274,6 +281,7 @@ namespace BL.BlApi
 
             datafield.DeleteParcel(id);
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         override public void DeleteDroneInCharge(int id)
         {
             //אי אפשר למחוק רחפן בטעינה כאשר הטעינה פעילה
@@ -283,6 +291,7 @@ namespace BL.BlApi
 
             datafield.DeleteDroneInCharge(id);
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         override public void DeleteUser(string name, string password)
         {
             datafield.DeleteUser(name, password);
@@ -290,26 +299,32 @@ namespace BL.BlApi
         #endregion 
 
         #region Find item's index in list
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public override int FindDrone(int id)
         {
             return datafield.FindDrone(id);
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public override int FindCustomer(int id)
         {
             return datafield.FindCustomer(id);
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public override int FindStation(int id)
         {
             return datafield.FindStation(id);
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public override int FindParcel(int id)
         {
             return datafield.FindParcel(id);
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public override int FindDroneInCharge(int id)
         {
             return datafield.FindDroneInCharge(id);
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public override int FindUser(string name, string password)
         {
             return datafield.FindUser(name, password);
@@ -317,26 +332,32 @@ namespace BL.BlApi
         #endregion
 
         #region Find and get item
+        [MethodImpl(MethodImplOptions.Synchronized)]
         override public DAL.DalApi.DO.Drone FindAndGetDrone(int id)
         {
             return datafield.FindAndGetDrone(id);
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         override public DAL.DalApi.DO.Customer FindAndGetCustomer(int id)
         {
             return datafield.FindAndGetCustomer(id);
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         override public DAL.DalApi.DO.Station FindAndGetStation(int id)
         {
             return datafield.FindAndGetStation(id);
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         override public DAL.DalApi.DO.Parcel FindAndGetParcel(int id)
         {
             return datafield.FindAndGetParcel(id);
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         override public DAL.DalApi.DO.DroneCharge FindAndGetDroneInCharge(int id)
         {
             return datafield.FindAndGetDroneInCharge(id);
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         override public DAL.DalApi.DO.User FindAndGetUser(string name, string password)
         {
             return datafield.FindAndGetUser(name, password);
@@ -344,6 +365,7 @@ namespace BL.BlApi
         #endregion
 
         #region Updating
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public override void UpdateSendingOfParcel(int parcelID)
         {
             DAL.DalApi.DO.Parcel parcelSent = datafield.FindAndGetParcel(parcelID);
@@ -351,6 +373,7 @@ namespace BL.BlApi
                 throw new UpdateProblemException("Parcel have not been sent");
             datafield.UpdateSendingOfParcel(parcelID);
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public override void UpdateRecievingOfParcel(int parcelID)
         {
             DAL.DalApi.DO.Parcel parcelRecieved = datafield.FindAndGetParcel(parcelID);
@@ -358,6 +381,7 @@ namespace BL.BlApi
                 throw new UpdateProblemException("Parcel have not been recieved");
             datafield.UpdateRecievingOfParcel(parcelID);
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public override void UpdateDrone(int id, string model) 
         {
             if (datafield.FindDrone(id) < 0)
@@ -371,24 +395,28 @@ namespace BL.BlApi
             droneInBL.model = model;
             dronesBL[indexBL] = droneInBL;
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public override void UpdateStation(int id, int name = -1, int chargeSlots = -1)
         {
             if (datafield.FindStation(id) < 0)
                 throw new UpdateProblemException("The station does not exist in the system");
             datafield.UpdateStation(id, name, chargeSlots);
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public override void UpdateCustomer(int id, string name = "", string phoneNum = "")
         {
             if (datafield.FindCustomer(id) < 0)
                 throw new UpdateProblemException("The customer does not exist in the system");
             datafield.UpdateCustomer(id, name, phoneNum);
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public override void UpdateUser(string uName,string oldPassword, string newPassword)
         {
             if (datafield.FindUser(uName, oldPassword ) < 0)
                 throw new UpdateProblemException("The user does not exist in the system");
             datafield.UpdateUser(uName, oldPassword, newPassword);
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public override void CreateDroneCharge(int droneID)
         {
             int index = FindDroneBL(droneID); //find drone in BLdrones
@@ -403,19 +431,24 @@ namespace BL.BlApi
             if (closeStation.indexCloseStation < 0)
                 throw new UpdateProblemException("There is not station where the drone can be charged.");
 
-            int stationID = datafield.GetBasisStations().ElementAt(closeStation.indexCloseStation).stationID;
-            datafield.CreateDroneCharge(stationID, droneID);
+            lock(datafield )
+            {
+                int stationID = datafield.GetBasisStations().ElementAt(closeStation.indexCloseStation).stationID;
+                datafield.CreateDroneCharge(stationID, droneID);
 
-            //עדכון נתוני הרחפן שאותו מטעינים
-            Drone temp = dronesBL[index];
-            temp.battery = temp.battery - (int)closeStation.distance * (int)(powerConsumption[0]);
-            DAL.DalApi.DO.Station stationOfCharging = datafield.GetBasisStations().ElementAt(closeStation.indexCloseStation);
-            LogicalEntities.Location locationStation = new LogicalEntities.Location(stationOfCharging.longitude, stationOfCharging.latitude);
-            temp.location = locationStation;
-            temp.droneStatus = Enums.DroneStatuses.maintenance;
-            temp.stationID = stationOfCharging.stationID;
-            dronesBL[index] = temp;
+                //עדכון נתוני הרחפן שאותו מטעינים
+                Drone temp = dronesBL[index];
+                temp.battery = temp.battery - (int)closeStation.distance * (int)(powerConsumption[0]);
+                DAL.DalApi.DO.Station stationOfCharging = datafield.GetBasisStations().ElementAt(closeStation.indexCloseStation);
+                LogicalEntities.Location locationStation = new LogicalEntities.Location(stationOfCharging.longitude, stationOfCharging.latitude);
+                temp.location = locationStation;
+                temp.droneStatus = Enums.DroneStatuses.maintenance;
+                temp.stationID = stationOfCharging.stationID;
+                dronesBL[index] = temp;
+            }
+            
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public override void EndDroneCharge(int droneID, int hoursOfCharging)
         {
             int indexDrone = FindDroneBL(droneID);
@@ -432,16 +465,20 @@ namespace BL.BlApi
             //int indexStation = datafield.FindStation(temp.stationID);
             //if (indexStation < 0)
             //    throw new UpdateProblemException("The station where the drone was charged does not exist.");
-
-            datafield.EndDroneCharge(droneID, hoursOfCharging);
-            //עדכון נתוני הרחפן שאותו משחררים מטעינה
-            temp.battery += hoursOfCharging * datafield .GetDroneLoadingRate ();
-            if (temp.battery > 100)
-                temp.battery = 100;
-            temp.droneStatus = Enums.DroneStatuses.available;
-            dronesBL[indexDrone] = temp;
+            lock(datafield )
+            {
+                datafield.EndDroneCharge(droneID, hoursOfCharging);
+                //עדכון נתוני הרחפן שאותו משחררים מטעינה
+                temp.battery += hoursOfCharging * datafield.GetDroneLoadingRate();
+                if (temp.battery > 100)
+                    temp.battery = 100;
+                temp.droneStatus = Enums.DroneStatuses.available;
+                dronesBL[indexDrone] = temp;
+            }
+           
 
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public override void AssignParcelToDrone(int droneID)
         {
             DateTime timeOne = new DateTime(1, 1, 1);
@@ -577,8 +614,13 @@ namespace BL.BlApi
                 datafield.ParcelToDrone(parcelToAssign.ID, droneID);
 
             }
+            else
+            {
+                throw new UpdateProblemException("the drone does not have enough batery");
+            }
 
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public override void CollectParcel(int droneID)
         {
             int indexDrone = datafield.FindDrone(droneID);
@@ -612,6 +654,7 @@ namespace BL.BlApi
             d.location = locationSender;
             dronesBL[indexDroneBL] = d;
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public override void ParcelDelivery(int droneID)
         {
             int indexDroneBL = FindDroneBL(droneID);
@@ -654,6 +697,7 @@ namespace BL.BlApi
         #endregion
 
         #region Check if item exist
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public override bool IsUserExist(string name, string password)
         {
             if (datafield.FindUser(name, password) >= 0)
@@ -663,6 +707,7 @@ namespace BL.BlApi
         #endregion 
 
         #region Getting item for presenting
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public override StationToList GetStation(int id)
         {
             int index = datafield.FindStation(id);
@@ -671,6 +716,7 @@ namespace BL.BlApi
             var tempStation = datafield.GetBasisStations().ElementAt(index);
             return ConvertStationToStationInList(tempStation);
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public override DroneToList GetDrone(int id)
         {
             int index = FindDroneBL(id);
@@ -679,6 +725,7 @@ namespace BL.BlApi
             var tempDrone = dronesBL[index];
             return ConvertDroneToDroneInList(tempDrone);
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public override CustomerToList GetCustomer(int id)
         {
             int index = datafield.FindCustomer(id);
@@ -687,6 +734,7 @@ namespace BL.BlApi
             var tempCustomer = datafield.GetCustomers().ElementAt(index);
             return ConvertCustomerToCustomerInList(tempCustomer);
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public override ParcelToList GetParcel(int id)
         {
             int index = datafield.FindParcel(id);
@@ -698,6 +746,7 @@ namespace BL.BlApi
         #endregion
 
         #region Presenting of lists
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public override IEnumerable<StationToList> GetListStations()
         {
             IEnumerable< DAL.DalApi.DO.Station > tempStations = datafield.GetBasisStations();
@@ -708,6 +757,7 @@ namespace BL.BlApi
             }
             return listStations;
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public override IEnumerable<DroneToList> GetListDrones()
         {
             List<DroneToList> listDrones = new();
@@ -717,6 +767,7 @@ namespace BL.BlApi
             }
             return listDrones;
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public override IEnumerable<CustomerToList> GetListCustomers()
         {
             IEnumerable<DAL.DalApi.DO.Customer> tempCustomers = datafield.GetCustomers();
@@ -727,6 +778,7 @@ namespace BL.BlApi
             }
             return listCustomers;
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public override IEnumerable<ParcelToList> GetListParcels()
         {
             IEnumerable< DAL.DalApi.DO.Parcel > tempParcels = datafield.GetParcels();
@@ -737,7 +789,7 @@ namespace BL.BlApi
             }
             return listParcels;
         }
-
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public override IEnumerable<User> GetListUsers()
         {
             IEnumerable<DAL.DalApi.DO.User> tempUsers = datafield.GetUsers();
@@ -753,7 +805,7 @@ namespace BL.BlApi
             }
             return listUsers;
         }
-
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public override IEnumerable<ParcelToList> GetListParcelsWithCondition(Predicate<ParcelToList> parcelCondition)
         {
             IEnumerable<ParcelToList> parcels = GetListParcels();
@@ -762,6 +814,7 @@ namespace BL.BlApi
                                                        select item;
             return parcelsWithCondition;
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public override IEnumerable<StationToList> GetListStationsWithCondition(Predicate<StationToList> stationCondition)
         {
             IEnumerable<StationToList> stations = GetListStations();
@@ -770,6 +823,7 @@ namespace BL.BlApi
                                                          select item;
             return stationsWithCondition;
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public override IEnumerable<DroneToList> GetListDronesWithCondition(Predicate<DroneToList> droneCondition)
         {
             IEnumerable<DroneToList> drones = GetListDrones();
@@ -778,6 +832,7 @@ namespace BL.BlApi
                                                                  select item;
             return dronesWithCondition;
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public override IEnumerable<CustomerToList> GetListCustomersWithCondition(Predicate<CustomerToList> customerCondition)
         {
             IEnumerable<CustomerToList> customers = GetListCustomers();
@@ -786,6 +841,7 @@ namespace BL.BlApi
                                                                select item;
             return customersWithCondition;
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public override IEnumerable<User> GetListUsersWithCondition(Predicate<User> userCondition)
         {
             IEnumerable<User> users = GetListUsers();
@@ -797,6 +853,7 @@ namespace BL.BlApi
         #endregion
 
         #region Converting of entity to enitity in list
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public override StationToList ConvertStationToStationInList(DAL.DalApi.DO.Station s)
         {
             StationToList stationToList = new StationToList();
@@ -823,6 +880,7 @@ namespace BL.BlApi
             }
             return stationToList;
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public override DroneToList ConvertDroneToDroneInList(Drone d)
         {
             DroneToList droneToList = new DroneToList();
@@ -836,6 +894,7 @@ namespace BL.BlApi
 
             return droneToList;
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public override ParcelToList ConvertParcelToParcelInList(DAL.DalApi.DO.Parcel p)
         {
             ParcelToList parcelToList = new ParcelToList();
@@ -863,6 +922,7 @@ namespace BL.BlApi
 
             return parcelToList;
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public override CustomerToList ConvertCustomerToCustomerInList(DAL.DalApi.DO.Customer c)
         {
             CustomerToList customerToList = new CustomerToList();
@@ -880,6 +940,7 @@ namespace BL.BlApi
         #endregion
 
         #region Converting of entity of DAL to enetity of BL
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public override Customer ConvertCustomerDalToCustomerBL(DAL.DalApi.DO.Customer customerDAL)
         {
             Customer customerBL=new Customer();
@@ -905,7 +966,7 @@ namespace BL.BlApi
 
             return customerBL;
         }
-
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public override Drone ConvertDroneDalToDroneBL(DAL.DalApi.DO.Drone droneDAL)
         {
             int indexBL = FindDroneBL(droneDAL.ID);
@@ -994,6 +1055,13 @@ namespace BL.BlApi
             return customersOfDrone;
         }
         #endregion
+
+        #region function for acting of the drones' simulator
+        public override void AutomaticDroneAct(int droneID, Action updateDisplay, Func<bool> checkStop)
+        {
+            Simulator simulator= new Simulator(this, droneID, updateDisplay, checkStop);
+        }
+        #endregion 
     }
 
- }
+}

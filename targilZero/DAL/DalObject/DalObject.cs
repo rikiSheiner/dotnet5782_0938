@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Runtime.CompilerServices;
 using DAL.DalApi;
 using DAL.DalApi.DO;
 
@@ -24,6 +25,7 @@ namespace DAL.DalObject
         #endregion 
 
         #region get lists of items
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public override IEnumerable<Drone> GetDrones()
         {
             List<Drone> d = new List<Drone>();
@@ -31,6 +33,7 @@ namespace DAL.DalObject
                 d.Add(it);
             return d;
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public override IEnumerable<Station> GetBasisStations()
         {
             List<Station> s = new List<Station>();
@@ -38,6 +41,7 @@ namespace DAL.DalObject
                 s.Add(it);
             return s;
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public override IEnumerable<Customer> GetCustomers()
         {
             List<Customer> c = new List<Customer>();
@@ -45,6 +49,7 @@ namespace DAL.DalObject
                 c.Add(it);
             return c;
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public override IEnumerable<Parcel> GetParcels()
         {
             List<Parcel> p = new List<Parcel>();
@@ -52,6 +57,7 @@ namespace DAL.DalObject
                 p.Add(it);
             return p;
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public override IEnumerable<DroneCharge> GetDronesInCharge()
         {
             List<DroneCharge> d = new List<DroneCharge>();
@@ -59,6 +65,7 @@ namespace DAL.DalObject
                 d.Add(it);
             return d;
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public override IEnumerable<User> GetUsers()
         {
             List<User> u = new List<User>();
@@ -69,24 +76,28 @@ namespace DAL.DalObject
         #endregion
 
         #region add item to list
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public override void AddDrone(int id, string n, int w)
         {
             //if (FindDrone(id) >= 0)
             //    throw new ExistIdException("this drone  id is already in the sortage");
             DataSource.drones.Add(new Drone(id, n, (Enums.WeightCategories)w));
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public override void AddCustomer(int id, string n, string p, double lo, double la)
         {
             if (FindCustomer(id) >= 0)
                 throw new ExistIdException("this customer id is already in the sortage");
             DataSource.customers.Add(new Customer(id, n, p, lo, la));
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public override void AddStation(int id, int n, double lo, double la, int cs)
         {
             if (FindStation(id) >= 0)
                 throw new ExistIdException("this station id is already in the sortage");
             DataSource.basisStations.Add(new Station(id, n, lo, la, cs));
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public override void AddParcel(int sid, int tid, int w, int p/*, int did*/)
         {
             int id = DataSource.Config.idNumberParcels;
@@ -94,11 +105,13 @@ namespace DAL.DalObject
             DataSource.Config.CountParcelsPriority[p]++;
             DataSource.parcels.Add(new Parcel(id, sid, tid, (Enums.WeightCategories)w, (Enums.Priorities)p/*, did*/));
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public override void AddDroneCharge(int dID, int sID, bool active, DateTime s)
         {
             DroneCharge dc = new DroneCharge(dID, sID, active, s);
             DataSource.dronesInCharge.Add(dc);
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public override void AddUser(string name, string password,bool access)
         {
             if (FindUser(name,password ) >= 0)
@@ -108,6 +121,7 @@ namespace DAL.DalObject
         #endregion
 
         #region remove item from list
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public override void DeleteDrone(int id)
         {
             int indexDrone = FindDrone(id);
@@ -116,6 +130,7 @@ namespace DAL.DalObject
             else
                 throw new ObjectNotFoundException("Drone not found\n");
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public override void DeleteCustomer(int id)
         {
             int indexCustomer = FindCustomer(id);
@@ -124,6 +139,7 @@ namespace DAL.DalObject
             else
                 throw new ObjectNotFoundException("Customer not found\n");
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public override void DeleteStation(int id)
         {
             int indexStation = FindStation(id);
@@ -132,6 +148,7 @@ namespace DAL.DalObject
             else
                 throw new ObjectNotFoundException("Station not found\n");
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public override void DeleteParcel(int id)
         {
             int indexParcel = FindParcel(id);
@@ -143,6 +160,7 @@ namespace DAL.DalObject
             else
                 throw new ObjectNotFoundException("Parcel not found\n");
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public override void DeleteDroneInCharge(int id)
         {
             int indexDroneInCharge = FindDroneInCharge(id);
@@ -151,7 +169,7 @@ namespace DAL.DalObject
             else
                 throw new ObjectNotFoundException("Drone in charge not found\n");
         }
-
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public override void DeleteUser(string name,string password)
         {
             int indexUser = FindUser(name, password);
@@ -163,6 +181,7 @@ namespace DAL.DalObject
         #endregion
 
         #region  find specific item in list
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public override int FindDrone(int id)
         {
             for (int i = 0; i < DataSource.drones.Count; i++)
@@ -172,6 +191,7 @@ namespace DAL.DalObject
             }
             return -1;
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public override int FindCustomer(int id)
         {
             for (int i = 0; i < DataSource.customers.Count; i++)
@@ -181,6 +201,7 @@ namespace DAL.DalObject
             }
             return -1;
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public override int FindStation(int id)
         {
             for (int i = 0; i < DataSource.basisStations.Count; i++)
@@ -190,6 +211,7 @@ namespace DAL.DalObject
             }
             return -1;
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public override int FindParcel(int id)
         {
             for (int i = 0; i < DataSource.parcels.Count; i++)
@@ -199,6 +221,7 @@ namespace DAL.DalObject
             }
             return -1;
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public override int FindDroneInCharge(int id)
         {
             for (int i = 0; i < DataSource.dronesInCharge.Count; i++)
@@ -208,6 +231,7 @@ namespace DAL.DalObject
             }
             return -1;
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public override int FindUser(string name, string password)
         {
             for (int i = 0; i < DataSource.users.Count; i++)
@@ -220,6 +244,7 @@ namespace DAL.DalObject
         #endregion
 
         #region find and return item in list
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public override Drone FindAndGetDrone(int id)
         {
             for (int i = 0; i < DataSource.drones.Count; i++)
@@ -229,6 +254,7 @@ namespace DAL.DalObject
             }
             return new Drone();
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public override Customer FindAndGetCustomer(int id)
         {
             for (int i = 0; i < DataSource.customers.Count; i++)
@@ -238,6 +264,7 @@ namespace DAL.DalObject
             }
             return new Customer();
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public override Station FindAndGetStation(int id)
         {
             for (int i = 0; i < DataSource.basisStations.Count; i++)
@@ -247,6 +274,7 @@ namespace DAL.DalObject
             }
             return new Station();
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public override Parcel FindAndGetParcel(int id)
         {
             for (int i = 0; i < DataSource.parcels.Count; i++)
@@ -256,7 +284,7 @@ namespace DAL.DalObject
             }
             return new Parcel();
         }
-
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public override DroneCharge FindAndGetDroneInCharge(int id)
         {
             for (int i = 0; i < DataSource.dronesInCharge.Count; i++)
@@ -266,6 +294,7 @@ namespace DAL.DalObject
             }
             return new DroneCharge();
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public override User FindAndGetUser(string name, string password)
         {
             for (int i = 0; i < DataSource.users.Count; i++)
@@ -278,6 +307,7 @@ namespace DAL.DalObject
         #endregion
 
         #region  updating
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public override void UpdateDrone(int id, string model)
         {
             int indexDrone = FindDrone(id);
@@ -287,6 +317,7 @@ namespace DAL.DalObject
             temp.model = model;
             DataSource.drones[indexDrone] = temp;
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public override void UpdateStation(int id, int name, int chargeSlots)
         {
             int indexStation = FindStation(id);
@@ -300,6 +331,7 @@ namespace DAL.DalObject
                 temp.chargeSlots = chargeSlots;
             DataSource.basisStations[indexStation] = temp;
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public override void UpdateCustomer(int id, string name = "", string phoneNum = "")
         {
             int indexCustomer = FindCustomer(id);
@@ -314,6 +346,7 @@ namespace DAL.DalObject
             DataSource.customers[indexCustomer] = temp;
 
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public override void UpdateUser(string uName, string oldPassword, string newPassword)
         {
             int indexUser =FindUser(uName, oldPassword);
@@ -324,6 +357,7 @@ namespace DAL.DalObject
             tempUser.UserPassword = newPassword;
             DataSource.users[indexUser] = tempUser;
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         //מתודה לשיוך חבילה לרחפן
         public override void ParcelToDrone(int parcelID, int droneId)
         {
@@ -332,6 +366,7 @@ namespace DAL.DalObject
             p.scheduled = DateTime.Now;
             DataSource.parcels[parcelID - 1] = p;
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
 
         //איסוף חבילה ע"י רחפן
         public override void ParcelCollection(int parcelId, int collectorId)
@@ -341,6 +376,7 @@ namespace DAL.DalObject
             temp.pickedUp = DateTime.Now;
             DataSource.parcels[parcelId - 1] = temp;
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
 
         //אספקת חבילה ללקוח
         public override void DeliveryParcel(int parcelID, int customerId)
@@ -351,6 +387,7 @@ namespace DAL.DalObject
             temp.droneID = -1;
             DataSource.parcels[parcelID - 1] = temp;
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
 
         //שליחת רחפן לטעינה
         public override void CreateDroneCharge(int stationId, int droneId)
@@ -386,6 +423,7 @@ namespace DAL.DalObject
 
             DataSource.Config.countActive++;
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
 
         //שחרור רחפן מטעינה בתחנת בסיס
         public override void EndDroneCharge(int dID, int hoursOfCharging)
@@ -410,6 +448,7 @@ namespace DAL.DalObject
 
             DataSource.Config.countActive--;
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
 
         public override void UpdateSendingOfParcel(int parcelID)
         {
@@ -420,6 +459,7 @@ namespace DAL.DalObject
             parcelSent.confirmedSending = true;
             DataSource.parcels[indexParcel] = parcelSent;
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
 
         public override void UpdateRecievingOfParcel(int parcelID)
         {
@@ -430,9 +470,11 @@ namespace DAL.DalObject
             parcelSent.confirmRecieving = true;
             DataSource.parcels[indexParcel] = parcelSent;
         }
+
         #endregion
 
         #region get fields of class config
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public override double[] GetPowerConsumption() //בקשת צריכת חשמל ע"י רחפן
         {
             double[] power = new double[4];
@@ -443,11 +485,12 @@ namespace DAL.DalObject
 
             return power;
         }
-
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public override int[] GetParcelsPriority() //מערך מונים של מספר החבילות בכל עדיפות
         {
             return DataSource.Config.CountParcelsPriority;
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public override int GetDroneLoadingRate() { return DataSource.Config.droneLoadingRate; }
         #endregion
     }

@@ -1,31 +1,108 @@
 <?xml version="1.0"?>
 <ArrayOfDroneCharge xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <DroneCharge>
-    <droneID>1</droneID>
-    <stationID>1</stationID>
-    <activeCharge>false</activeCharge>
-    <start>2022-01-04T19:53:45.327426+02:00</start>
-    <end>2022-01-04T22:53:45.327426+02:00</end>
-  </DroneCharge>
-  <DroneCharge>
-    <droneID>2</droneID>
+    <droneID>4</droneID>
     <stationID>4</stationID>
     <activeCharge>true</activeCharge>
-    <start>2022-01-04T19:53:45.7287696+02:00</start>
+    <start>2022-01-09T14:09:42.7231825+02:00</start>
     <end xsi:nil="true" />
   </DroneCharge>
   <DroneCharge>
     <droneID>5</droneID>
-    <stationID>2</stationID>
+    <stationID>4</stationID>
     <activeCharge>true</activeCharge>
-    <start>2022-01-04T19:53:45.8620265+02:00</start>
+    <start>2022-01-09T14:13:02.2959537+02:00</start>
+    <end xsi:nil="true" />
+  </DroneCharge>
+  <DroneCharge>
+    <droneID>2</droneID>
+    <stationID>1</stationID>
+    <activeCharge>true</activeCharge>
+    <start>2022-01-09T14:11:13.6070468+02:00</start>
     <end xsi:nil="true" />
   </DroneCharge>
   <DroneCharge>
     <droneID>3</droneID>
     <stationID>1</stationID>
     <activeCharge>true</activeCharge>
-    <start>2022-01-04T19:53:45.9621295+02:00</start>
+    <start>2022-01-09T14:11:13.9782822+02:00</start>
+    <end xsi:nil="true" />
+  </DroneCharge>
+  <DroneCharge>
+    <droneID>5</droneID>
+    <stationID>1</stationID>
+    <activeCharge>true</activeCharge>
+    <start>2022-01-09T14:12:23.3563312+02:00</start>
+    <end xsi:nil="true" />
+  </DroneCharge>
+  <DroneCharge>
+    <droneID>3</droneID>
+    <stationID>4</stationID>
+    <activeCharge>true</activeCharge>
+    <start>2022-01-09T14:12:23.6017455+02:00</start>
+    <end xsi:nil="true" />
+  </DroneCharge>
+  <DroneCharge>
+    <droneID>1</droneID>
+    <stationID>2</stationID>
+    <activeCharge>true</activeCharge>
+    <start>2022-01-09T14:12:46.1686166+02:00</start>
+    <end xsi:nil="true" />
+  </DroneCharge>
+  <DroneCharge>
+    <droneID>2</droneID>
+    <stationID>2</stationID>
+    <activeCharge>true</activeCharge>
+    <start>2022-01-09T14:12:46.5833733+02:00</start>
+    <end xsi:nil="true" />
+  </DroneCharge>
+  <DroneCharge>
+    <droneID>5</droneID>
+    <stationID>2</stationID>
+    <activeCharge>true</activeCharge>
+    <start>2022-01-09T14:12:46.8139684+02:00</start>
+    <end xsi:nil="true" />
+  </DroneCharge>
+  <DroneCharge>
+    <droneID>3</droneID>
+    <stationID>4</stationID>
+    <activeCharge>true</activeCharge>
+    <start>2022-01-09T14:12:46.9896072+02:00</start>
+    <end xsi:nil="true" />
+  </DroneCharge>
+  <DroneCharge>
+    <droneID>1</droneID>
+    <stationID>4</stationID>
+    <activeCharge>true</activeCharge>
+    <start>2022-01-09T14:13:01.5764554+02:00</start>
+    <end xsi:nil="true" />
+  </DroneCharge>
+  <DroneCharge>
+    <droneID>2</droneID>
+    <stationID>4</stationID>
+    <activeCharge>true</activeCharge>
+    <start>2022-01-09T14:13:02.0859334+02:00</start>
+    <end xsi:nil="true" />
+  </DroneCharge>
+  <DroneCharge>
+    <droneID>1</droneID>
+    <stationID>4</stationID>
+    <activeCharge>true</activeCharge>
+    <start>2022-01-09T14:13:34.7286337+02:00</start>
+    <end xsi:nil="true" />
+  </DroneCharge>
+  <DroneCharge>
+    <droneID>5</droneID>
+    <stationID>1</stationID>
+    <activeCharge>true</activeCharge>
+    <start>2022-01-09T14:13:35.1589335+02:00</start>
+    <end xsi:nil="true" />
+  </DroneCharge>
+  <DroneCharge>
+    <droneID>3</droneID>
+    <stationID>4</stationID>
+    <activeCharge>true</activeCharge>
+    <start>2022-01-09T14:13:35.3714367+02:00</start>
     <end xsi:nil="true" />
   </DroneCharge>
 </ArrayOfDroneCharge>

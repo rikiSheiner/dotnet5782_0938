@@ -13,6 +13,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using BL.BlApi;
 using BL.BO;
+using System.ComponentModel;
+
 
 namespace PL.SingleEntityWindows
 {
@@ -23,7 +25,7 @@ namespace PL.SingleEntityWindows
     {
         private IBL mainData;
         private DroneToList droneCurrent;
-
+        private BackgroundWorker workerDrone; 
 
         /// <summary>
         /// constructor for actions on specific drone
@@ -35,7 +37,14 @@ namespace PL.SingleEntityWindows
             InitializeComponent();
             mainData = data;
             droneCurrent = drone;
+            workerDrone = new BackgroundWorker();
+            workerDrone.WorkerReportsProgress = true;
+            workerDrone.WorkerSupportsCancellation = true;
+            workerDrone.DoWork += Worker_DoWork;
+            workerDrone.ProgressChanged += Worker_ProgressChanged;
+            workerDrone.RunWorkerCompleted += Worker_RunWorkerCompleted;
 
+            #region רישום פונקציות לארועים
             closeWindow.Click += closeWindow_Click;
             chargeOrEndCahrge.MouseDoubleClick += chargeOrEndCahrge_MouseDoubleClick;
             parcelDelivery.MouseDoubleClick += parcelDelivery_MouseDoubleClick;
@@ -44,8 +53,11 @@ namespace PL.SingleEntityWindows
             submitHours.MouseDoubleClick += submitHours_MouseDoubleClick;
             parcelInDrone.MouseDoubleClick += parcelInDrone_MouseDoubleClick;
             deleteDrone.MouseDoubleClick += deleteDrone_MouseDoubleClick;
+            AutomaticButton.MouseDoubleClick += AutomaticButton_MouseDoubleClick;
+            ManualButton.MouseDoubleClick += ManualButton_MouseDoubleClick;
+            #endregion
 
-            //הסתרת הכפתורים הקשורים להוספת רחפן
+            #region הסתרת הכפתורים הקשורים להוספת רחפן
             enterID.Visibility = Visibility.Collapsed;
             enterModel.Visibility = Visibility.Collapsed;
             enterWeight.Visibility = Visibility.Collapsed;
@@ -56,9 +68,9 @@ namespace PL.SingleEntityWindows
             cancelAdding.Visibility = Visibility.Collapsed;
             newWeightCategory.Visibility = Visibility.Collapsed;
             newStationID.Visibility = Visibility.Collapsed;
+            #endregion
 
             DroneDetails.Text = droneCurrent.ToString();
-
 
             if (drone.droneStatus == Enums.DroneStatuses.delivery) //במצב משלוח ניתן לאסוף או לספק חבילה 
             {
@@ -93,7 +105,6 @@ namespace PL.SingleEntityWindows
                     parcelDelivery.IsEnabled = false;
                 }
             }
-
             if (droneCurrent.parcelInDroneID < 0)
                 parcelInDrone.IsEnabled = false;
 
@@ -119,6 +130,7 @@ namespace PL.SingleEntityWindows
             DroneDetails.Visibility = Visibility.Collapsed;
             parcelInDrone.Visibility = Visibility.Collapsed;
             deleteDrone.Visibility = Visibility.Collapsed;
+            AutomaticButton.Visibility = Visibility.Collapsed;
 
             newID.TextChanged += newID_TextChanged;
             newModel.TextChanged += newModel_TextChanged;
@@ -138,6 +150,7 @@ namespace PL.SingleEntityWindows
 
         }
 
+        
         private void closeWindow_Click(object sender, RoutedEventArgs e)
         {
             Close();
@@ -201,7 +214,6 @@ namespace PL.SingleEntityWindows
             parcelDelivery.IsEnabled = true;
             parcelDelivery.Content = "assign parcel to drone";
         }
-
         private void parcelDelivery_MouseDoubleClick(object sender, RoutedEventArgs e)
         {
             try
@@ -239,7 +251,6 @@ namespace PL.SingleEntityWindows
                 MessageBox.Show("ERROR");
             }
         }
-
         private void updateDrone_MouseDoubleClick(object sender, RoutedEventArgs e)
         {
             updatedDroneModel.Visibility = Visibility.Visible;
@@ -249,7 +260,6 @@ namespace PL.SingleEntityWindows
             submitModel.Visibility = Visibility.Visible;
             submitModel.IsEnabled = true;
         }
-
         private void submitModel_MouseDoubleClick(object sender, RoutedEventArgs e)
         {
             droneCurrent.model = updatedDroneModel.Text;
@@ -268,17 +278,14 @@ namespace PL.SingleEntityWindows
             parcelDelivery.Visibility = Visibility.Visible;
 
         }
-
         private void newModel_TextChanged(object sender, TextChangedEventArgs e)
         {
 
         }
-
         private void newID_TextChanged(object sender, TextChangedEventArgs e)
         {
 
         }
-
         private void addTheDrone_MouseDoubleClick(object sender, RoutedEventArgs e)
         {
             string weight = newWeightCategory.SelectedItem.ToString();
@@ -308,12 +315,10 @@ namespace PL.SingleEntityWindows
 
 
         }
-
         private void cancelAdding_MouseDoubleClick(object sender, RoutedEventArgs e)
         {
             Close();
         }
-
         private void parcelInDrone_MouseDoubleClick(object sender, RoutedEventArgs e)
         {
             try
@@ -328,7 +333,6 @@ namespace PL.SingleEntityWindows
             }
             
         }
-
         private void deleteDrone_MouseDoubleClick(object sender, RoutedEventArgs e)
         {
             try
@@ -347,6 +351,72 @@ namespace PL.SingleEntityWindows
                 MessageBox.Show("Can't delete drone");
             }
         }
+        private void AutomaticButton_MouseDoubleClick(object sender, RoutedEventArgs e)
+        {
+            #region הסתרת כל הכפתורים הלא רלוונטים למצב אוטומטי
+            enterID.Visibility = Visibility.Collapsed;
+            enterModel.Visibility = Visibility.Collapsed;
+            enterWeight.Visibility = Visibility.Collapsed;
+            enterStationNum.Visibility = Visibility.Collapsed;
+            newID.Visibility = Visibility.Collapsed;
+            newModel.Visibility = Visibility.Collapsed;
+            addTheDrone.Visibility = Visibility.Collapsed;
+            cancelAdding.Visibility = Visibility.Collapsed;
+            newWeightCategory.Visibility = Visibility.Collapsed;
+            newStationID.Visibility = Visibility.Collapsed;
+            updateDrone.Visibility = Visibility.Collapsed;
+            parcelDelivery.Visibility = Visibility.Collapsed;
+            chargeOrEndCahrge.Visibility = Visibility.Collapsed;
+
+            DroneDetails.Visibility = Visibility.Visible;
+            
+            parcelInDrone.Visibility = Visibility.Collapsed;
+            deleteDrone.Visibility = Visibility.Collapsed;
+            AutomaticButton.Visibility = Visibility.Collapsed;
+            ManualButton.Visibility = Visibility.Visible;
+            #endregion
+
+            if (workerDrone.IsBusy != true)
+                workerDrone.RunWorkerAsync();
+
+        }
+        private void ManualButton_MouseDoubleClick(object sender, RoutedEventArgs e)
+        {
+            updateDrone.Visibility = Visibility.Visible;
+            parcelDelivery.Visibility = Visibility.Visible;
+            chargeOrEndCahrge.Visibility = Visibility.Visible;
+            DroneDetails.Visibility = Visibility.Visible;
+            parcelInDrone.Visibility = Visibility.Visible;
+            deleteDrone.Visibility = Visibility.Visible;
+            AutomaticButton.Visibility = Visibility.Visible;
+            ManualButton.Visibility = Visibility.Collapsed;
+            if (workerDrone.WorkerSupportsCancellation == true)
+                workerDrone.CancelAsync();
+           
+        }
+
+        private void Worker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            if (workerDrone.CancellationPending)
+                e.Cancel = true;
+            else
+                mainData.AutomaticDroneAct(droneCurrent.ID, UpdateDisplay, CheckStop);
+        }
+        private void Worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+        }
+        private void Worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+        }
+        private void UpdateDisplay()
+        {
+            Dispatcher.Invoke(()=> DroneDetails.Text = mainData.GetDrone(droneCurrent.ID).ToString());       
+        }
+        private bool CheckStop()
+        {
+            return workerDrone .CancellationPending ;
+        }
+
     }
 }
 
