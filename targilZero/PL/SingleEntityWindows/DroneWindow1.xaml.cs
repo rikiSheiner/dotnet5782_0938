@@ -43,13 +43,13 @@ namespace PL.SingleEntityWindows
             workerDrone.DoWork += Worker_DoWork;
             workerDrone.ProgressChanged += Worker_ProgressChanged;
             workerDrone.RunWorkerCompleted += Worker_RunWorkerCompleted;
+            this.DataContext = droneCurrent;
 
-            #region רישום פונקציות לארועים
+            #region 
             closeWindow.Click += closeWindow_Click;
             chargeOrEndCahrge.MouseDoubleClick += chargeOrEndCahrge_MouseDoubleClick;
             parcelDelivery.MouseDoubleClick += parcelDelivery_MouseDoubleClick;
             updateDrone.MouseDoubleClick += updateDrone_MouseDoubleClick;
-            submitModel.MouseDoubleClick += submitModel_MouseDoubleClick;
             submitHours.MouseDoubleClick += submitHours_MouseDoubleClick;
             parcelInDrone.MouseDoubleClick += parcelInDrone_MouseDoubleClick;
             deleteDrone.MouseDoubleClick += deleteDrone_MouseDoubleClick;
@@ -57,27 +57,33 @@ namespace PL.SingleEntityWindows
             ManualButton.MouseDoubleClick += ManualButton_MouseDoubleClick;
             #endregion
 
-            #region הסתרת הכפתורים הקשורים להוספת רחפן
-            enterID.Visibility = Visibility.Collapsed;
-            enterModel.Visibility = Visibility.Collapsed;
-            enterWeight.Visibility = Visibility.Collapsed;
+            #region 
             enterStationNum.Visibility = Visibility.Collapsed;
-            newID.Visibility = Visibility.Collapsed;
-            newModel.Visibility = Visibility.Collapsed;
             addTheDrone.Visibility = Visibility.Collapsed;
             cancelAdding.Visibility = Visibility.Collapsed;
             newWeightCategory.Visibility = Visibility.Collapsed;
             newStationID.Visibility = Visibility.Collapsed;
-            #endregion
+            
+            newWeightTB.Visibility = Visibility.Visible;
+            newID.IsEnabled = false;
+            newStatus.Visibility = Visibility.Visible;
+            newWeightTB.Visibility = Visibility.Visible;
+            enterBattrey.Visibility = Visibility.Visible;
+            enterStatus.Visibility = Visibility.Visible;
+            enterLocation.Visibility = Visibility.Visible;
+            newBattery.Visibility = Visibility.Visible;
+            newLocation.Visibility = Visibility.Visible;
+            newStatus.Visibility = Visibility.Visible;
+            #endregion 
 
-            DroneDetails.Text = droneCurrent.ToString();
+            newLocation.Text = droneCurrent.location.ToString ();
 
             if (drone.droneStatus == Enums.DroneStatuses.delivery) //במצב משלוח ניתן לאסוף או לספק חבילה 
             {
-                chargeOrEndCahrge.Visibility = Visibility.Hidden;
-                chargeOrEndCahrge.IsEnabled = false;
+                chargeOrEndCahrge.Visibility = Visibility.Collapsed;
                 parcelDelivery.Visibility = Visibility.Visible;
                 parcelDelivery.IsEnabled = true;
+
                 ParcelToList parcelInDrone = mainData.GetParcel(droneCurrent.parcelInDroneID);
                 if (parcelInDrone.parcelStatus == Enums.ParcelStatuses.assigned) //זה אומר שהחבילה מחכה לאיסוף
                 {
@@ -107,8 +113,6 @@ namespace PL.SingleEntityWindows
             }
             if (droneCurrent.parcelInDroneID < 0)
                 parcelInDrone.IsEnabled = false;
-
-            
         }
         /// <summary>
         /// constructor for adding new drone
@@ -127,13 +131,10 @@ namespace PL.SingleEntityWindows
             parcelDelivery.IsEnabled = false;
             chargeOrEndCahrge.Visibility = Visibility.Hidden;
             chargeOrEndCahrge.IsEnabled = false;
-            DroneDetails.Visibility = Visibility.Collapsed;
             parcelInDrone.Visibility = Visibility.Collapsed;
             deleteDrone.Visibility = Visibility.Collapsed;
             AutomaticButton.Visibility = Visibility.Collapsed;
 
-            newID.TextChanged += newID_TextChanged;
-            newModel.TextChanged += newModel_TextChanged;
             addTheDrone.MouseDoubleClick += addTheDrone_MouseDoubleClick;
             cancelAdding.MouseDoubleClick += cancelAdding_MouseDoubleClick;
 
@@ -147,15 +148,46 @@ namespace PL.SingleEntityWindows
                 newStationID.Items.Add(station.ID);
             }
 
+           
 
         }
 
-        
+        private void TextBox_OnlyNumbers_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+
+            TextBox text = sender as TextBox;
+            if (text == null) return;
+            if (e == null) return;
+
+            //allow get out of the text box
+            if (e.Key == Key.Enter || e.Key == Key.Return || e.Key == Key.Tab)
+                return;
+
+            //allow list of system keys (add other key here if you want to allow)
+            if (e.Key == Key.Escape || e.Key == Key.Back || e.Key == Key.Delete ||
+                e.Key == Key.CapsLock || e.Key == Key.LeftShift || e.Key == Key.Home
+             || e.Key == Key.End || e.Key == Key.Insert || e.Key == Key.Down || e.Key == Key.Right)
+                return;
+
+            char c = (char)KeyInterop.VirtualKeyFromKey(e.Key);
+
+            //allow control system keys
+            if (Char.IsControl(c)) return;
+
+            //allow digits (without Shift or Alt)
+            if (Char.IsDigit(c))
+                if (!(Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightAlt)))
+                    return; //let this key be written inside the textbox
+
+            //forbid letters and signs (#,$, %, ...)
+            e.Handled = true; //ignore this key. mark event as handled, will not be routed to other controls
+            return;
+
+        }
         private void closeWindow_Click(object sender, RoutedEventArgs e)
         {
             Close();
         }
-
         private void chargeOrEndCahrge_MouseDoubleClick(object sender, RoutedEventArgs e)
         {
             try
@@ -165,10 +197,10 @@ namespace PL.SingleEntityWindows
                     mainData.CreateDroneCharge(droneCurrent.ID);
                     MessageBox.Show("charged drone successfully");
                     chargeOrEndCahrge.Content = "End Charge Drone";
-
-                    droneCurrent = mainData.GetListDrones().ElementAt(mainData.FindDrone(droneCurrent.ID));
-                    DroneDetails.Text = droneCurrent.ToString();
                     parcelDelivery.Visibility = Visibility.Collapsed;
+
+                    updateDisplayOfDroneDetails();
+                    updateDisplayOfOpenedWindows();
                 }
                 else if ((string)chargeOrEndCahrge.Content == "End Charge Drone")
                 {
@@ -177,6 +209,7 @@ namespace PL.SingleEntityWindows
                     submitHours.Visibility = Visibility.Visible;
 
                 }
+
             }
             catch (UpdateProblemException upe)
             {
@@ -207,9 +240,8 @@ namespace PL.SingleEntityWindows
             submitHours.Visibility = Visibility.Collapsed;
             chargeOrEndCahrge.Content = "Charge Drone";
 
-            droneCurrent = mainData.GetListDrones().ElementAt(mainData.FindDrone(droneCurrent.ID));
-            DroneDetails.Text = droneCurrent.ToString();
-
+            updateDisplayOfDroneDetails();
+            updateDisplayOfOpenedWindows();
             parcelDelivery.Visibility = Visibility.Visible;
             parcelDelivery.IsEnabled = true;
             parcelDelivery.Content = "assign parcel to drone";
@@ -239,8 +271,8 @@ namespace PL.SingleEntityWindows
                     parcelDelivery.Content = "assign parcel to drone";
                     parcelInDrone.IsEnabled = false;
                 }
-                droneCurrent = mainData.GetListDrones().ElementAt(mainData.FindDrone(droneCurrent.ID));
-                DroneDetails.Text = droneCurrent.ToString();
+                updateDisplayOfDroneDetails();
+                updateDisplayOfOpenedWindows();
             }
             catch (UpdateProblemException upe)
             {
@@ -253,38 +285,11 @@ namespace PL.SingleEntityWindows
         }
         private void updateDrone_MouseDoubleClick(object sender, RoutedEventArgs e)
         {
-            updatedDroneModel.Visibility = Visibility.Visible;
-            updatedDroneModel.IsEnabled = true;
-            parcelDelivery.Visibility = Visibility.Collapsed;
-            chargeOrEndCahrge.Visibility = Visibility.Collapsed;
-            submitModel.Visibility = Visibility.Visible;
-            submitModel.IsEnabled = true;
-        }
-        private void submitModel_MouseDoubleClick(object sender, RoutedEventArgs e)
-        {
-            droneCurrent.model = updatedDroneModel.Text;
-            mainData.UpdateDrone(droneCurrent.ID, droneCurrent.model);
-
-            submitModel.Visibility = Visibility.Collapsed;
-            submitModel.IsEnabled = false;
-            updatedDroneModel.Visibility = Visibility.Collapsed;
-            updatedDroneModel.IsEnabled = false;
-
+            mainData.UpdateDrone(droneCurrent.ID, newModel.Text);
             MessageBox.Show("Updated successfully");
-
-            DroneDetails.Text = droneCurrent.ToString();
-
             chargeOrEndCahrge.Visibility = Visibility.Visible;
             parcelDelivery.Visibility = Visibility.Visible;
-
-        }
-        private void newModel_TextChanged(object sender, TextChangedEventArgs e)
-        {
-
-        }
-        private void newID_TextChanged(object sender, TextChangedEventArgs e)
-        {
-
+            updateDisplayOfOpenedWindows();
         }
         private void addTheDrone_MouseDoubleClick(object sender, RoutedEventArgs e)
         {
@@ -302,6 +307,7 @@ namespace PL.SingleEntityWindows
                 mainData.AddDrone(int.Parse(newID.Text), newModel.Text, w, int.Parse(stationNum));
                 MessageBox.Show("Added successfully");
                 Close();
+                updateDisplayOfOpenedWindows();
             }
             catch (AddingProblemException addingProblem)
             {
@@ -341,6 +347,7 @@ namespace PL.SingleEntityWindows
                 MessageBox.Show("The drone has been deleted successfuly");
                 new ListDronesWindow(mainData).Show();
                 Close();
+                updateDisplayOfOpenedWindows();
             }
             catch(DeletedProblemException dpe)
             {
@@ -354,12 +361,8 @@ namespace PL.SingleEntityWindows
         private void AutomaticButton_MouseDoubleClick(object sender, RoutedEventArgs e)
         {
             #region הסתרת כל הכפתורים הלא רלוונטים למצב אוטומטי
-            enterID.Visibility = Visibility.Collapsed;
-            enterModel.Visibility = Visibility.Collapsed;
-            enterWeight.Visibility = Visibility.Collapsed;
+
             enterStationNum.Visibility = Visibility.Collapsed;
-            newID.Visibility = Visibility.Collapsed;
-            newModel.Visibility = Visibility.Collapsed;
             addTheDrone.Visibility = Visibility.Collapsed;
             cancelAdding.Visibility = Visibility.Collapsed;
             newWeightCategory.Visibility = Visibility.Collapsed;
@@ -368,39 +371,64 @@ namespace PL.SingleEntityWindows
             parcelDelivery.Visibility = Visibility.Collapsed;
             chargeOrEndCahrge.Visibility = Visibility.Collapsed;
 
-            DroneDetails.Visibility = Visibility.Visible;
-            
             parcelInDrone.Visibility = Visibility.Collapsed;
             deleteDrone.Visibility = Visibility.Collapsed;
             AutomaticButton.Visibility = Visibility.Collapsed;
             ManualButton.Visibility = Visibility.Visible;
             #endregion
 
-            if (workerDrone.IsBusy != true)
+           
+           if (workerDrone.IsBusy != true)
                 workerDrone.RunWorkerAsync();
 
         }
         private void ManualButton_MouseDoubleClick(object sender, RoutedEventArgs e)
         {
             updateDrone.Visibility = Visibility.Visible;
-            parcelDelivery.Visibility = Visibility.Visible;
-            chargeOrEndCahrge.Visibility = Visibility.Visible;
-            DroneDetails.Visibility = Visibility.Visible;
             parcelInDrone.Visibility = Visibility.Visible;
             deleteDrone.Visibility = Visibility.Visible;
             AutomaticButton.Visibility = Visibility.Visible;
             ManualButton.Visibility = Visibility.Collapsed;
+
             if (workerDrone.WorkerSupportsCancellation == true)
                 workerDrone.CancelAsync();
-           
-        }
 
+            droneCurrent = mainData.GetDrone(droneCurrent.ID);
+
+            if (droneCurrent.droneStatus == Enums.DroneStatuses.maintenance)
+            {
+                parcelDelivery.Visibility = Visibility.Collapsed;
+                chargeOrEndCahrge.Visibility = Visibility.Visible ;
+                chargeOrEndCahrge.Content = "End Charge Drone";
+                parcelDelivery.Visibility = Visibility.Collapsed;
+            }
+            else if (droneCurrent.droneStatus == Enums.DroneStatuses.available)
+            {
+                parcelDelivery.Visibility = Visibility.Visible;
+                chargeOrEndCahrge.Visibility = Visibility.Visible;
+                chargeOrEndCahrge.Content = "Charge Drone";
+                parcelDelivery.Content = "assign parcel to drone";
+            }
+            else
+            {
+                parcelDelivery.Visibility = Visibility.Visible;
+                chargeOrEndCahrge.Visibility = Visibility.Collapsed;
+                ParcelToList parcel = mainData.GetParcel(droneCurrent.parcelInDroneID);
+                if (parcel.parcelStatus == Enums.ParcelStatuses.assigned)
+                    parcelDelivery.Content = "collect parcel";
+                else if(parcel.parcelStatus == Enums.ParcelStatuses.collected)
+                    parcelDelivery.Content = "delivery parcel";
+            }
+
+
+        }
         private void Worker_DoWork(object sender, DoWorkEventArgs e)
         {
             if (workerDrone.CancellationPending)
                 e.Cancel = true;
             else
-                mainData.AutomaticDroneAct(droneCurrent.ID, UpdateDisplay, CheckStop);
+                try { mainData.AutomaticDroneAct(droneCurrent.ID, UpdateDisplay, CheckStop); }
+                catch (UpdateProblemException upe) { MessageBox.Show(upe.Message); }
         }
         private void Worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
@@ -410,7 +438,32 @@ namespace PL.SingleEntityWindows
         }
         private void UpdateDisplay()
         {
-            Dispatcher.Invoke(()=> DroneDetails.Text = mainData.GetDrone(droneCurrent.ID).ToString());       
+            Dispatcher.Invoke(updateDisplayOfDroneDetails) ;
+            Dispatcher.Invoke<bool>(updateDisplayOfOpenedWindows);
+        }
+        private void updateDisplayOfDroneDetails()
+        {
+            droneCurrent = mainData.GetListDrones().ElementAt(mainData.FindDrone(droneCurrent.ID));
+            this.DataContext = droneCurrent;
+            newLocation.Text = droneCurrent.location.ToString ();
+        }
+        private bool updateDisplayOfOpenedWindows()
+        {
+            if (Application.Current.Windows.OfType<ParcelsListWindow>().Any(w => w.GetType().Name.Equals("ParcelsListWindow")))
+            {
+                Application.Current.Windows.OfType<ParcelsListWindow>().FirstOrDefault().Close();
+                ParcelsListWindow pl=new ParcelsListWindow(mainData);
+                pl.Show();
+            }
+            if (Application.Current.Windows.OfType<ListDronesWindow>().Any(w => w.GetType().Name.Equals("ListDronesWindow")))
+            {
+                Application.Current.Windows.OfType<ListDronesWindow>().FirstOrDefault().Close();
+                ListDronesWindow ld = new ListDronesWindow(mainData);
+                ld.Show();
+            }
+
+            return true;
+
         }
         private bool CheckStop()
         {

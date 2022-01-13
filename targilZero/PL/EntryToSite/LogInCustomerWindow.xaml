@@ -6,6 +6,14 @@
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
         Title="LogInCustomerWindow" Height="450" Width="800">
+    <Window.Resources >
+        <ControlTemplate x:Key="roundbutton" TargetType="Button">
+            <Grid>
+                <Ellipse Fill="{TemplateBinding Background}" Stroke="{TemplateBinding Foreground}" />
+                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+            </Grid>
+        </ControlTemplate>
+    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions >
             <RowDefinition Height="40*"></RowDefinition>
@@ -30,11 +38,36 @@
                 <ImageBrush ImageSource="/כפתור לסגירת חלון.png"/>
             </Button.Background>
         </Button>
-        <TextBlock Text="ID number"  FontSize="25" FontWeight="SemiBold" Grid.Row="2" Grid.Column="1" ></TextBlock>
-        <TextBlock Text="name " FontSize="25" FontWeight="SemiBold" Grid.Row="4" Grid.Column="1" ></TextBlock>
-        <TextBox x:Name="currentID"  FontSize="20" Grid.Row=" 2" Grid.Column="2" ></TextBox>
+        <TextBlock Text="ID number"  FontSize="25" FontWeight="SemiBold" Grid.Row="2" Grid.Column="1" >
+            <TextBlock.Style>
+                <Style TargetType="TextBlock">
+                    <Setter Property="Foreground" Value="Black"></Setter>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Foreground" Value="Snow"  />
+                            <Setter Property="TextDecorations" Value="Underline" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBlock.Style>
+        </TextBlock>
+        <TextBlock Text="Name " FontSize="25" FontWeight="SemiBold" Grid.Row="4" Grid.Column="1" >
+            <TextBlock.Style>
+                <Style TargetType="TextBlock">
+                    <Setter Property="Foreground" Value="Black"></Setter>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Foreground" Value="Snow"  />
+                            <Setter Property="TextDecorations" Value="Underline" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBlock.Style>
+        </TextBlock>
+        <TextBox x:Name="currentID"  FontSize="20" Grid.Row=" 2" Grid.Column="2" PreviewKeyDown="TextBox_OnlyNumbers_PreviewKeyDown"></TextBox>
         <TextBox x:Name="currentName"  FontSize="20" Grid.Row=" 4" Grid.Column="2" ></TextBox>
-        <Button x:Name="ButtonLogIn" Content="log in" FontSize="25" Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="3" Margin="145,27,242,38" Foreground="#FFFCF6F6" FontWeight="Bold" >
+        <Button x:Name="ButtonLogIn" Template="{StaticResource roundbutton}"
+                Content="log in" FontSize="25" Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="3" Margin="145,27,242,38" Foreground="#FFFCF6F6" FontWeight="Bold" >
             <Button.Background>
                 <ImageBrush ImageSource="/רקע אדום כהה.png"/>
             </Button.Background>

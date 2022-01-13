@@ -58,8 +58,7 @@
                 <ImageBrush ImageSource="/רקע אדום כהה.png"/>
             </Button.Background>
         </Button>
-        <CheckBox Name="confirmSendingOrRecievingCheckBox" Content="do you confirm?" Visibility="Collapsed"  Grid.Row="3" Grid.Column="2" Margin="15,13,15,19"/>
-        
-    
+
+
     </Grid>
 </Window>

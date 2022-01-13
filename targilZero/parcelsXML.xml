@@ -2,54 +2,54 @@
 <ArrayOfParcels>
   <Parcel>
     <ID>1</ID>
-    <senderID>111111111 </senderID>
-    <targetID>1</targetID>
+    <senderID>111111111</senderID>
+    <targetID>111111112</targetID>
     <weight>light</weight>
     <priority>quick</priority>
     <requested>2022-01-04</requested>
-    <droneID>-1</droneID>
-    <scheduled>0001-01-01</scheduled>
-    <pickedUp>0001-01-01</pickedUp>
-    <delivered>0001-01-01</delivered>
+    <droneID>1</droneID>
+    <scheduled>13/01/2022 16:20:24</scheduled>
+    <pickedUp>0001-01-01 </pickedUp>
+    <delivered>0001-01-01 </delivered>
     <confirmedSending>false </confirmedSending>
     <confirmRecieving>false </confirmRecieving>
   </Parcel>
   <Parcel>
     <ID>2</ID>
-    <senderID>111111112 </senderID>
-    <targetID>5</targetID>
+    <senderID>111111112</senderID>
+    <targetID>111111114</targetID>
     <weight>intermediate</weight>
     <priority>emergency</priority>
     <requested>2022-01-04</requested>
     <droneID>-1</droneID>
-    <scheduled>0001-01-01</scheduled>
-    <pickedUp>0001-01-01</pickedUp>
-    <delivered>0001-01-01</delivered>
+    <scheduled>13/01/2022 16:17:14</scheduled>
+    <pickedUp>13/01/2022 16:17:15</pickedUp>
+    <delivered>13/01/2022 16:17:15</delivered>
     <confirmedSending>false </confirmedSending>
     <confirmRecieving>false </confirmRecieving>
   </Parcel>
   <Parcel>
     <ID>3</ID>
-    <senderID>111111113 </senderID>
-    <targetID>5</targetID>
+    <senderID>111111113</senderID>
+    <targetID>111111112</targetID>
     <weight>heavy</weight>
     <priority>normal</priority>
     <requested>2022-01-04</requested>
     <droneID>-1</droneID>
     <scheduled>0001-01-01</scheduled>
-    <pickedUp>0001-01-01</pickedUp>
-    <delivered>0001-01-01</delivered>
+    <pickedUp>0001-01-01 </pickedUp>
+    <delivered>0001-01-01 </delivered>
     <confirmedSending>false </confirmedSending>
     <confirmRecieving>false </confirmRecieving>
   </Parcel>
   <Parcel>
     <ID>4</ID>
-    <senderID>111111114 </senderID>
-    <targetID>1</targetID>
+    <senderID>111111114</senderID>
+    <targetID>111111112</targetID>
     <weight>light</weight>
     <priority>quick</priority>
     <requested>2022-01-04</requested>
-    <droneID>-1</droneID>
+    <droneID>-1 </droneID>
     <scheduled>0001-01-01</scheduled>
     <pickedUp>0001-01-01</pickedUp>
     <delivered>0001-01-01</delivered>
@@ -58,69 +58,69 @@
   </Parcel>
   <Parcel>
     <ID>5</ID>
-    <senderID>111111115 </senderID>
-    <targetID>5</targetID>
+    <senderID>111111115</senderID>
+    <targetID>111111114</targetID>
     <weight>intermediate</weight>
     <priority>emergency</priority>
     <requested>2022-01-04</requested>
     <droneID>-1</droneID>
-    <scheduled>0001-01-01</scheduled>
-    <pickedUp>0001-01-01</pickedUp>
-    <delivered>0001-01-01</delivered>
+    <scheduled>13/01/2022 16:32:08</scheduled>
+    <pickedUp>13/01/2022 16:32:10</pickedUp>
+    <delivered>13/01/2022 16:32:12</delivered>
     <confirmedSending>false </confirmedSending>
     <confirmRecieving>false </confirmRecieving>
   </Parcel>
   <Parcel>
     <ID>6</ID>
-    <senderID>111111116 </senderID>
-    <targetID>5</targetID>
+    <senderID>111111116</senderID>
+    <targetID>111111114</targetID>
     <weight>heavy</weight>
     <priority>normal</priority>
     <requested>2022-01-04</requested>
     <droneID>-1</droneID>
-    <scheduled>0001-01-01</scheduled>
-    <pickedUp>0001-01-01</pickedUp>
-    <delivered>0001-01-01</delivered>
+    <scheduled>10/01/2022 16:12:49</scheduled>
+    <pickedUp>10/01/2022 16:12:50</pickedUp>
+    <delivered>10/01/2022 16:12:50</delivered>
     <confirmedSending>false </confirmedSending>
     <confirmRecieving>false </confirmRecieving>
   </Parcel>
   <Parcel>
     <ID>7</ID>
-    <senderID>111111117 </senderID>
-    <targetID>1</targetID>
+    <senderID>111111117</senderID>
+    <targetID>111111116</targetID>
     <weight>light</weight>
     <priority>quick</priority>
     <requested>2022-01-04</requested>
     <droneID>-1</droneID>
-    <scheduled>0001-01-01</scheduled>
-    <pickedUp>0001-01-01</pickedUp>
-    <delivered>0001-01-01</delivered>
+    <scheduled>13/01/2022 16:17:25</scheduled>
+    <pickedUp>13/01/2022 16:31:52</pickedUp>
+    <delivered>13/01/2022 16:31:54</delivered>
     <confirmedSending>false </confirmedSending>
     <confirmRecieving>false </confirmRecieving>
   </Parcel>
   <Parcel>
     <ID>8</ID>
-    <senderID>111111118 </senderID>
-    <targetID>5</targetID>
+    <senderID>111111118</senderID>
+    <targetID>111111112</targetID>
     <weight>intermediate</weight>
     <priority>emergency</priority>
     <requested>2022-01-04</requested>
     <droneID>-1</droneID>
-    <scheduled>0001-01-01</scheduled>
-    <pickedUp>0001-01-01</pickedUp>
-    <delivered>0001-01-01</delivered>
+    <scheduled>13/01/2022 16:17:12</scheduled>
+    <pickedUp>13/01/2022 16:17:13</pickedUp>
+    <delivered>13/01/2022 16:17:13</delivered>
     <confirmedSending>false </confirmedSending>
     <confirmRecieving>false </confirmRecieving>
   </Parcel>
   <Parcel>
     <ID>9</ID>
-    <senderID>111111119 </senderID>
-    <targetID>111111120 </targetID>
+    <senderID>111111119</senderID>
+    <targetID>111111120</targetID>
     <weight>heavy</weight>
     <priority>normal</priority>
     <requested>2022-01-04</requested>
-    <droneID>-1</droneID>
-    <scheduled>0001-01-01</scheduled>
+    <droneID>-1 </droneID>
+    <scheduled>0001-01-01 </scheduled>
     <pickedUp>0001-01-01</pickedUp>
     <delivered>0001-01-01</delivered>
     <confirmedSending>false </confirmedSending>
@@ -128,15 +128,15 @@
   </Parcel>
   <Parcel>
     <ID>10</ID>
-    <senderID>111111120 </senderID>
-    <targetID>4</targetID>
+    <senderID>111111120</senderID>
+    <targetID>111111119</targetID>
     <weight>light</weight>
     <priority>quick</priority>
     <requested>2022-01-04</requested>
     <droneID>-1</droneID>
-    <scheduled>0001-01-01</scheduled>
-    <pickedUp>0001-01-01</pickedUp>
-    <delivered>0001-01-01</delivered>
+    <scheduled>13/01/2022 16:17:16</scheduled>
+    <pickedUp>13/01/2022 16:17:17</pickedUp>
+    <delivered>13/01/2022 16:17:17</delivered>
     <confirmedSending>false </confirmedSending>
     <confirmRecieving>false </confirmRecieving>
   </Parcel>

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel;
 
 namespace BL.BO
 {
@@ -26,20 +27,50 @@ namespace BL.BO
         }
     }
 
-    public class UserToLIst
+    public class UserToLIst : INotifyPropertyChanged
     {
         /// <summary>
         /// The name of the user that he enters to the system to sign in
         /// </summary>
-        public string UserName { set; get; }
+        private string _UserName;
+        public string UserName
+        {
+            get { return _UserName; }
+            set
+            {
+                _UserName = value;
+                if (PropertyChanged != null)
+                    PropertyChanged(this, new PropertyChangedEventArgs("UserName"));
+            }
+        }
         /// <summary>
         /// The password of the user that he enters to the system to sign in
         /// </summary>
-        public string UserPassword { set; get; }
+        private string _UserPassword;
+        public string UserPassword
+        {
+            get { return _UserPassword; }
+            set
+            {
+                _UserPassword = value;
+                if (PropertyChanged != null)
+                    PropertyChanged(this, new PropertyChangedEventArgs("UserPassword"));
+            }
+        }
         /// <summary>
         ///  If the user has a possibility to access to the managment of the system or not
         /// </summary>
-        public bool UserAccessManagement { set; get; }
+        private bool _UserAccessManagement;
+        public bool UserAccessManagement
+        {
+            get { return _UserAccessManagement; }
+            set
+            {
+                _UserAccessManagement = value;
+                if (PropertyChanged != null)
+                    PropertyChanged(this, new PropertyChangedEventArgs("UserAccessManagement"));
+            }
+        }
         /// <summary>
         /// returns string that represents the user
         /// </summary>
@@ -48,6 +79,7 @@ namespace BL.BO
         {
             return "user name= " + UserName + " password= " + UserPassword;
         }
+        public event PropertyChangedEventHandler PropertyChanged;
     }
 
 }

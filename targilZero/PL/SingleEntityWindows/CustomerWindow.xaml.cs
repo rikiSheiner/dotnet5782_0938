@@ -23,7 +23,6 @@ namespace PL.SingleEntityWindows
     {
         private IBL mainData;
         private CustomerToList customerCurrent;
-        /*int id, string name, string phoneNumber, double longitude, double latitude*/
 
         /// <summary>
         /// constructor for actions on specific customer
@@ -36,33 +35,25 @@ namespace PL.SingleEntityWindows
             mainData = data;
             customerCurrent = customer;
             closeWindow.Click += closeWindow_Click;
+            this.DataContext = customerCurrent;
 
-            //הסתרת כל הכפתורים הקשרוים להוספת לקוח
-            newID.Visibility = Visibility.Collapsed;
+            //הסתרת כל הכפתורים הקשורים להוספת לקוח
             newLatitude.Visibility = Visibility.Collapsed;
             newLongitude.Visibility = Visibility.Collapsed;
-            newName.Visibility = Visibility.Collapsed;
-            newPhoneNum.Visibility = Visibility.Collapsed;
-
             addTheCustomer.Visibility = Visibility.Collapsed;
             cancelAdding.Visibility = Visibility.Collapsed;
-
-            enterID.Visibility = Visibility.Collapsed;
             enterLatitude.Visibility = Visibility.Collapsed;
             enterLongitude.Visibility = Visibility.Collapsed;
-            enterName.Visibility = Visibility.Collapsed;
-            enterPhone.Visibility = Visibility.Collapsed;
 
             chooseParcel.Visibility = Visibility.Visible;
             ListOfParcels.Visibility = Visibility.Visible;
 
-            CustomerDetails.Text = customerCurrent.ToString();
             updateCustomer.MouseDoubleClick += updateCustomer_MouseDoubleClick;
-            submitButton.MouseDoubleClick += submitButton_MouseDoubleClick;
             deleteCustomer.MouseDoubleClick += deleteCustomer_MouseDoubleClick;
 
             //הוספת  החבילות שהלקוח שולח או מקבל אל רשימת החבילות
             var helpCustomerBL = mainData.ConvertCustomerDalToCustomerBL(mainData.FindAndGetCustomer(customerCurrent.ID));
+
             foreach (ParcelToList parcel in helpCustomerBL.parcelsFromCustomer )
             {
                 ListOfParcels.Items.Add(parcel);
@@ -72,6 +63,8 @@ namespace PL.SingleEntityWindows
                 ListOfParcels.Items.Add(parcel);
             }
             ListOfParcels.SelectionChanged += ListOfParcels_SelectionChanged;
+
+            newID.IsEnabled = false;
         }
 
         public CustomerWindow(IBL data)
@@ -80,7 +73,6 @@ namespace PL.SingleEntityWindows
             InitializeComponent();
 
             //הסתרת כל הכפתורים שקשורים חלון לקוח במצב פעולות
-            CustomerDetails.Visibility = Visibility.Collapsed;
             updateCustomer.Visibility = Visibility.Collapsed;
             deleteCustomer.Visibility = Visibility.Collapsed;
             
@@ -93,7 +85,15 @@ namespace PL.SingleEntityWindows
         {
             Close();
         }
-
+        private void updateDisplayOfOpenedWindows()
+        {
+            if (Application.Current.Windows.OfType<CustomersListWindow>().Any(w => w.GetType().Name.Equals("CustomersListWindow")))
+            {
+                Application.Current.Windows.OfType<CustomersListWindow>().FirstOrDefault().Close();
+                CustomersListWindow cl = new CustomersListWindow(mainData);
+                cl.Show();
+            }
+        }
         private void addTheCustomer_MouseDoubleClick(object sender, RoutedEventArgs e)
         {
             try
@@ -101,6 +101,7 @@ namespace PL.SingleEntityWindows
                 mainData.AddCustomer(int.Parse(newID.Text.ToString()), newName.Text, newPhoneNum.Text, double.Parse(newLongitude.Text.ToString()), double.Parse(newLatitude.Text.ToString())) ;
                 MessageBox.Show("Added successfully");
                 Close();
+                updateDisplayOfOpenedWindows();
             }
             catch (AddingProblemException addingProblem)
             {
@@ -116,34 +117,14 @@ namespace PL.SingleEntityWindows
         {
             Close();
         }
-
+        
         private void updateCustomer_MouseDoubleClick(object sender, RoutedEventArgs e)
         {
-            enterUpdatedName.Visibility = Visibility.Visible ;
-            enterUpdatedPhoneNum.Visibility = Visibility.Visible;
-            updatedName.Visibility = Visibility.Visible;
-            updatedPhoneNum.Visibility = Visibility.Visible;
-            submitButton.Visibility = Visibility.Visible;
-
-
-        }
-
-        private void submitButton_MouseDoubleClick(object sender, RoutedEventArgs e)
-        {
-            mainData.UpdateCustomer(customerCurrent.ID, updatedName.Text, updatedPhoneNum.Text);
-            customerCurrent = mainData.GetCustomer(customerCurrent.ID);
-
-            submitButton.Visibility = Visibility.Collapsed;
-            enterUpdatedName.Visibility = Visibility.Collapsed;
-            enterUpdatedPhoneNum.Visibility = Visibility.Collapsed;
-            updatedName.Visibility = Visibility.Collapsed;
-            updatedPhoneNum.Visibility = Visibility.Collapsed;
-
+            mainData.UpdateCustomer(customerCurrent.ID, newName.Text.ToString(),newPhoneNum.Text.ToString());
             MessageBox.Show("Updated successfully");
-
-            CustomerDetails.Text = customerCurrent.ToString();
-
+            updateDisplayOfOpenedWindows();
         }
+
 
         private void deleteCustomer_MouseDoubleClick(object sender, RoutedEventArgs e)
         {
@@ -153,6 +134,7 @@ namespace PL.SingleEntityWindows
                 MessageBox.Show("The customer has been deleted successfuly");
                 new CustomersListWindow(mainData).Show();
                 Close();
+                updateDisplayOfOpenedWindows();
             }
             catch(DeletedProblemException dpe)
             {
@@ -177,5 +159,38 @@ namespace PL.SingleEntityWindows
             }
         }
 
+        private void TextBox_OnlyNumbers_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+
+            TextBox text = sender as TextBox;
+            if (text == null) return;
+            if (e == null) return;
+
+            //allow get out of the text box
+            if (e.Key == Key.Enter || e.Key == Key.Return || e.Key == Key.Tab)
+                return;
+
+            //allow list of system keys (add other key here if you want to allow)
+            if (e.Key == Key.Escape || e.Key == Key.Back || e.Key == Key.Delete ||
+                e.Key == Key.CapsLock || e.Key == Key.LeftShift || e.Key == Key.Home
+             || e.Key == Key.End || e.Key == Key.Insert || e.Key == Key.Down || e.Key == Key.Right)
+                return;
+
+            char c = (char)KeyInterop.VirtualKeyFromKey(e.Key);
+
+            //allow control system keys
+            if (Char.IsControl(c)) return;
+
+            //allow digits (without Shift or Alt)
+            if (Char.IsDigit(c))
+                if (!(Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightAlt)))
+                    return; //let this key be written inside the textbox
+
+            //forbid letters and signs (#,$, %, ...)
+            e.Handled = true; //ignore this key. mark event as handled, will not be routed to other controls
+            return;
+
+        }
+        
     }
 }

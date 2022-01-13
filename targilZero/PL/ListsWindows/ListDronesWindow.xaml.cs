@@ -79,7 +79,6 @@ namespace PL
         {
             DroneWindow1 droneActions = new DroneWindow1(mainData, (DroneToList)ListOfDrones .SelectedItem  );
             droneActions.Show();
-            this.Close();
         }
 
         private void refreshWindow_MouseDoubleClick(object sender, RoutedEventArgs e)

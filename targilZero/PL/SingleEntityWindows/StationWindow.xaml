@@ -7,6 +7,7 @@
         mc:Ignorable="d"
         Title="StationWindow" Height="450" Width="800">
     <Grid>
+
         <Grid.Background>
             <ImageBrush ImageSource="/SingleEntityWindows/רקע תכלת.png"/>
         </Grid.Background>
@@ -16,23 +17,18 @@
             </Button.Background>
         </Button>
 
-        <TextBox x:Name="newID" Margin="133,114,521,279"></TextBox>
-        <TextBox x:Name="newName" Margin="133,171,521,224"></TextBox>
-        <TextBox x:Name="newLongitude" Margin="133,229,521,166"></TextBox>
+        <TextBox x:Name="newID" Margin="133,114,521,279" Text="{Binding Path=ID}" PreviewKeyDown="TextBox_OnlyNumbers_PreviewKeyDown"></TextBox>
+        <TextBox x:Name="newName" Margin="133,171,521,224" Text="{Binding Path=name, Mode=TwoWay}" PreviewKeyDown="TextBox_OnlyNumbers_PreviewKeyDown"></TextBox>
+        <TextBox x:Name="newLongitude" Margin="135,340,519,55" ></TextBox>
         <TextBox x:Name="newLatitude" Margin="134,286,520,109"></TextBox>
-        <TextBox x:Name="newChargeSlots" Margin="135,340,519,55"></TextBox>
-        <TextBox x:Name="updatedName" Visibility="Collapsed"    Margin="596,174,40,220"></TextBox>
-        <TextBox x:Name="updatedChargeSlots" Visibility="Collapsed"    Margin="595,233,40,160"></TextBox>
+        <TextBox x:Name="newChargeSlots" Margin="133,229,521,166"  PreviewKeyDown="TextBox_OnlyNumbers_PreviewKeyDown"></TextBox>
 
         <TextBlock x:Name="enterID" Text="ID:" FontSize=" 15" Margin="31,114,669,279"></TextBlock>
         <TextBlock x:Name="enterName" Text="Name:" FontSize=" 15" Margin="31,169,669,224"></TextBlock>
-        <TextBlock x:Name="enterLongitude" Text="Longitude:" FontSize=" 15" Margin="31,231,669,162"></TextBlock>
+        <TextBlock x:Name="enterLongitude" Text="Longitude:" FontSize=" 15" Margin="31,340,669,53" ></TextBlock>
         <TextBlock x:Name="enterLatitude" Text="Latitude:" FontSize=" 15" Margin="31,287,669,106"></TextBlock>
-        <TextBlock x:Name="enterChargeSlots" Text="Charge slots:" FontSize=" 15" Margin="31,340,669,53"></TextBlock>
-        <TextBlock x:Name="StationDetails" FontSize="10" Margin="22,24,145,335" ></TextBlock>
-        <TextBlock x:Name="enterUpdatedName"  Visibility="Collapsed"   Text="enter new name: " Margin="441,175,231,221"></TextBlock>
-        <TextBlock x:Name="enterUpdatedChargeSlots" Visibility="Collapsed"    Text="enter charge slots number: " Margin="435,235,203,158"></TextBlock>
-
+        <TextBlock x:Name="enterChargeSlots" Text="Charge slots:" FontSize=" 15" Margin="31,231,669,162"></TextBlock>
+        
         <Button x:Name="addTheStation" Content="Add station" Margin="134,386,521,4" FontSize="14" FontWeight="Bold" Foreground="#FFFCF7F7" >
             <Button.Background>
                 <ImageBrush ImageSource="/רקע אדום כהה.png"/>
@@ -43,18 +39,36 @@
                 <ImageBrush ImageSource="/רקע אדום כהה.png"/>
             </Button.Background>
         </Button>
-        <Button x:Name="updateStation" Content="update station details" FontSize="16" Margin="563,107,21,272" FontWeight="Bold" Foreground="#FFF7F3F3"   >
+        <Button x:Name="updateStation" Content="update station details" FontSize="16" Margin="563,107,21,272" FontWeight="Bold"
+                Foreground="#FFF7F3F3" >
+            <Button.Triggers >
+                <EventTrigger RoutedEvent="Button.MouseDoubleClick">
+                    <EventTrigger.Actions >
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty = 
+                           "Width" Duration = "0:0:4">
+                                    <LinearDoubleKeyFrame Value = "60" KeyTime = "0:0:0"/>
+                                    <LinearDoubleKeyFrame Value = "120" KeyTime = "0:0:1"/>
+                                    <LinearDoubleKeyFrame Value = "200" KeyTime = "0:0:2"/>
+                                    <LinearDoubleKeyFrame Value = "300" KeyTime = "0:0:3"/>
+                                </DoubleAnimationUsingKeyFrames>
+                            </Storyboard>
+                          </BeginStoryboard>
+                    </EventTrigger.Actions>
+                </EventTrigger>
+            </Button.Triggers>
             <Button.Background>
                 <ImageBrush ImageSource="/רקע אדום כהה.png"/>
             </Button.Background>
         </Button>
-        <Button x:Name="submitButton" Content="update" Visibility="Collapsed"   FontSize="15" Background="Bisque" Margin="598,287,44,89" ></Button>
-        <ListBox x:Name="ListOfDrones" Visibility="Collapsed" ItemsSource="{Binding }" Margin="34,137,588,82"  >
+        
+        <ListBox x:Name="ListOfDrones" Visibility="Collapsed" Margin="135,286,465,-2"  >
             <ListBox.Background>
                 <ImageBrush/>
             </ListBox.Background>
         </ListBox>
-        <TextBlock x:Name="chooseDrone" Text="choose drone in charge" Visibility="Collapsed" FontSize="14" Width="160" Height="50" Margin="34,96,606,288"></TextBlock>
+        <TextBlock x:Name="chooseDrone" Text="Drones" Visibility="Collapsed" FontSize="14" Width="160" Height="50"  Margin="31,287,669,106"></TextBlock>
         <Button x:Name="deleteStation" Content="delete station" Foreground="#FFFCF6F6" FontSize="15" FontWeight="Bold" Margin="375,106,263,273" >
             <Button.Background>
                 <ImageBrush ImageSource="/רקע אדום כהה.png"/>

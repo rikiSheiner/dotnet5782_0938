@@ -62,6 +62,7 @@ namespace PL
                     mainData.AddUser(newUserName.Text.ToString(), newUserPassword.Text.ToString(), false);
                     MessageBox.Show("Congratulation! welcome to our site " + newUserName.Text);
                     DAL.DalApi.DO.User currentUser = mainData.FindAndGetUser(newUserName.Text, newUserPassword.Text);
+                    
                     new MenuWindow(mainData, currentUser).Show();
 
                 }
@@ -76,6 +77,7 @@ namespace PL
                     {
                         mainData.AddUser(newUserName.Text.ToString(), newUserPassword.Text.ToString(), false);
                         MessageBox.Show("The user has been added successfully");
+                        
                     }
                         
                 }

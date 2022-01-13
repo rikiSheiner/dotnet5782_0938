@@ -41,7 +41,6 @@ namespace PL
         {
             CustomerWindow customerWindow = new CustomerWindow(mainData);
             customerWindow.Show();
-            
         }
 
         private void FilterCustomersList_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -73,7 +72,6 @@ namespace PL
         {
             CustomerWindow customerActions = new CustomerWindow(mainData, (CustomerToList)ListOfCustomers.SelectedItem);
             customerActions.Show();
-            this.Close();
         }
 
         private void refreshWindow_MouseDoubleClick(object sender, RoutedEventArgs e)

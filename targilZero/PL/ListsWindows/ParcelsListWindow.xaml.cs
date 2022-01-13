@@ -46,7 +46,6 @@ namespace PL
         {
             ParcelWindow parcelActions = new ParcelWindow(mainData, (ParcelToList)ListOfParcels.SelectedItem);
             parcelActions.Show();
-            this.Close();
         }
 
         private void FilterParcelsList_SelectionChanged(object sender, SelectionChangedEventArgs e)

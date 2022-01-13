@@ -121,6 +121,15 @@ namespace BL.BlApi
         /// <param name="droneID"></param>
         /// <returns>returns list of customers got parcels from specific drone</returns>
         internal abstract List<DAL.DalApi.DO.Customer> GetListCustomersGotParcelsFromDrone(int droneID);
+        /// <summary>
+        /// The method gets the parcel for sending and the drone and returns 
+        /// whether the drone have enough battery for the delivery of this parcel
+        /// </summary>
+        /// <param name="parcelForDelivery"></param>
+        /// <param name="battery"></param>
+        /// <returns></returns>
+        internal abstract bool DroneHaveEnoughBattery(DAL.DalApi.DO.Parcel parcelForDelivery, Drone d);
+        
         #endregion
 
         #region function for acting of the drones' simulator

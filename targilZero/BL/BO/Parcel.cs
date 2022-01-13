@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel;
 
 namespace BL.BO
 {
@@ -73,23 +74,113 @@ namespace BL.BO
         }
     }
 
-    public class ParcelToList
+    public class ParcelToList : INotifyPropertyChanged 
     {
-        public int ID { get; set; }
-        public string nameOfSender { get; set; }
-        public string nameOfTarget { get; set; }
-        public Enums.WeightCategories weight { get; set; }
-        public Enums.Priorities priority { get; set; }
-        public Enums.ParcelStatuses parcelStatus { get; set; }
+        private int _id;
+        public int ID
+        {
+            get { return _id; }
+            set
+            {
+                _id = value;
+                if (PropertyChanged != null)
+                    PropertyChanged(this, new PropertyChangedEventArgs("ID"));
+            }
+        }
+        private string _nameOfSender;
+        public string nameOfSender
+        {
+            get { return _nameOfSender; }
+            set
+            {
+                _nameOfSender = value;
+                if (PropertyChanged != null)
+                    PropertyChanged(this, new PropertyChangedEventArgs("nameOfSender"));
+            }
+        }
+        private string _nameOfTarget;
+        public string nameOfTarget
+        {
+            get { return _nameOfTarget; }
+            set
+            {
+                _nameOfTarget = value;
+                if (PropertyChanged != null)
+                    PropertyChanged(this, new PropertyChangedEventArgs("nameOfTarget"));
+            }
+        }
+        private Enums.WeightCategories _weight;
+        public Enums.WeightCategories weight
+        {
+            get { return _weight; }
+            set
+            {
+                _weight = value;
+                if (PropertyChanged != null)
+                    PropertyChanged(this, new PropertyChangedEventArgs("weight"));
+            }
+        }
+        private Enums.Priorities _priority;
+        public Enums.Priorities priority
+        {
+            get { return _priority; }
+            set
+            {
+                _priority = value;
+                if (PropertyChanged != null)
+                    PropertyChanged(this, new PropertyChangedEventArgs("priority"));
+            }
+        }
+        private Enums.ParcelStatuses _parcelStatus;
+        public Enums.ParcelStatuses parcelStatus
+        {
+            get { return _parcelStatus; }
+            set
+            {
+                _parcelStatus = value;
+                if (PropertyChanged != null)
+                    PropertyChanged(this, new PropertyChangedEventArgs("parcelStatus"));
+            }
+        }
         /// <summary>
         /// true if the customer approves that the parcel has been sent , false else
         /// </summary>
-        public bool confirmedSending { get; set; }
+        private bool _confirmedSending;
+        public bool confirmedSending
+        {
+            get { return _confirmedSending ; }
+            set
+            {
+                _confirmedSending = value;
+                if (PropertyChanged != null)
+                    PropertyChanged(this, new PropertyChangedEventArgs("confirmedSending"));
+            }
+        }
         /// <summary>
         /// true if the customer approves that the parcel has been recieved , false else
         /// </summary>
-        public bool confirmRecieving { get; set; }
-        public DAL.DalApi.DO.Drone droneSender { get; set; }
+        private bool _confirmRecieving;
+        public bool confirmRecieving
+        {
+            get { return _confirmRecieving; }
+            set
+            {
+                _confirmRecieving = value;
+                if (PropertyChanged != null)
+                    PropertyChanged(this, new PropertyChangedEventArgs("confirmRecieving"));
+            }
+        }
+        private DAL.DalApi.DO.Drone _droneSender;
+        public DAL.DalApi.DO.Drone droneSender
+        {
+            get { return _droneSender; }
+            set
+            {
+                _droneSender = value;
+                if (PropertyChanged != null)
+                    PropertyChanged(this, new PropertyChangedEventArgs("droneSender"));
+            }
+        }
         public override string ToString()
         {
             string str = "Parcel: ID=" + ID + " name of sender=" + nameOfSender;
@@ -102,6 +193,7 @@ namespace BL.BO
             str += "\n";
             return str;
         }
+        public event PropertyChangedEventHandler PropertyChanged;
     }
 
     public class ParcelDeliveryOfCustomer

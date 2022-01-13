@@ -48,7 +48,7 @@ namespace DalXml
         }
         public static bool ConvertStringToBool(string str)
         {
-            if (str == "true")
+            if (str == "true" || str=="True")
                 return true;
             return false;
         }
@@ -189,9 +189,22 @@ namespace DalXml
             configRoot.Element("idNumberParcels").Value = (parcelID + 1).ToString();
             XMLtools.SaveListToXMLElement(configRoot, configPath);
 
-            var listParcels = XMLtools.LoadListFromXMLSerializer<Parcel>(parcelsPath);
-            listParcels.Add(new Parcel(parcelID, sid, tid, (Enums.WeightCategories)w, (Enums.Priorities)p));
-            XMLtools.SaveListToXMLSerializer<Parcel>(listParcels, parcelsPath);
+            XElement parcelsRoot = XMLtools.LoadListFromXMLElement(parcelsPath);
+            XElement newParcelElement = new XElement("Parcel",
+               new XElement("ID", parcelID),
+               new XElement("senderID", sid),
+               new XElement("targetID", tid),
+               new XElement("weight", (Enums.WeightCategories)w),
+               new XElement("priority", (Enums.Priorities)p),
+               new XElement("requested", "2022-01-04"),
+               new XElement("droneID", -1),
+               new XElement("scheduled", "0001-01-01"),
+               new XElement("pickedUp", "0001-01-01"),
+               new XElement("delivered", "0001-01-01"),
+               new XElement("confirmedSending", "false"),
+               new XElement("confirmRecieving", "false"));
+            parcelsRoot.Add(newParcelElement);
+            XMLtools.SaveListToXMLElement(parcelsRoot, parcelsPath);
 
         }
         [MethodImpl(MethodImplOptions.Synchronized)]
@@ -541,46 +554,75 @@ namespace DalXml
                 throw new ObjectNotFoundException("The drone to charge does not exist in the system");
             
             int indexDroneInCharge = FindDroneInCharge(droneId);
-            if (indexDroneInCharge < 0)
-                AddDroneCharge(droneId, stationId, true, DateTime.Now);
+            bool activeChargeIncreased = false , chargeSlotsDecreased = true, addNewCharge = false;
+            Station stationToUpdate; //התחנה שבה יש לעדכן מספר חריצי טעינה
+            DroneCharge dc;
             
-            else
+            if (indexDroneInCharge < 0) //לא קיימת טעינת רחפן של רחפן זה
+            {
+                addNewCharge = true;
+                activeChargeIncreased = true;
+            }
+            else //קיימת טעינה של רחפן זה
             {
                 List<DroneCharge> listOfAllDronesCharge = XMLtools.LoadListFromXMLSerializer<DroneCharge>(dronesInChargePath);
-                int indexDroneCharge = listOfAllDronesCharge.FindIndex(x => x.droneID == droneId);
-                DroneCharge dc = listOfAllDronesCharge[indexDroneCharge];
-                if (dc.stationID != stationId )
-                    AddDroneCharge(droneId, stationId, true, DateTime.Now);
-                else
+                indexDroneInCharge = listOfAllDronesCharge.FindIndex(x =>x.droneID == droneId && x.stationID == stationId);
+                if (indexDroneInCharge >= 0) //קיימת טעינה בתחנה זו
                 {
-                    dc.activeCharge = true;
-                    dc.start = DateTime.Now;
-                    listOfAllDronesCharge[indexDroneCharge] = dc;
-                    XMLtools.SaveListToXMLSerializer<DroneCharge>(listOfAllDronesCharge, dronesInChargePath);
+                    dc = listOfAllDronesCharge[indexDroneInCharge];
+                    if (!dc.activeCharge)//הטעינה בתחנה זו לא פעילה
+                    {
+                        dc.activeCharge = true;
+                        dc.start = DateTime.Now;
+                        activeChargeIncreased = true;
+                    }
+                    else//הטעינה בתחנה זו פעילה
+                    {
+                        chargeSlotsDecreased = false;
+                    }
+                    listOfAllDronesCharge[indexDroneInCharge] = dc;
                 }
+                else //לא קיימת טעינה בתחנה זו
+                {
+                    indexDroneInCharge = listOfAllDronesCharge.FindIndex(x => x.droneID == droneId && x.activeCharge );
+                    addNewCharge = true;
+                    if(indexDroneInCharge >= 0) //הטעינה בתחנה אחרת פעילה
+                    {
+                        dc = listOfAllDronesCharge[indexDroneInCharge];
+                        dc.activeCharge = false;
+                        dc.end = DateTime.Now;
+                        stationToUpdate = FindAndGetStation(dc.stationID);
+                        UpdateStation(dc.stationID, stationToUpdate.name, stationToUpdate.chargeSlots + 1);
+                        listOfAllDronesCharge[indexDroneInCharge] = dc;
+                    }
+                    else //הטעינה בתחנה אחרת לא פעילה
+                    {
+                        activeChargeIncreased = true;
+                    }
+                }
+                XMLtools.SaveListToXMLSerializer<DroneCharge>(listOfAllDronesCharge, dronesInChargePath);
             }
-
-            List<Station> listOfAllStations = XMLtools.LoadListFromXMLSerializer<Station>(stationsPath);
-            int indexStation = listOfAllStations.FindIndex(x => x.stationID == stationId);
-            if (indexStation < 0)
-                throw new ObjectNotFoundException("The station of charging does not exist in the system");
-            Station s = listOfAllStations[indexStation ];
-            s.chargeSlots--;
-            listOfAllStations[indexStation] = s;
-            XMLtools.SaveListToXMLSerializer<Station>(listOfAllStations, stationsPath);
-
-            XElement configRoot = XMLtools.LoadListFromXMLElement(configPath);
-            int countActive = int.Parse (configRoot.Element("countActive").Value)+1;
-            configRoot.Element("countActive").Value = countActive.ToString ();
-            XMLtools.SaveListToXMLElement(configRoot, configPath);
-            
+            if(addNewCharge)
+                AddDroneCharge(droneId, stationId, true, DateTime.Now);
+            if (chargeSlotsDecreased)
+            {
+                stationToUpdate = FindAndGetStation(stationId);
+                UpdateStation(stationId, stationToUpdate .name , stationToUpdate .chargeSlots -1);
+            }
+            if(activeChargeIncreased)
+            {
+                XElement configRoot = XMLtools.LoadListFromXMLElement(configPath);
+                int countActive = int.Parse(configRoot.Element("countActive").Value) + 1;
+                configRoot.Element("countActive").Value = countActive.ToString();
+                XMLtools.SaveListToXMLElement(configRoot, configPath);
+            } 
         }
         [MethodImpl(MethodImplOptions.Synchronized)]
         public override void EndDroneCharge(int dID, int hoursOfCharging)
         {
             int indexDcharge = FindDroneInCharge(dID);
             if (indexDcharge < 0)
-                throw new ObjectNotFoundException("The drone is not in charge\n");
+                throw new ObjectNotFoundException("The drone does not in charge\n");
 
             List<DroneCharge> listOfAllDronesCharge = XMLtools.LoadListFromXMLSerializer<DroneCharge>(dronesInChargePath);
             int indexDroneCharge = listOfAllDronesCharge.FindIndex(x => x.droneID == dID);
@@ -608,22 +650,34 @@ namespace DalXml
         [MethodImpl(MethodImplOptions.Synchronized)]
         public override void UpdateSendingOfParcel(int parcelID)
         {
-            List<Parcel> listOfAllParcels = XMLtools.LoadListFromXMLSerializer<Parcel>(parcelsPath);
-            int indexParcel = listOfAllParcels.FindIndex(x => x.ID == parcelID);
-            Parcel p = listOfAllParcels[indexParcel];
-            p.confirmedSending = true;
-            listOfAllParcels[indexParcel] = p;
-            XMLtools.SaveListToXMLSerializer<Parcel>(listOfAllParcels, parcelsPath);
+            XElement parcelsRoot = XMLtools.LoadListFromXMLElement(parcelsPath);
+            XElement myParcel;
+            foreach (var item in parcelsRoot.Elements())
+            {
+                if (int.Parse(item.Element("ID").Value) == parcelID)
+                {
+                    myParcel = item;
+                    myParcel.Element("confirmedSending").Value = true.ToString ();
+                    break;
+                }
+            }
+            XMLtools.SaveListToXMLElement(parcelsRoot, parcelsPath);
         }
         [MethodImpl(MethodImplOptions.Synchronized)]
         public override void UpdateRecievingOfParcel(int parcelID)
         {
-            List<Parcel> listOfAllParcels = XMLtools.LoadListFromXMLSerializer<Parcel>(parcelsPath);
-            int indexParcel = listOfAllParcels.FindIndex(x => x.ID == parcelID);
-            Parcel p = listOfAllParcels[indexParcel];
-            p.confirmRecieving = true;
-            listOfAllParcels[indexParcel] = p;
-            XMLtools.SaveListToXMLSerializer<Parcel>(listOfAllParcels, parcelsPath);
+            XElement parcelsRoot = XMLtools.LoadListFromXMLElement(parcelsPath);
+            XElement myParcel;
+            foreach (var item in parcelsRoot.Elements())
+            {
+                if (int.Parse(item.Element("ID").Value) == parcelID)
+                {
+                    myParcel = item;
+                    myParcel.Element("confirmRecieving").Value = true.ToString();
+                    break;
+                }
+            }
+            XMLtools.SaveListToXMLElement(parcelsRoot, parcelsPath);
         }
         #endregion
 

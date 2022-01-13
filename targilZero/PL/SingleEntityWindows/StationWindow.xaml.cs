@@ -24,7 +24,6 @@ namespace PL
     {
         private IBL mainData;
         private StationToList stationCurrent;
-        /*int id, int name, double longitude, double latitude, int cs*/
 
         /// <summary>
         /// constructor for actions on specific station
@@ -37,40 +36,29 @@ namespace PL
             mainData = data;
             stationCurrent = station;
             closeWindow.Click += closeWindow_Click;
-            
+            this.DataContext = stationCurrent;
 
             //הסתרת כל הכפתורים הקשורים לחלון תחנה במצב הוספה
-            newChargeSlots.Visibility = Visibility.Collapsed;
-            newID.Visibility = Visibility.Collapsed;
-            newLatitude.Visibility = Visibility.Collapsed;
-            newLongitude.Visibility = Visibility.Collapsed;
-            newName.Visibility = Visibility.Collapsed;
-            enterChargeSlots.Visibility = Visibility.Collapsed;
-            enterID.Visibility = Visibility.Collapsed;
+            
             enterLatitude.Visibility = Visibility.Collapsed;
             enterLongitude.Visibility = Visibility.Collapsed;
-            enterName.Visibility = Visibility.Collapsed;
+            newLatitude.Visibility = Visibility.Collapsed;
+            newLongitude.Visibility = Visibility.Collapsed;
+
             addTheStation.Visibility = Visibility.Collapsed;
             cancelAdding.Visibility = Visibility.Collapsed;
 
             ListOfDrones.Visibility = Visibility.Visible;
             chooseDrone.Visibility = Visibility.Visible;
 
-            StationDetails.Text = stationCurrent.ToString();
-
             updateStation.MouseDoubleClick += updateStation_MouseDoubleClick;
-            submitButton.MouseDoubleClick += submitButton_MouseDoubleClick;
             ListOfDrones.SelectionChanged += ListOfDrones_SelectionChanged;
             deleteStation.MouseDoubleClick += deleteStation_MouseDoubleClick;
 
-           
-
-            foreach (DroneToList drone in stationCurrent.dronesInCharge)
-            {
-                ListOfDrones.Items.Add(drone);
-            }
-
-
+            ListOfDrones.ItemsSource = stationCurrent.dronesInCharge;
+            newChargeSlots.Text = (stationCurrent.availableChargeSlots + stationCurrent.fullChargeSlots).ToString();
+            newID.IsEnabled = false;
+            
         }
         public StationWindow(IBL data)
         {
@@ -81,13 +69,14 @@ namespace PL
             cancelAdding.MouseDoubleClick += cancelAdding_MouseDoubleClick;
             addTheStation.MouseDoubleClick += addTheStation_MouseDoubleClick;
             updateStation.Visibility = Visibility.Collapsed;
-            StationDetails.Visibility = Visibility.Collapsed;
             deleteStation.Visibility = Visibility.Collapsed;
-
+            
+            
         }
 
         private void TextBox_OnlyNumbers_PreviewKeyDown(object sender, KeyEventArgs e)
         {
+
             TextBox text = sender as TextBox;
             if (text == null) return;
             if (e == null) return;
@@ -115,21 +104,29 @@ namespace PL
             //forbid letters and signs (#,$, %, ...)
             e.Handled = true; //ignore this key. mark event as handled, will not be routed to other controls
             return;
-        }
 
+        }
         private void closeWindow_Click(object sender, RoutedEventArgs e)
         {
             Close();
         }
-
+        private void updateDisplayOfOpenedWindows()
+        {
+            if (Application.Current.Windows.OfType<StationsListWindow>().Any(w => w.GetType().Name.Equals("StationsListWindow")))
+            {
+                Application.Current.Windows.OfType<StationsListWindow>().FirstOrDefault().Close();
+                StationsListWindow sl = new StationsListWindow(mainData);
+                sl.Show();
+            }
+        }
         private void addTheStation_MouseDoubleClick(object sender, RoutedEventArgs e)
         {
-
             try
             {
                 mainData.AddStation(int.Parse(newID.Text.ToString()), int.Parse (newName.Text.ToString ()),double.Parse(newLongitude.Text.ToString()), double.Parse(newLatitude.Text.ToString()),int.Parse (newChargeSlots .Text .ToString ()));
                 MessageBox.Show("Added successfully");
                 Close();
+                updateDisplayOfOpenedWindows();
             }
             catch (AddingProblemException addingProblem)
             {
@@ -148,36 +145,9 @@ namespace PL
 
         private void updateStation_MouseDoubleClick(object sender, RoutedEventArgs e)
         {
-            enterUpdatedName.Visibility = Visibility.Visible;
-            enterUpdatedChargeSlots.Visibility = Visibility.Visible;
-            updatedName.Visibility = Visibility.Visible;
-            updatedChargeSlots.Visibility = Visibility.Visible;
-            submitButton.Visibility = Visibility.Visible;
-
-
-        }
-
-        private void submitButton_MouseDoubleClick(object sender, RoutedEventArgs e)
-        {
-            int n = 0,cs=0;
-            if (int.TryParse(updatedName.Text, out n))
-                n = int.Parse(updatedName.Text);
-            if (int.TryParse(updatedChargeSlots.Text, out cs))
-                cs = int.Parse(updatedChargeSlots.Text);
-
-            mainData.UpdateStation(stationCurrent.ID,n, cs);
-            stationCurrent = mainData.GetStation(stationCurrent.ID);
-
-            submitButton.Visibility = Visibility.Collapsed;
-            enterUpdatedName.Visibility = Visibility.Collapsed;
-            enterUpdatedChargeSlots.Visibility = Visibility.Collapsed;
-            updatedName.Visibility = Visibility.Collapsed;
-            updatedChargeSlots.Visibility = Visibility.Collapsed;
-
+            mainData.UpdateStation(stationCurrent.ID, int.Parse (newName.Text.ToString ()), int.Parse (newChargeSlots.Text.ToString ()));
             MessageBox.Show("Updated successfully");
-
-            StationDetails.Text = stationCurrent.ToString();
-
+            updateDisplayOfOpenedWindows();
         }
 
         private void ListOfDrones_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -202,6 +172,7 @@ namespace PL
                 MessageBox.Show("The station has been deleted successfuly");
                 new StationsListWindow(mainData).Show();
                 Close();
+                updateDisplayOfOpenedWindows();
             }
             catch (DeletedProblemException dpe)
             {

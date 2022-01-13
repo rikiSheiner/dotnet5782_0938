@@ -10,4 +10,14 @@
     <UserPassword>32</UserPassword>
     <UserAccessManagement>false</UserAccessManagement>
   </User>
+  <User>
+    <UserName>a</UserName>
+    <UserPassword>1</UserPassword>
+    <UserAccessManagement>false</UserAccessManagement>
+  </User>
+  <User>
+    <UserName>b</UserName>
+    <UserPassword>2</UserPassword>
+    <UserAccessManagement>false</UserAccessManagement>
+  </User>
 </ArrayOfUser>

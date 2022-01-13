@@ -44,21 +44,31 @@ namespace BL.BlApi
                 switch (status)
                 {
                     case "available":
-                        try
+                        if (droneCurrent.battery <= 15) //low battery- less than 15%
                         {
-                            blObject.AssignParcelToDrone(droneID);
+                            try{blObject.CreateDroneCharge(droneID);}
+                            catch (Exception) { }
                         }
-                        catch (UpdateProblemException upe)
+                        else
                         {
-                            if(upe.Message == "There are not parcels in the storage.")
+                            try
                             {
-                                parcelsEnded = true;
+                                blObject.AssignParcelToDrone(droneID);
                             }
-                            else if(upe.Message == "the drone does not have enough batery")
+                            catch (UpdateProblemException upe)
                             {
-                                blObject.CreateDroneCharge(droneID);
+                                if (upe.Message == "There are not parcels in the storage.")
+                                {
+                                    parcelsEnded = true;
+                                }
+                                else
+                                {
+                                    try { blObject.CreateDroneCharge(droneID); }
+                                    catch(Exception) {  }
+                                }
                             }
                         }
+                        
                         Thread.Sleep(delayTime);
                         break;
                     case "maintenance":

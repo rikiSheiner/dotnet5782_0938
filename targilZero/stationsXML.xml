@@ -5,20 +5,48 @@
     <name>111</name>
     <longitude>100</longitude>
     <latitude>150</latitude>
-    <chargeSlots>10</chargeSlots>
+    <chargeSlots>4</chargeSlots>
   </Station>
   <Station>
     <stationID>2</stationID>
     <name>222</name>
-    <longitude>300</longitude>
-    <latitude>210</latitude>
-    <chargeSlots>27</chargeSlots>
+    <longitude>100</longitude>
+    <latitude>110</latitude>
+    <chargeSlots>17</chargeSlots>
+  </Station>
+  <Station>
+    <stationID>3</stationID>
+    <name>333</name>
+    <longitude>100</longitude>
+    <latitude>100</latitude>
+    <chargeSlots>28</chargeSlots>
   </Station>
   <Station>
     <stationID>4</stationID>
     <name>444</name>
-    <longitude>4</longitude>
-    <latitude>4</latitude>
-    <chargeSlots>4</chargeSlots>
+    <longitude>144</longitude>
+    <latitude>124</latitude>
+    <chargeSlots>25</chargeSlots>
+  </Station>
+  <Station>
+    <stationID>5</stationID>
+    <name>555</name>
+    <longitude>190</longitude>
+    <latitude>127</latitude>
+    <chargeSlots>7</chargeSlots>
+  </Station>
+  <Station>
+    <stationID>7</stationID>
+    <name>777</name>
+    <longitude>191</longitude>
+    <latitude>130</latitude>
+    <chargeSlots>8</chargeSlots>
+  </Station>
+  <Station>
+    <stationID>8</stationID>
+    <name>888</name>
+    <longitude>129</longitude>
+    <latitude>138</latitude>
+    <chargeSlots>5</chargeSlots>
   </Station>
 </ArrayOfStation>

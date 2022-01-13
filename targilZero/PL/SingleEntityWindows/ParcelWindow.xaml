@@ -58,5 +58,7 @@
                 <ImageBrush/>
             </Button.Background>
         </Button>
+        <Image x:Name="imageParcel" Source="/SingleEntityWindows/חבילה.png" Margin="642,306,19,11"/>
+
     </Grid>
 </Window>

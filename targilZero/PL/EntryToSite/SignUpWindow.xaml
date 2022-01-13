@@ -41,6 +41,6 @@
                 <ImageBrush ImageSource="/רקע אדום כהה.png"/>
             </Button.Background>
         </Button>
-
+        
     </Grid>
 </Window>

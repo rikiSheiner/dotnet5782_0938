@@ -134,36 +134,32 @@ namespace PL.SingleEntityWindows
         {
             Close();
         }
+        private void updateDisplayOfOpenedWindows()
+        {
+            if (Application.Current.Windows.OfType<ParcelsListWindow>().Any(w => w.GetType().Name.Equals("ParcelsListWindow")))
+            {
+                Application.Current.Windows.OfType<ParcelsListWindow>().FirstOrDefault().Close();
+                ParcelsListWindow pl = new ParcelsListWindow(mainData);
+                pl.Show();
+            }
+        }
 
         private void addTheParcel_MouseDoubleClick(object sender, RoutedEventArgs e)
         {
             
             try
             {
-                int sID = -1,tID=-1,p=-1,w=-1;
-                if (int.TryParse(newTargetID.SelectedItem.ToString(), out tID))
-                    tID = int.Parse(newTargetID.SelectedItem.ToString());
-                if (int.TryParse(newWeight.SelectedItem.ToString(), out w))
-                    w = int.Parse(newWeight.SelectedItem.ToString());
-                if (int.TryParse(newPriority.SelectedItem.ToString(), out p))
-                    p = int.Parse(newPriority.SelectedItem.ToString());
                 if (newSenderID .Visibility == Visibility.Collapsed )
                 {
-                    mainData.AddParcel(currentCustomer .ID, tID, w, p);
+                    mainData.AddParcel(currentCustomer.ID, int.Parse(newTargetID.SelectedItem.ToString()), newWeight.SelectedIndex, newPriority.SelectedIndex);
                 }
                 else
                 {
-                    if (int.TryParse(newSenderID.SelectedItem.ToString(), out sID))
-                        sID = int.Parse(newSenderID.SelectedItem.ToString());
-                    mainData.AddParcel(sID, tID, w, p);
+                    mainData.AddParcel(int.Parse(newSenderID.SelectedItem.ToString()), int.Parse (newTargetID.SelectedItem.ToString ()), newWeight.SelectedIndex, newPriority .SelectedIndex );
                 }
-                
-                
-
-
-                
                 MessageBox.Show("Added successfully");
                 Close();
+                updateDisplayOfOpenedWindows();
             }
             catch (AddingProblemException addingProblem)
             {
@@ -175,10 +171,7 @@ namespace PL.SingleEntityWindows
             }
         }
 
-        private void cancelAdding_MouseDoubleClick(object sender, RoutedEventArgs e)
-        {
-            Close();
-        }
+        private void cancelAdding_MouseDoubleClick(object sender, RoutedEventArgs e) { Close(); }
 
         private void deleteParcel_MouseDoubleClick(object sender, RoutedEventArgs e)
         {
@@ -188,6 +181,7 @@ namespace PL.SingleEntityWindows
                 MessageBox.Show("The parcel has been deleted successfuly");
                 new ParcelsListWindow(mainData).Show();
                 Close();
+                updateDisplayOfOpenedWindows();
             }
             catch (DeletedProblemException dpe)
             {

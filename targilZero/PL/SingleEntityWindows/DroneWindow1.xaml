@@ -20,13 +20,30 @@
         <TextBlock x:Name="enterModel" Text="Model:" FontSize="15" Margin="31,169,669,224"></TextBlock>
         <TextBlock x:Name="enterWeight" Text="Weight: " FontSize="15" Margin="31,231,669,162"></TextBlock>
         <TextBlock  x:Name="enterStationNum" Text="Station ID:" FontSize="15" Margin="31,287,669,106"></TextBlock>
-        <TextBlock x:Name="DroneDetails" FontSize="10" Margin="22,24,145,335" ></TextBlock>
         <TextBlock x:Name="enterHoursCharging" Text="enter hours of charging: "  Visibility="Collapsed" Margin="450,233,40,160"></TextBlock>
-
-        <TextBox x:Name="updatedDroneModel" FontStyle="Italic" IsEnabled="False" Background="Bisque" Visibility="Collapsed" Margin="596,174,40,220"></TextBox>
-
-        <Button x:Name="submitModel" Background="Bisque" Visibility="Collapsed"  Content="update" Margin="595,233,40,149" Click="submitModel_MouseDoubleClick"></Button>
+        
+        <TextBlock  x:Name="enterStatus" Visibility="Collapsed" Text="Status:" FontSize="15" Margin="31,287,669,106"></TextBlock>
+        <TextBlock x:Name="enterBattrey" Text="Battery:"  Visibility="Collapsed" FontSize="15" Margin="31,335,669,55"></TextBlock>
+        <TextBlock x:Name="enterLocation" Text="Location:"  Visibility="Collapsed"  FontSize="15" Margin="31,387,669,2"></TextBlock>
+        
         <Button x:Name="updateDrone" Content="update model" FontSize="16" Margin="595,107,40,272" Foreground="#FFFAF4F4" FontWeight="Bold" >
+            <Button.Triggers >
+                <EventTrigger RoutedEvent="Button.MouseDoubleClick">
+                    <EventTrigger.Actions >
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty = 
+                           "Width" Duration = "0:0:4">
+                                    <LinearDoubleKeyFrame Value = "60" KeyTime = "0:0:0"/>
+                                    <LinearDoubleKeyFrame Value = "120" KeyTime = "0:0:1"/>
+                                    <LinearDoubleKeyFrame Value = "200" KeyTime = "0:0:2"/>
+                                    <LinearDoubleKeyFrame Value = "300" KeyTime = "0:0:3"/>
+                                </DoubleAnimationUsingKeyFrames>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger.Actions>
+                </EventTrigger>
+            </Button.Triggers>
             <Button.Background>
                 <ImageBrush ImageSource="/רקע אדום כהה.png"/>
             </Button.Background>
@@ -41,7 +58,7 @@
                 <ImageBrush ImageSource="/רקע אדום כהה.png"/>
             </Button.Background>
         </Button>
-        <Button x:Name="AutomaticButton" Content="Automatic" FontSize="16" Foreground="#FFFAF7F7" FontWeight="Bold" Margin="592,359,36,24" >
+        <Button x:Name="AutomaticButton" Content="Automatic"  FontSize="16" Foreground="#FFFAF7F7" FontWeight="Bold" Margin="592,359,36,24" >
             <Button.Background>
                 <ImageBrush ImageSource="/רקע אדום כהה.png"/>
             </Button.Background>
@@ -52,12 +69,15 @@
             </Button.Background>
         </Button>
 
-        <TextBox x:Name="newID" Margin="133,114,521,279" TextChanged="newID_TextChanged"></TextBox >
-        <TextBox x:Name="newModel"  Margin="133,171,521,224" TextChanged="newModel_TextChanged"></TextBox >
-        <TextBox x:Name="hoursOfCharging" Visibility="Collapsed" Margin="595,233,40,160" ></TextBox>
-
+        <TextBox x:Name="newID" Margin="133,114,521,279" Text="{Binding Path=ID}" PreviewKeyDown="TextBox_OnlyNumbers_PreviewKeyDown"></TextBox >
+        <TextBox x:Name="newModel" Margin="133,171,521,224" Text="{Binding Path=model, Mode=TwoWay}"></TextBox >
+        <TextBox x:Name="hoursOfCharging" Visibility="Collapsed" Margin="595,233,40,160" PreviewKeyDown="TextBox_OnlyNumbers_PreviewKeyDown"></TextBox>
+        <TextBox x:Name="newWeightTB" IsEnabled="False" Visibility="Collapsed" Text="{Binding Path=maxWeight}" Margin="133,229,521,166"></TextBox>
         <ComboBox Name="newWeightCategory" Background="White"  Margin="133,229,521,166"></ComboBox>
         <ComboBox Name="newStationID" Background="White" Margin="134,286,520,109"></ComboBox>
+        <TextBox x:Name="newStatus" IsEnabled="False" Visibility="Collapsed" Text="{Binding Path=droneStatus,Mode=TwoWay }" Margin="134,286,520,109"></TextBox>
+        <TextBox x:Name="newBattery" IsEnabled="False" Visibility="Collapsed" Text="{Binding Path=battery,Mode=TwoWay }" Margin="135,343,519,52"></TextBox>
+        <TextBox x:Name="newLocation" IsEnabled="False"  Visibility="Collapsed" Margin="135,386,519,9"></TextBox>
 
         <Button x:Name="addTheDrone" Content="add drone" Margin="142,384,513,6" Click="addTheDrone_MouseDoubleClick" Foreground="#FFF3F0F0" FontSize="16" FontWeight="Bold">
             <Button.Background>
@@ -86,5 +106,6 @@
                 <ImageBrush ImageSource="/רקע אדום כהה.png"/>
             </Button.Background>
         </Button>
+
     </Grid>
 </Window>

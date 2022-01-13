@@ -66,7 +66,6 @@ namespace PL
         {
             StationWindow stationActions = new StationWindow(mainData, (StationToList)ListOfStations.SelectedItem);
             stationActions.Show();
-            this.Close();
         }
 
         private void refreshWindow_MouseDoubleClick(object sender, RoutedEventArgs e)

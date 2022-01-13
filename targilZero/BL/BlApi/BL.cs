@@ -32,15 +32,16 @@ namespace BL.BlApi
             //datafield = DAL.DalFactory.GetDal("DalObject");
             datafield = DAL.DalFactory.GetDal("DALXml");
 
-            powerConsumption = datafield.GetPowerConsumption(); //צריכת חשמל ע"י הרחפנים
-            droneChargeRate = datafield.GetDroneLoadingRate(); //קצב טעינת הרחפנים
+            powerConsumption = datafield.GetPowerConsumption(); //power consumption by drones
+            droneChargeRate = datafield.GetDroneLoadingRate(); //loading rate of drones
             IEnumerable<DAL.DalApi.DO.Drone> dronesList = datafield.GetDrones();
             dronesBL = new List<Drone>();
 
-            //הוספת הרחפנים שנמצאים  בשכבת הנתונים לרשימת הרחפנים שישנה בשכבה הלוגית
+            //adding the drone of DAL to the list of drones of BL
             DAL.DalApi.DO.Drone temp;
             Drone d;
             Random r = new Random();
+            DateTime oneTime = new DateTime(1, 1, 1);
             for (int i = 0; i < dronesList.Count(); i++)
             {
                 temp = dronesList.ElementAt(i);
@@ -50,7 +51,7 @@ namespace BL.BlApi
                 d.maxWeight = (Enums.WeightCategories)temp.maxWeight;
                 d.battery = r.Next(30,51);
                 d.droneStatus = Enums.DroneStatuses.available;
-                d.location = new LogicalEntities.Location(r.Next(0, 360), r.Next(0, 360));
+                d.location = new LogicalEntities.Location(r.Next(100, 160), r.Next(100, 160));
                 dronesBL.Add(d);
             }
 
@@ -70,35 +71,35 @@ namespace BL.BlApi
                         break; 
                     }
                 }
-                parcelToDrone = desired.scheduled != null && desired.scheduled < DateTime.Now  && (desired.delivered == null || desired.delivered > DateTime.Now);
-                if (parcelToDrone) //אם החבילה שויכה אך לא נאספה
+                parcelToDrone = desired.scheduled != null && desired.scheduled !=oneTime && desired.scheduled < DateTime.Now  &&
+                    (desired.delivered == null || desired.delivered == oneTime || desired.delivered > DateTime.Now);
+                if (parcelToDrone) //the parcel assigned but not supplied
                 {
-                    //עדכון מצב הרחפן למבצע משלוח
-
+                    //update the status of the drone to delivery
                     tempD.droneStatus = Enums.DroneStatuses.delivery;
 
-                    //מציאת מיקום החבילה
+                    //finding loaction of parcel
                     DAL.DalApi.DO.Customer send = datafield.FindAndGetCustomer(desired.senderID);
                     DAL.DalApi.DO.Customer dest = datafield.FindAndGetCustomer(desired.targetID);
                     LogicalEntities.Location locationSender = new LogicalEntities.Location(send.longitude, send.latitude);
                     LogicalEntities.Location locationTarget = new LogicalEntities.Location(dest.longitude, dest.latitude);
 
-                    //מיקום הרחפן
-                    if ( desired.pickedUp == null || desired.pickedUp > DateTime.Now) //אם החבילה שויכה ולא נאספה
+                    //finding location of the drone
+                    if (desired.pickedUp == null ||desired .pickedUp == oneTime || desired.pickedUp > DateTime.Now) //the parcel not collected
                     {
-                        //מיקום הרחפן בתחנה הקרובה לשולח
+                        //location of drone is location of station soon to the sender of the parcel
                         var closeStation = HelpMethods.FindCloseStation(locationSender, datafield.GetBasisStations());
                         DAL.DalApi.DO.Station s = datafield.GetBasisStations().ElementAt(closeStation.indexCloseStation);
                         tempD.location = new LogicalEntities.Location(s.longitude, s.latitude);
 
                     }
-                    else if ( desired.delivered == null || desired.delivered > DateTime.Now) //אם החבילה נאספה אך עוד לא סופקה 
+                    else if ( desired.delivered == null||desired .delivered == oneTime|| desired.delivered > DateTime.Now) //the parcel collected but not supllied
                     {
-                        //מיקום הרחפן במיקום השולח
+                        //location of the drone is the location of the sender
                         tempD.location = locationSender;
                     }
 
-                    // טיפול במצב סוללת הרחפן
+                    //calculating the battery of the drone
                     var closeStationToDest = HelpMethods.FindCloseStation(locationSender, datafield.GetBasisStations());
                     double battery = HelpMethods.CalculateDistance(locationTarget, locationSender);
                     battery *= powerConsumption[(int)desired.weight + 1];
@@ -115,7 +116,7 @@ namespace BL.BlApi
 
                 if (dronesBL[i].droneStatus == Enums.DroneStatuses.available)
                 {
-                    HelpMethods.DataCloseStation cs = HelpMethods.FindCloseStation(dronesBL[i], datafield.GetBasisStations());
+                    HelpMethods.DataCloseStation cs = HelpMethods.FindCloseStation(dronesBL[i], datafield.GetBasisStations(),GetListStationsWithCondition (x=>x.availableChargeSlots >0));
                     int min = Math.Min((int)cs.distance * (int)powerConsumption[3], 101);
                     tempD.battery = r.Next(min, 101);
                     
@@ -134,7 +135,8 @@ namespace BL.BlApi
                     DAL.DalApi.DO.Station helpStation = datafield.GetBasisStations().ElementAt(r.Next(0, datafield.GetBasisStations().Count()));
                     tempD.location = new LogicalEntities.Location(helpStation.longitude, helpStation.latitude);
                     
-                    datafield.CreateDroneCharge(helpStation.stationID, tempD.ID);
+                    if(datafield .FindDroneInCharge (tempD .ID )<0)
+                        datafield.CreateDroneCharge(helpStation.stationID, tempD.ID);
                 }
 
                 dronesBL[i] = tempD;
@@ -419,7 +421,7 @@ namespace BL.BlApi
         [MethodImpl(MethodImplOptions.Synchronized)]
         public override void CreateDroneCharge(int droneID)
         {
-            int index = FindDroneBL(droneID); //find drone in BLdrones
+            int index = FindDroneBL(droneID); //find drone in BL drones
             int indexInDronesDAL = datafield.FindDrone(droneID);
             if (index < 0 || indexInDronesDAL < 0)
                 throw new UpdateProblemException("Drone not found.");
@@ -427,18 +429,18 @@ namespace BL.BlApi
             if (dronesBL[index].droneStatus == Enums.DroneStatuses.delivery)
                 throw new UpdateProblemException("Can't charge drone " + droneID);
 
-            HelpMethods.DataCloseStation closeStation = HelpMethods.FindCloseStation(dronesBL[index], datafield.GetBasisStations());
+            HelpMethods.DataCloseStation closeStation = HelpMethods.FindCloseStation(dronesBL[index], datafield .GetBasisStations (), GetListStationsWithCondition(station => station.availableChargeSlots > 0));
             if (closeStation.indexCloseStation < 0)
-                throw new UpdateProblemException("There is not station where the drone can be charged.");
+                throw new UpdateProblemException("There is not station where the drone can be charged");
 
-            lock(datafield )
+            //lock(datafield)
             {
                 int stationID = datafield.GetBasisStations().ElementAt(closeStation.indexCloseStation).stationID;
                 datafield.CreateDroneCharge(stationID, droneID);
 
-                //עדכון נתוני הרחפן שאותו מטעינים
+                //update the details of the drone for charging 
                 Drone temp = dronesBL[index];
-                temp.battery = temp.battery - (int)closeStation.distance * (int)(powerConsumption[0]);
+                temp.battery = temp.battery - (int)closeStation.distance * (int)powerConsumption[0];
                 DAL.DalApi.DO.Station stationOfCharging = datafield.GetBasisStations().ElementAt(closeStation.indexCloseStation);
                 LogicalEntities.Location locationStation = new LogicalEntities.Location(stationOfCharging.longitude, stationOfCharging.latitude);
                 temp.location = locationStation;
@@ -465,7 +467,8 @@ namespace BL.BlApi
             //int indexStation = datafield.FindStation(temp.stationID);
             //if (indexStation < 0)
             //    throw new UpdateProblemException("The station where the drone was charged does not exist.");
-            lock(datafield )
+            
+            //lock(datafield )
             {
                 datafield.EndDroneCharge(droneID, hoursOfCharging);
                 //עדכון נתוני הרחפן שאותו משחררים מטעינה
@@ -493,8 +496,12 @@ namespace BL.BlApi
 
             bool foundParcel = false; //האם מצאנו חבילה לשיוך לרחפן
             IEnumerable<DAL.DalApi.DO.Parcel> parcelsList =from DAL.DalApi.DO.Parcel item in datafield.GetParcels()
-                                                           where item.pickedUp == null || item.pickedUp == timeOne
+                                                           where (item.pickedUp == null || item.pickedUp == timeOne) && item.droneID ==-1
                                                            select item;
+
+            if (parcelsList.Count() == 0)
+                throw new UpdateProblemException("There are not parcels to assign");
+            
             DAL.DalApi.DO.Parcel parcelToAssign = parcelsList.ElementAt(0);
             DAL.DalApi.DO.Parcel helpParcel = parcelsList.ElementAt(0);
             Drone droneToParcel = dronesBL[indexDroneBL];
@@ -517,15 +524,21 @@ namespace BL.BlApi
                         //מצאנו חבילה בעדיפות גבוהה עם משקל מקסימלי אפשרי עבור רחפן
                         if ((int)(helpParcel.weight) == (int)(droneToParcel.maxWeight))
                         {
-                            foundParcel = true;
-                            parcelToAssign = helpParcel;
-                            break;
+                            if (DroneHaveEnoughBattery(helpParcel, droneToParcel))
+                            {
+                                foundParcel = true;
+                                parcelToAssign = helpParcel;
+                                break;
+                            }
                         }
                         //מצאנו משהו לא אידיאלי לכן נמשיך לחפש
                         else if ((int)(helpParcel.weight) < (int)(droneToParcel.maxWeight) )
                         {
-                            foundParcel = true;
-                            parcelToAssign = helpParcel;
+                            if (DroneHaveEnoughBattery(helpParcel, droneToParcel))
+                            {
+                                foundParcel = true;
+                                parcelToAssign = helpParcel;
+                            }
                         }
                     }
                 }
@@ -541,15 +554,21 @@ namespace BL.BlApi
                         //מצאנו חבילה בעדיפות בינונית עם משקל מקסימלי אפשרי עבור רחפן
                         if ((int)(helpParcel.weight) == (int)(droneToParcel.maxWeight))
                         {
-                            foundParcel = true;
-                            parcelToAssign = helpParcel;
-                            break;
+                            if (DroneHaveEnoughBattery(helpParcel, droneToParcel))
+                            {
+                                foundParcel = true;
+                                parcelToAssign = helpParcel;
+                                break;
+                            }
                         }
                         //מצאנו משהו לא אידיאלי לכן נמשיך לחפש
                         else if ((int)(helpParcel.weight) < (int)(droneToParcel.maxWeight))
                         {
-                            foundParcel = true;
-                            parcelToAssign = helpParcel;
+                            if (DroneHaveEnoughBattery(helpParcel, droneToParcel))
+                            {
+                                foundParcel = true;
+                                parcelToAssign = helpParcel;
+                            }
                         }
                     }
                 }
@@ -564,15 +583,21 @@ namespace BL.BlApi
                         //מצאנו חבילה בעדיפות נמוכה עם משקל מקסימלי אפשרי עבור רחפן
                         if ((int)(helpParcel.weight) == (int)(droneToParcel.maxWeight))
                         {
-                            foundParcel = true;
-                            parcelToAssign = helpParcel;
-                            break;
+                            if (DroneHaveEnoughBattery(helpParcel, droneToParcel))
+                            {
+                                foundParcel = true;
+                                parcelToAssign = helpParcel;
+                                break;
+                            }
                         }
                         //מצאנו משהו לא אידיאלי לכן נמשיך לחפש
                         else if ((int)(helpParcel.weight) < (int)(droneToParcel.maxWeight))
                         {
-                            foundParcel = true;
-                            parcelToAssign = helpParcel;
+                            if (DroneHaveEnoughBattery(helpParcel, droneToParcel))
+                            {
+                                foundParcel = true;
+                                parcelToAssign = helpParcel;
+                            }
                         }
                     }
                 }
@@ -600,14 +625,17 @@ namespace BL.BlApi
                     distanceParcelDrone = HelpMethods.CalculateDistance(locationParcel, locationDrone);
                     if (distanceParcelDrone < minDistance )
                     {
-                        minDistance = distanceParcelDrone;
-                        parcelToAssign = parcelsList.ElementAt(i);
-                        foundParcel = true;
+                        if (DroneHaveEnoughBattery(helpParcel, droneToParcel))
+                        {
+                            minDistance = distanceParcelDrone;
+                            parcelToAssign = parcelsList.ElementAt(i);
+                            foundParcel = true;
+                        }
                     }
                 }
             }
 
-            if (foundParcel) //אז נשייך את החבילה לרחפן ונבצע את הדרוש לכך
+            if(foundParcel) //אז נשייך את החבילה לרחפן ונבצע את הדרוש לכך
             {
                 droneToParcel.droneStatus = Enums.DroneStatuses.delivery;
                 dronesBL[indexDroneBL] = droneToParcel;
@@ -616,7 +644,7 @@ namespace BL.BlApi
             }
             else
             {
-                throw new UpdateProblemException("the drone does not have enough batery");
+                throw new UpdateProblemException("the drone does not have enough battery");
             }
 
         }
@@ -650,7 +678,7 @@ namespace BL.BlApi
             LogicalEntities.Location locationSender = new LogicalEntities.Location(sender.longitude, sender.latitude);
 
             Drone d = dronesBL[indexDroneBL];
-            d.battery = d.battery - (int)(HelpMethods.CalculateDistance(d.location, locationSender)) * (int)powerConsumption[0];
+            d.battery = d.battery - (int)HelpMethods.CalculateDistance(d.location, locationSender) * (int)powerConsumption[0];
             d.location = locationSender;
             dronesBL[indexDroneBL] = d;
         }
@@ -676,7 +704,7 @@ namespace BL.BlApi
                     if (parcelsList.ElementAt(i).delivered != null && parcelsList.ElementAt(i).delivered != timeOne)
                         throw new UpdateProblemException("The parcel has been delivered already.");
                     else
-                        datafield.DeliveryParcel(parcelsList.ElementAt(i).ID, droneID);
+                         datafield.DeliveryParcel(parcelsList.ElementAt(i).ID, parcelsList.ElementAt(i).targetID ); 
                     break;
                 }
             }
@@ -1053,6 +1081,15 @@ namespace BL.BlApi
                 }
             }
             return customersOfDrone;
+        }
+
+        internal override bool DroneHaveEnoughBattery(DAL.DalApi.DO.Parcel parcelForDelivery, Drone d)
+        {
+            DAL.DalApi.DO.Customer sender = datafield.FindAndGetCustomer(parcelForDelivery.senderID);
+            DAL.DalApi.DO.Customer target = datafield.FindAndGetCustomer(parcelForDelivery.targetID);
+            double distance = HelpMethods.CalculateDistance(new LogicalEntities.Location(sender.longitude, sender.latitude), new LogicalEntities.Location(target.longitude, target.latitude));
+            //distance += HelpMethods.CalculateDistance(new LogicalEntities.Location(sender.longitude, sender.latitude), d.location);
+            return distance <= d.battery ;
         }
         #endregion
 

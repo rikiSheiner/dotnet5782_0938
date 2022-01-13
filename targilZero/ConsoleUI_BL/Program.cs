@@ -11,7 +11,7 @@ namespace ConsoleUI_BL
      */
     class Program
     {
-        public static void Adding(BL.IBL.BL datasource)
+       /* public static void Adding(BL.IBL.BL datasource)
         {
             int secondChoose;
 
@@ -306,14 +306,27 @@ namespace ConsoleUI_BL
                 Console.Write("Enter your choose: ");
                 mainChoose = int.Parse(Console.ReadLine());
             }
-        }
+        }*/
 
         
 
         static void Main(string[] args)
         {
 
-            Menu();
+            //IBL blfield = BlFactory.GetBl();
+            try
+            {
+                
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message );
+                
+                //foreach (StationToList item in blfield .GetListStations ())
+                //{
+                //    Console.WriteLine(item);
+                //}
+            }
         }
     }
 }

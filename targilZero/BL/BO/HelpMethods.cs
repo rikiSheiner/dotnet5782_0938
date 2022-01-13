@@ -31,12 +31,6 @@ namespace BL.BO
             public DataCloseStation (int index, double d) { indexCloseStation = index; distance = d; }
         }
 
-
-        // נעשה שהחישוב מרחק מינימלי יקבל ערך שלילי כל עוד לא מצאנו תחנה עם חריצי טעינה פנויים
-        //וכאשר מצאנו תחנה עם חריצי טעינה פנויים נעדכן את המחרק המינימלי להיו המחרק שמצאנו
-        //ובעצם בכל איטרציה נבדוק האם המרחק חיובי אם כן נבצע השוואה ונעדכן רק אם קטן מהנוכחי
-        // אחרת נעדכן רק אם יש בתחנה חריצי טעינה פנויים
-
         /*נניח כי ליחידת מרחק של 1 ק"מ צריכת הסוללה היא 1%
          * נניח כי מרחק של מעלה 1 בקו אורך וכן בקו רוחב הוא 1 ק"מ */
         /// <summary>
@@ -46,13 +40,24 @@ namespace BL.BO
         /// <param name="drone"></param>
         /// <returns></returns>
 
-        public static DataCloseStation FindCloseStation(Drone drone, IEnumerable<DAL.DalApi.DO.Station> stationsList)
+        public static DataCloseStation FindCloseStation(Drone drone, IEnumerable<DAL.DalApi.DO.Station> allStations,IEnumerable <StationToList > availableStations)
         {
-            int indexCloseStation = -1;
-            LogicalEntities.Location locationStation = new LogicalEntities.Location(stationsList.ElementAt(indexCloseStation+1).longitude, stationsList.ElementAt(indexCloseStation+1).latitude);
+            if (availableStations.Count() < 1)
+                throw new UpdateProblemException("There is not available station.");
+            
+            List<DAL.DalApi.DO.Station> stationsList = new();
+            foreach(DAL.DalApi.DO.Station item in allStations )
+            {
+                if (availableStations.Any(x => x.ID == item.stationID))
+                    stationsList.Add(item);
+            }
+
+            int indexCloseStation = -1;  
+            LogicalEntities.Location locationStation = new LogicalEntities.Location(stationsList.ElementAt(indexCloseStation+1).longitude, stationsList.ElementAt(indexCloseStation + 1).latitude);
             double minDistance = -1;
-            double tempDistance = CalculateDistance(locationStation, drone.location);
-            if (stationsList.ElementAt(0).chargeSlots > 0 && tempDistance <= drone.battery)
+            double tempDistance = CalculateDistance(locationStation, drone.location); 
+            
+            if(tempDistance <= drone.battery)
             {
                 minDistance = tempDistance;
                 indexCloseStation = 0;
@@ -60,15 +65,12 @@ namespace BL.BO
 
             for (int i = 1; i < stationsList.Count(); i++)
             {
-                if (stationsList.ElementAt(i).chargeSlots > 0)
+                locationStation = new LogicalEntities.Location(stationsList.ElementAt(i).longitude, stationsList.ElementAt(i).latitude);
+                tempDistance = CalculateDistance(locationStation, drone.location);
+                if ((minDistance < 0 || tempDistance < minDistance) && tempDistance <= drone.battery) 
                 {
-                    locationStation = new LogicalEntities.Location(stationsList.ElementAt(i).longitude, stationsList.ElementAt(i).latitude);
-                    tempDistance = CalculateDistance(locationStation, drone.location);
-                    if ((minDistance < 0 || tempDistance < minDistance) && tempDistance <= drone.battery) //זאת אומרת שזו התחנה הראשונה שמצאנו עם חריצי טעינה פנויים
-                    {
-                        minDistance = tempDistance;
-                        indexCloseStation = i;
-                    }
+                    minDistance = tempDistance;
+                    indexCloseStation = i;
                 }
             }
             return new DataCloseStation(indexCloseStation, minDistance);

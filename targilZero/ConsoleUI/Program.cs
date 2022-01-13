@@ -302,69 +302,23 @@ namespace ConsoleUI
         
         static void Main(string[] args)
         {
-            IDal datafield = DAL.DalFactory.GetDal("DALXml");
-            //Console.WriteLine(datafield .GetCustomers ());
             
-            foreach (var item in datafield .GetCustomers ())
-            {
-                Console.WriteLine(item);
-            }
-            
-            /*foreach (var item in datafield.GetParcels())
+
+            //IDal datafield = DAL.DalFactory.GetDal("DALXml");
+            //datafield.CreateDroneCharge(5, 2);
+            //datafield.CreateDroneCharge(4, 1);
+            //datafield.CreateDroneCharge(3, 2);
+            //datafield.CreateDroneCharge(5, 1);
+           
+
+            /*foreach (var item in datafield .GetCustomers ())
             {
                 Console.WriteLine(item);
             }*/
-            //try
-            //{
-            /*if(File .Exists(@"C:\Users\1\Source\Repos\sheiner32\dotnet5782_0938\targilZero\customersXML.xml") )
-             {
-                 var x = XElement.Load(@"C:\Users\1\Source\Repos\sheiner32\dotnet5782_0938\targilZero\customersXML.xml");
-                 foreach(XElement o in x.Elements ())
-                 {
-                     Console.WriteLine(o);
-                 }
-             }
-            else
-                 Console.WriteLine("does not exist");
-            */
 
-            /*XmlRootAttribute xRoot = new XmlRootAttribute();
-            xRoot.ElementName = "drones";
-            // xRoot.Namespace = "http://www.cpandl.com";
-            xRoot.IsNullable = true;
 
-            XmlSerializer xmlser = new XmlSerializer(typeof(List<DAL.DalApi.DO.Drone>),xRoot);
-            StreamReader srdr = new StreamReader(@"C:\Users\1\Source\Repos\sheiner32\dotnet5782_0938\targilZero\dronesXML.xml");
-            List<DAL.DalApi.DO.Drone > p = (List<DAL.DalApi.DO.Drone >)xmlser.Deserialize(srdr);
-            srdr.Close();
-            Console.WriteLine(p.Count );
-            foreach (var item in p)
-            {
-                Console.WriteLine(item);
-            }
-
-            IDal datafield = DAL.DalFactory.GetDal("DALXml");
-                
-                foreach (var item in datafield .GetUsers  ())
-                {
-                    Console.WriteLine(item);
-                }
-            //Console.WriteLine(Directory .GetCurrentDirectory ());
-
-            Console.WriteLine(datafield .FindAndGetUser ("riki","3240"));
-            
-            */
-            /*}
-            catch(DAL.DalApi.LoadingException le)
-            {
-                Console.WriteLine(le.Message );
-            }
-            catch(Exception e)
-            {
-                Console.WriteLine(e.Message );
-            }*/
         }
 
-       
+
     }
 }

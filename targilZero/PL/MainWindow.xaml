@@ -25,21 +25,25 @@
             <Button.Background>
                 <ImageBrush ImageSource="/רקע אדום כהה.png"/>
             </Button.Background>
+
         </Button>
         <Button x:Name="SignUp" Content="sign up user" FontSize="25" FontStyle="Italic"  Grid.Row="3" Grid.Column="2" FontFamily="Tw Cen MT Condensed Extra Bold" Foreground="#FFFFF9F9" >
             <Button.Background>
                 <ImageBrush ImageSource="/רקע אדום כהה.png"/>
             </Button.Background>
+
         </Button>
         <Button x:Name="LogInCustomer" Content="log in customer" FontSize="20" Grid.Row="2" Grid.Column="0" FontFamily="Tw Cen MT Condensed Extra Bold" Foreground="#FFFFF9F9"  >
             <Button.Background>
                 <ImageBrush ImageSource="/רקע אדום כהה.png"/>
             </Button.Background>
+
         </Button>
         <Button x:Name="SignUpCustomer" Content="sign up customer" FontSize="20" Grid.Row="3" Grid.Column="0" FontFamily="Tw Cen MT Condensed Extra Bold" Foreground="#FFFFF9F9"    >
             <Button.Background>
                 <ImageBrush ImageSource="/רקע אדום כהה.png"/>
             </Button.Background>
+
         </Button>
     </Grid>
 </Window>

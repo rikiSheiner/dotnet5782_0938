@@ -63,7 +63,7 @@ namespace PL
             chooseParcel.Visibility = Visibility.Collapsed;
             ParcelsSentOrRecieved.Visibility = Visibility.Collapsed;
             chooseParcelToConfirm.Visibility = Visibility.Collapsed;
-            confirmSendingOrRecievingCheckBox.Visibility = Visibility.Collapsed;
+            
 
             ListParcelsOfCustomer.ItemsSource = mainData.GetListParcelsWithCondition(parcel=>
             parcel.nameOfSender == currentCustomer.name || parcel.nameOfTarget == currentCustomer.name );
@@ -77,7 +77,7 @@ namespace PL
             chooseParcel.Visibility = Visibility.Visible;
             ParcelsSentOrRecieved.Visibility = Visibility.Collapsed;
             chooseParcelToConfirm.Visibility = Visibility.Collapsed ;
-            confirmSendingOrRecievingCheckBox.Visibility = Visibility.Collapsed;
+            
 
             listOfParcelsToSend.ItemsSource = mainData.GetListParcelsWithCondition(parcel =>
             parcel.parcelStatus == Enums.ParcelStatuses.assigned && parcel.nameOfSender == currentCustomer .name);
@@ -117,7 +117,7 @@ namespace PL
             ListParcelsOfCustomer.Visibility = Visibility.Collapsed;
             listOfParcelsToSend.Visibility = Visibility.Collapsed;
             chooseParcel.Visibility = Visibility.Collapsed;
-            confirmSendingOrRecievingCheckBox.Visibility = Visibility.Collapsed;
+            
             ParcelsSentOrRecieved.Visibility = Visibility.Visible;
             chooseParcelToConfirm.Visibility = Visibility.Visible;
 
@@ -131,7 +131,7 @@ namespace PL
             ListParcelsOfCustomer.Visibility = Visibility.Collapsed;
             listOfParcelsToSend.Visibility = Visibility.Collapsed;
             chooseParcel.Visibility = Visibility.Collapsed;
-            confirmSendingOrRecievingCheckBox.Visibility = Visibility.Collapsed;
+           
             ParcelsSentOrRecieved.Visibility = Visibility.Visible;
             chooseParcelToConfirm.Visibility = Visibility.Visible;
 
@@ -148,17 +148,23 @@ namespace PL
                 {
                     if (selectedParcel.parcelStatus == Enums.ParcelStatuses.supplied && selectedParcel.nameOfTarget == currentCustomer .name)
                     {
-                        confirmSendingOrRecievingCheckBox.Visibility = Visibility.Visible;
-                        confirmSendingOrRecievingCheckBox.Content = "Did the parcel\n has been collected? ";
-                        if (confirmSendingOrRecievingCheckBox.IsChecked == true)
+                        if (MessageBox.Show("Did the parcel has been supllied? ","confirm",
+                            MessageBoxButton.YesNo,MessageBoxImage.Question) == MessageBoxResult.Yes)
+                        {
                             mainData.UpdateRecievingOfParcel(selectedParcel.ID);
+                           
+                        }
                     }
-                    else
+                    else 
                     {
-                        confirmSendingOrRecievingCheckBox.Visibility = Visibility.Visible;
-                        confirmSendingOrRecievingCheckBox.Content = "Did the parcel\n has been supllied? ";
-                        if (confirmSendingOrRecievingCheckBox.IsChecked == true)
+                        if (MessageBox.Show("Did the parcel has been collected? ","confirm",
+                            MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+                        {
                             mainData.UpdateSendingOfParcel(selectedParcel.ID);
+                            
+                        }
+
+
                     }
                 }
                 
@@ -177,9 +183,9 @@ namespace PL
 
         private void AddParcelButton_MouseDoubleClick(object sender, RoutedEventArgs e)
         {
-            confirmSendingOrRecievingCheckBox.Visibility = Visibility.Collapsed;
             new ParcelWindow(mainData, currentCustomer).Show ();
 
         }
+       
     }
 }

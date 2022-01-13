@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel;
 
 namespace BL.BO
 {
@@ -44,22 +45,92 @@ namespace BL.BO
         }
     }
 
-    public class CustomerToList  //לקוח לרשימה
+    public class CustomerToList : INotifyPropertyChanged  //לקוח לרשימה
     {
-        public int ID { get; set; }  //מספר מזהה ייחודי
-        public string name { get; set; } //שם הלקוח
-        public string phoneNumber { get; set; } //טלפון
-        public int numParcelsSentAndDelivered { get; set; } //מספר חבילות ששלח וסופקו
-        public int numParcelsSentNotDelivered { get; set; } //מספר חבילות ששלח אך עוד לא סופקו
-        public int numParcelsRecieved { get; set; } //מספר חבילות שקיבל
-        public int numParcelsInDelivery { get; set; } //מספר חבילות שבדרך אל הלקוח
-
+        private int _id;
+        public int ID //מספר מזהה ייחודי
+        {
+            get { return _id; }
+            set
+            {
+                _id = value;
+                if (PropertyChanged != null)
+                    PropertyChanged(this, new PropertyChangedEventArgs("ID"));
+            }
+        }
+        private string _name;
+        public string name  //שם הלקוח
+        {
+            get { return _name; }
+            set
+            {
+                _name = value;
+                if (PropertyChanged != null)
+                    PropertyChanged(this, new PropertyChangedEventArgs("name"));
+            }
+        }
+        private string _phoneNumber;
+        public string phoneNumber //מספר טלפון
+        {
+            get { return _phoneNumber; }
+            set
+            {
+                _phoneNumber = value;
+                if (PropertyChanged != null)
+                    PropertyChanged(this, new PropertyChangedEventArgs("phoneNumber"));
+            }
+        }
+        private int _numParcelsSentAndDelivered;
+        public int numParcelsSentAndDelivered  //מספר חבילות ששלח וסופקו
+        {
+            get { return _numParcelsSentAndDelivered; }
+            set
+            {
+                _numParcelsSentAndDelivered = value;
+                if (PropertyChanged != null)
+                    PropertyChanged(this, new PropertyChangedEventArgs("numParcelsSentAndDelivered"));
+            }
+        }
+        private int _numParcelsSentNotDelivered;
+        public int numParcelsSentNotDelivered  //מספר חבילות ששלח אך עוד לא סופקו
+        {
+            get { return _numParcelsSentNotDelivered; }
+            set
+            {
+                _numParcelsSentNotDelivered = value;
+                if (PropertyChanged != null)
+                    PropertyChanged(this, new PropertyChangedEventArgs("numParcelsSentNotDelivered"));
+            }
+        }
+        private int _numParcelsRecieved;
+        public int numParcelsRecieved  //מספר חבילות שקיבל
+        {
+            get { return _numParcelsRecieved; }
+            set
+            {
+                _numParcelsRecieved = value;
+                if (PropertyChanged != null)
+                    PropertyChanged(this, new PropertyChangedEventArgs("numParcelsRecieved"));
+            }
+        }
+        private int _numParcelsInDelivery;
+        public int numParcelsInDelivery  //מספר חבילות שבדרך אל הלקוח
+        {
+            get { return _numParcelsInDelivery; }
+            set
+            {
+                _numParcelsInDelivery = value;
+                if (PropertyChanged != null)
+                    PropertyChanged(this, new PropertyChangedEventArgs("numParcelsInDelivery"));
+            }
+        }
         public override string ToString()
         {
             return "Customer: name="+name+" phone number= "+phoneNumber +" number of parcels delivered="+numParcelsSentAndDelivered 
                 +"\nnumber of parcels not delivered="+numParcelsSentNotDelivered +" number of parcels accepted="+numParcelsRecieved 
                 +" number of parcels in delivery="+numParcelsInDelivery +"\n";
         }
+        public event PropertyChangedEventHandler PropertyChanged;
     }
 
     public class CustomerInParcelDelivery //לקוח במשלוח חבילה
