@@ -43,7 +43,20 @@
             </Button.Background>
         </Button >
         <TextBlock x:Name="Customers" Text="Customers " FontSize="25" Grid.Row="1" />
-        <ListBox x:Name="ListOfCustomers" ItemsSource="{Binding}" Grid.Row="2" Background="Bisque"   />
+
+        <ListView x:Name="ListOfCustomers" Grid.Row="2" ItemsSource="{Binding }" Background="Bisque"  >
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="ID" Width="75" DisplayMemberBinding="{Binding ID}" />
+                    <GridViewColumn Header="Name" Width="60" DisplayMemberBinding="{Binding name}" />
+                    <GridViewColumn Header="Phone" Width="85" DisplayMemberBinding="{Binding phoneNumber}" />
+                    <GridViewColumn Header="Supplied" Width="60" DisplayMemberBinding="{Binding numParcelsSentAndDelivered}" />
+                    <GridViewColumn Header="Sent" Width="60" DisplayMemberBinding="{Binding numParcelsSentNotDelivered}" />
+                    <GridViewColumn Header="Recieved" Width="60" DisplayMemberBinding="{Binding numParcelsRecieved}" />
+                    <GridViewColumn Header="In delivery" Width="60" DisplayMemberBinding="{Binding numParcelsInDelivery}" />
+                </GridView>
+            </ListView.View>
+        </ListView>
         <ComboBox x:Name="FilterCustomersList" Grid.Row="2" Grid.Column="2" Margin="0,0,0,214" Text="Filter Customers"  >
             <ComboBoxItem Name="All" Content="all"></ComboBoxItem>
             <ComboBoxItem Name="GotParcels" Content="got parcels"></ComboBoxItem>

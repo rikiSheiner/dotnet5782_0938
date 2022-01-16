@@ -30,15 +30,37 @@
                 <ImageBrush ImageSource="/רקע אדום כהה.png"/>
             </Button.Background>
         </Button>
-        <ListBox x:Name="ListParcelsOfCustomer"  Grid.Row="2" ItemsSource="{Binding }"  ></ListBox>
-
+       
+        <ListView x:Name="ListParcelsOfCustomer" Grid.Row="2" ItemsSource="{Binding }" Background="Transparent">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="ID" Width="20" DisplayMemberBinding="{Binding ID}" />
+                    <GridViewColumn Header="Sender" Width="50" DisplayMemberBinding="{Binding nameOfSender}" />
+                    <GridViewColumn Header="Target" Width="50" DisplayMemberBinding="{Binding nameOfTarget}" />
+                    <GridViewColumn Header="Weight" Width="60" DisplayMemberBinding="{Binding weight}" />
+                    <GridViewColumn Header="Priority" Width="60" DisplayMemberBinding="{Binding priority}" />
+                    <GridViewColumn Header="Status" Width="60" DisplayMemberBinding="{Binding parcelStatus}" />
+                </GridView>
+            </ListView.View>
+        </ListView>
         <Button x:Name="sendParcelButton" Content="send parcel" Grid.Row="1" Grid.Column="1" FontSize="20" Height="50" FontWeight="Bold" Foreground="#FFFCF7F7" Margin="2,2,123,27" >
             <Button.Background>
                 <ImageBrush ImageSource="/רקע אדום כהה.png"/>
             </Button.Background>
         </Button>
         <TextBlock x:Name="chooseParcel" Text="choose parcel to send" FontSize="15" Grid.Row="1"  FontWeight="Bold" FontStyle="Normal" Margin="2,50,24,3" Grid.Column="1"/>
-        <ListBox x:Name="listOfParcelsToSend" Grid.Row="2" Grid.Column="1" SelectionChanged="listOfParcelsToSend_SelectionChanged"  ></ListBox>
+        <ListView  x:Name="listOfParcelsToSend" ItemsSource="{Binding }" Grid.Row="2" Grid.Column="1" Background="Transparent" SelectionChanged="listOfParcelsToSend_SelectionChanged" >
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="ID" Width="20" DisplayMemberBinding="{Binding ID}" />
+                    <GridViewColumn Header="Sender" Width="50" DisplayMemberBinding="{Binding nameOfSender}" />
+                    <GridViewColumn Header="Target" Width="50" DisplayMemberBinding="{Binding nameOfTarget}" />
+                    <GridViewColumn Header="Weight" Width="60" DisplayMemberBinding="{Binding weight}" />
+                    <GridViewColumn Header="Priority" Width="60" DisplayMemberBinding="{Binding priority}" />
+                    <GridViewColumn Header="Status" Width="60" DisplayMemberBinding="{Binding parcelStatus}" />
+                </GridView>
+            </ListView.View>
+        </ListView>
         <Button x:Name="signOutCustomer" Content="sign out" FontSize=" 15" Grid.Column="1" Background="{x:Null}" Margin="266,0,0,0" Grid.ColumnSpan="2" >
         </Button>
         <Button x:Name="confirmParcelRecievingButton" Content="confirm parcel recieving" Grid.Row="1" Grid.Column="2" FontSize="15" FontWeight="Bold" Foreground="#FFFCF7F7" Margin="0,38,0,0"  >

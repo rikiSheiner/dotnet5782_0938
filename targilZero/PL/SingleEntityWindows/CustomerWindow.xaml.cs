@@ -64,7 +64,7 @@ namespace PL.SingleEntityWindows
             }
             ListOfParcels.SelectionChanged += ListOfParcels_SelectionChanged;
 
-            newID.IsEnabled = false;
+            newID.IsReadOnly =true;
         }
 
         public CustomerWindow(IBL data)

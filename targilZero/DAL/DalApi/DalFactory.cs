@@ -13,9 +13,9 @@ namespace DAL
         {
             IDal data;
             if (type == "DalObject")
-                data = new DalObject.DalObject();
+                data = DalObject.DalObject.Instance ;
             else if (type == "DALXml")
-                data = new DalXml.DalXml();
+                data = DalXml.DalXml.Instance;
             else
                 throw new WrongInputException("incorrect string input");
 

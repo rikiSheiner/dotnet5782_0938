@@ -57,7 +57,7 @@ namespace PL
 
             ListOfDrones.ItemsSource = stationCurrent.dronesInCharge;
             newChargeSlots.Text = (stationCurrent.availableChargeSlots + stationCurrent.fullChargeSlots).ToString();
-            newID.IsEnabled = false;
+            newID.IsReadOnly = true;
             
         }
         public StationWindow(IBL data)

@@ -154,7 +154,7 @@ namespace BL.BO
                 + ", battery=" + battery + "%, location=" + location ;
             //print number of parcel only if there is parcel in delivery in this drone
             if (parcelInDroneID > -1)
-                str += " id of parcel in drone=" + parcelInDroneID;
+                str += ", id of parcel in drone=" + parcelInDroneID;
             str += '\n';
             return  str;
         }

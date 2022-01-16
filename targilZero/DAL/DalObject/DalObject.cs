@@ -11,14 +11,10 @@ namespace DAL.DalObject
 {
     public sealed class DalObject : IDal
     {
+        #region singleton
         private static readonly Lazy<DalObject> lazy = new Lazy<DalObject>(() => new DalObject());
-        internal static DalObject Instance { get { return lazy.Value; } }
-
-        #region constructor
-        /// <summary>
-        /// constructor of DalObject
-        /// </summary>
-        internal DalObject()
+        public static DalObject Instance { get { return lazy.Value; } }
+        private DalObject()
         {
             DataSource.Initialize();
         }

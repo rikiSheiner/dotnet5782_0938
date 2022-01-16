@@ -46,23 +46,24 @@ namespace PL.SingleEntityWindows
             newSenderID.Visibility = Visibility.Collapsed;
             newTargetID.Visibility = Visibility.Collapsed;
             newWeight.Visibility = Visibility.Collapsed;
-
-            enterPriority.Visibility = Visibility.Collapsed;
-            enterSenderID.Visibility = Visibility.Collapsed;
-            enterTargetID.Visibility = Visibility.Collapsed;
-            enterWeight.Visibility = Visibility.Collapsed;
-
             addTheParcel.Visibility = Visibility.Collapsed;
             cancelAdding.Visibility = Visibility.Collapsed;
 
-            if(parcelCurrent .parcelStatus !=  Enums.ParcelStatuses.defined )
-            {
-                droneProvideParcel.Visibility = Visibility.Visible;
-            }
+            enterStatus.Visibility = Visibility.Visible;
+            senderName.Visibility = Visibility.Visible;
+            targetName.Visibility = Visibility.Visible;
+            weight.Visibility = Visibility.Visible;
+            priority.Visibility = Visibility.Visible;
+            status.Visibility = Visibility.Visible;
+
+            this.DataContext = parcelCurrent;
+            if(parcelCurrent != null)
+                if(parcelCurrent .parcelStatus !=  Enums.ParcelStatuses.defined && parcelCurrent.parcelStatus != Enums.ParcelStatuses.supplied)
+                    droneProvideParcel.Visibility = Visibility.Visible;
+            
             senderOfParcel.Visibility = Visibility.Visible;
             targetOfParcel.Visibility = Visibility.Visible;
 
-            ParcelDetails.Text = parcelCurrent.ToString();
         }
 
         /// <summary>
@@ -76,16 +77,12 @@ namespace PL.SingleEntityWindows
             closeWindow.Click += closeWindow_Click;
             addTheParcel.MouseDoubleClick += addTheParcel_MouseDoubleClick;
             cancelAdding.MouseDoubleClick += cancelAdding_MouseDoubleClick;
-            ParcelDetails.Visibility = Visibility.Collapsed;
             deleteParcel.Visibility = Visibility.Collapsed;
 
             //insert data to ComboBoxes of parcel adding
             for (int i = 0; i < 3; i++)
             {
                 newWeight.Items.Add((Enums.WeightCategories)i);
-            }
-            for (int i = 0; i < 3; i++)
-            {
                 newPriority.Items.Add((Enums.Priorities)i);
             }
             foreach (CustomerToList customer in mainData.GetListCustomers())
@@ -110,7 +107,6 @@ namespace PL.SingleEntityWindows
             closeWindow.Click += closeWindow_Click;
             addTheParcel.MouseDoubleClick += addTheParcel_MouseDoubleClick;
             cancelAdding.MouseDoubleClick += cancelAdding_MouseDoubleClick;
-            ParcelDetails.Visibility = Visibility.Collapsed;
             deleteParcel.Visibility = Visibility.Collapsed;
             enterSenderID.Visibility = Visibility.Collapsed;
             newSenderID.Visibility = Visibility.Collapsed;
@@ -119,9 +115,6 @@ namespace PL.SingleEntityWindows
             for (int i = 0; i < 3; i++)
             {
                 newWeight.Items.Add((Enums.WeightCategories)i);
-            }
-            for (int i = 0; i < 3; i++)
-            {
                 newPriority.Items.Add((Enums.Priorities)i);
             }
             foreach (CustomerToList customer in mainData.GetListCustomers())

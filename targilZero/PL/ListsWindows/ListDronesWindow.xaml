@@ -39,9 +39,23 @@
                 <ImageBrush ImageSource="/ListsWindows/חץ מסובב.png"/>
             </Button.Background>
         </Button>
-        
+
         <TextBlock x:Name="Drones" Text="Drones " FontSize="25" Grid.Row="1" />
-        <ListBox x:Name="ListOfDrones" Grid.Row="2" Background="Bisque" ItemsSource="{Binding }" SelectionChanged="ListOfDrones_SelectionChanged" ></ListBox>
+
+        <ListView x:Name="ListOfDrones"  Grid.Row="2" ItemsSource="{Binding }" Background="Bisque"  >
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="ID" Width="40" DisplayMemberBinding="{Binding ID}" />
+                    <GridViewColumn Header="Model" Width="70" DisplayMemberBinding="{Binding model}" />
+                    <GridViewColumn Header="Weight" Width="70" DisplayMemberBinding="{Binding maxWeight}" />
+                    <GridViewColumn Header="Status" Width="85" DisplayMemberBinding="{Binding droneStatus}" />
+                    <GridViewColumn Header="Battery" Width="55" DisplayMemberBinding="{Binding battery}" />
+                    <GridViewColumn Header="Location" Width="70" DisplayMemberBinding="{Binding location}" />
+                    <GridViewColumn Header="Parcel in" Width="70" DisplayMemberBinding="{Binding parcelInDroneID}" />
+                </GridView>
+            </ListView.View>
+        </ListView>
+
         <ComboBox x:Name="FilterDronesList" Grid.Row="2" Grid.Column="2" Margin="0,0,0,214" Text="Filter Drones" SelectionChanged="FilterDronesList_SelectionChanged" >
             <ComboBoxItem x:Name="All" Content="All" ></ComboBoxItem>
             <ComboBoxItem x:Name="DroneStatusAvailable" Content="Status = Available"></ComboBoxItem>

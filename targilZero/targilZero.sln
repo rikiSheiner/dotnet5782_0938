@@ -15,8 +15,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleUI_BL", "ConsoleUI_B
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PL", "PL\PL.csproj", "{FA5AE369-E9C5-4E01-A194-EB49A2EA0EC8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DalXml", "DalXml\DalXml.csproj", "{5068A31B-8E42-40CA-8F03-428DC8157EC5}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "xml", "xml", "{FC697367-7613-437F-AEE6-14A413FF6F8D}"
 	ProjectSection(SolutionItems) = preProject
 		configXML.xml = configXML.xml
@@ -58,10 +56,6 @@ Global
 		{FA5AE369-E9C5-4E01-A194-EB49A2EA0EC8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FA5AE369-E9C5-4E01-A194-EB49A2EA0EC8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FA5AE369-E9C5-4E01-A194-EB49A2EA0EC8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5068A31B-8E42-40CA-8F03-428DC8157EC5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5068A31B-8E42-40CA-8F03-428DC8157EC5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5068A31B-8E42-40CA-8F03-428DC8157EC5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5068A31B-8E42-40CA-8F03-428DC8157EC5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

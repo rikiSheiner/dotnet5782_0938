@@ -30,6 +30,7 @@ namespace PL
             LogIn.MouseDoubleClick += LogIn_MouseDoubleClick;
             LogInCustomer.MouseDoubleClick += LogInCustomer_MouseDoubleClick;
             SignUpCustomer.MouseDoubleClick += SignUpCustomer_MouseDoubleClick;
+           
         }
 
 
@@ -55,6 +56,12 @@ namespace PL
         {
             new SignUpCustomerWindow(mainData).Show();
             Close();
+        }
+
+        private void aboutButton_Click(object sender, RoutedEventArgs e)
+        {
+            new InfoWindow().Show();
+
         }
     }
 }

@@ -5,35 +5,35 @@
     <name>111</name>
     <longitude>100</longitude>
     <latitude>150</latitude>
-    <chargeSlots>4</chargeSlots>
+    <chargeSlots>5</chargeSlots>
   </Station>
   <Station>
     <stationID>2</stationID>
     <name>222</name>
     <longitude>100</longitude>
     <latitude>110</latitude>
-    <chargeSlots>17</chargeSlots>
+    <chargeSlots>7</chargeSlots>
   </Station>
   <Station>
     <stationID>3</stationID>
     <name>333</name>
     <longitude>100</longitude>
     <latitude>100</latitude>
-    <chargeSlots>28</chargeSlots>
+    <chargeSlots>7</chargeSlots>
   </Station>
   <Station>
     <stationID>4</stationID>
     <name>444</name>
     <longitude>144</longitude>
     <latitude>124</latitude>
-    <chargeSlots>25</chargeSlots>
+    <chargeSlots>23</chargeSlots>
   </Station>
   <Station>
     <stationID>5</stationID>
     <name>555</name>
     <longitude>190</longitude>
     <latitude>127</latitude>
-    <chargeSlots>7</chargeSlots>
+    <chargeSlots>22</chargeSlots>
   </Station>
   <Station>
     <stationID>7</stationID>
@@ -47,6 +47,6 @@
     <name>888</name>
     <longitude>129</longitude>
     <latitude>138</latitude>
-    <chargeSlots>5</chargeSlots>
+    <chargeSlots>3</chargeSlots>
   </Station>
 </ArrayOfStation>

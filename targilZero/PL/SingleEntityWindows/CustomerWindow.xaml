@@ -16,7 +16,7 @@
             </Button.Background>
         </Button>
 
-        <TextBox x:Name="newID" Margin="133,114,521,279" Text="{Binding Path=ID, Mode=TwoWay}" MaxLength="9" PreviewKeyDown="TextBox_OnlyNumbers_PreviewKeyDown"></TextBox>
+        <TextBox x:Name="newID" Margin="133,114,521,279" Text="{Binding Path=ID}" MaxLength="9" PreviewKeyDown="TextBox_OnlyNumbers_PreviewKeyDown"></TextBox>
         <TextBox x:Name="newName" Text="{Binding Path=name, Mode=TwoWay}" Margin="133,171,521,224" ></TextBox>
         <TextBox x:Name="newPhoneNum" Text="{Binding Path=phoneNumber, Mode=TwoWay}" Margin="133,229,521,166" PreviewKeyDown="TextBox_OnlyNumbers_PreviewKeyDown"></TextBox>
         <TextBox x:Name="newLongitude" Margin="134,286,520,109" ></TextBox>

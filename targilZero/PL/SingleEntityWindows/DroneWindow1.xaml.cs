@@ -65,7 +65,7 @@ namespace PL.SingleEntityWindows
             newStationID.Visibility = Visibility.Collapsed;
             
             newWeightTB.Visibility = Visibility.Visible;
-            newID.IsEnabled = false;
+            newID.IsReadOnly = true;
             newStatus.Visibility = Visibility.Visible;
             newWeightTB.Visibility = Visibility.Visible;
             enterBattrey.Visibility = Visibility.Visible;
@@ -151,7 +151,6 @@ namespace PL.SingleEntityWindows
            
 
         }
-
         private void TextBox_OnlyNumbers_PreviewKeyDown(object sender, KeyEventArgs e)
         {
 
@@ -244,6 +243,7 @@ namespace PL.SingleEntityWindows
             updateDisplayOfOpenedWindows();
             parcelDelivery.Visibility = Visibility.Visible;
             parcelDelivery.IsEnabled = true;
+            chargeOrEndCahrge.Visibility = Visibility.Visible;
             parcelDelivery.Content = "assign parcel to drone";
         }
         private void parcelDelivery_MouseDoubleClick(object sender, RoutedEventArgs e)
@@ -270,6 +270,8 @@ namespace PL.SingleEntityWindows
                     MessageBox.Show("delivered successfully");
                     parcelDelivery.Content = "assign parcel to drone";
                     parcelInDrone.IsEnabled = false;
+                    chargeOrEndCahrge.Visibility = Visibility.Visible;
+                    chargeOrEndCahrge.Content = "Charge Drone";
                 }
                 updateDisplayOfDroneDetails();
                 updateDisplayOfOpenedWindows();
@@ -438,8 +440,8 @@ namespace PL.SingleEntityWindows
         }
         private void UpdateDisplay()
         {
-            Dispatcher.Invoke(updateDisplayOfDroneDetails) ;
             Dispatcher.Invoke<bool>(updateDisplayOfOpenedWindows);
+            Dispatcher.Invoke(updateDisplayOfDroneDetails);
         }
         private void updateDisplayOfDroneDetails()
         {
@@ -457,7 +459,7 @@ namespace PL.SingleEntityWindows
             }
             if (Application.Current.Windows.OfType<ListDronesWindow>().Any(w => w.GetType().Name.Equals("ListDronesWindow")))
             {
-                Application.Current.Windows.OfType<ListDronesWindow>().FirstOrDefault().Close();
+                Application.Current.Windows.OfType<ListDronesWindow>().FirstOrDefault().Close ();
                 ListDronesWindow ld = new ListDronesWindow(mainData);
                 ld.Show();
             }

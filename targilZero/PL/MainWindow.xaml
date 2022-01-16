@@ -43,7 +43,11 @@
             <Button.Background>
                 <ImageBrush ImageSource="/רקע אדום כהה.png"/>
             </Button.Background>
-
+        </Button>
+        <Button x:Name="aboutButton" Grid.Column="2" Margin="75,0,1,223" RenderTransformOrigin="0.5,0.534" Click="aboutButton_Click"  >
+            <Button.Background>
+                <ImageBrush ImageSource="/סימן שאלה.png"/>
+            </Button.Background>
         </Button>
     </Grid>
 </Window>

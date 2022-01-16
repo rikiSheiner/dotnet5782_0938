@@ -12,6 +12,7 @@
     <None Remove="SingleEntityWindows\חבילה.png" />
     <None Remove="SingleEntityWindows\רקע תכלת.png" />
     <None Remove="כפתור לסגירת חלון.png" />
+    <None Remove="סימן שאלה.png" />
     <None Remove="רקע אדום כהה.png" />
     <None Remove="רקע למסך פתיחה לפרויקט רחפנים.png" />
     <None Remove="רקע למסך פתיחה לפרויקט.png" />
@@ -28,6 +29,7 @@
     <Resource Include="SingleEntityWindows\חבילה.png" />
     <Resource Include="SingleEntityWindows\רקע תכלת.png" />
     <Resource Include="כפתור לסגירת חלון.png" />
+    <Resource Include="סימן שאלה.png" />
     <Resource Include="רקע אדום כהה.png" />
     <Resource Include="רקע למסך פתיחה לפרויקט רחפנים.png" />
     <Resource Include="רקע למסך פתיחה לפרויקט.png" />

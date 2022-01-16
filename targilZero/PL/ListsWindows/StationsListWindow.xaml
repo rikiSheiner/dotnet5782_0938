@@ -40,8 +40,19 @@
             </Button.Background>
         </Button >
         <TextBlock x:Name="Stations" Text="Stations " FontSize="25" Grid.Row="1"/>
-        <ListBox x:Name="ListOfStations" ItemsSource="{Binding }" Grid.Row="2" Background="Bisque"  >
-        </ListBox>
+        
+        <ListView x:Name="ListOfStations"  Grid.Row="2" ItemsSource="{Binding }" Background="Bisque"  >
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="ID" Width="50" DisplayMemberBinding="{Binding ID}" />
+                    <GridViewColumn Header="Name" Width="88" DisplayMemberBinding="{Binding name}" />
+                    <GridViewColumn Header="Full CS" Width="88" DisplayMemberBinding="{Binding fullChargeSlots}" />
+                    <GridViewColumn Header="Available CS" Width="88" DisplayMemberBinding="{Binding availableChargeSlots}" />
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+
         <ComboBox x:Name="FilterStationsList" Grid.Row="2" Grid.Column="2" Margin="0,0,0,214"  Text="Filter Stations" >
             <ComboBoxItem Name="All" Content="all"></ComboBoxItem>
             <ComboBoxItem Name="Available" Content="available"></ComboBoxItem>

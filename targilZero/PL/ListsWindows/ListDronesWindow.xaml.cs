@@ -32,6 +32,7 @@ namespace PL
             this.closeWindow.Click += closeWindow_Click;
             AddDroneButton.MouseDoubleClick += AddDroneButton_MouseDoubleClick;
             refreshWindow.MouseDoubleClick += refreshWindow_MouseDoubleClick;
+            ListOfDrones.SelectionChanged += ListOfDrones_SelectionChanged;
         }
 
         private void FilterDronesList_SelectionChanged(object sender, SelectionChangedEventArgs e)

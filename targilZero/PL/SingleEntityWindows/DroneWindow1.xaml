@@ -72,12 +72,12 @@
         <TextBox x:Name="newID" Margin="133,114,521,279" Text="{Binding Path=ID}" PreviewKeyDown="TextBox_OnlyNumbers_PreviewKeyDown"></TextBox >
         <TextBox x:Name="newModel" Margin="133,171,521,224" Text="{Binding Path=model, Mode=TwoWay}"></TextBox >
         <TextBox x:Name="hoursOfCharging" Visibility="Collapsed" Margin="595,233,40,160" PreviewKeyDown="TextBox_OnlyNumbers_PreviewKeyDown"></TextBox>
-        <TextBox x:Name="newWeightTB" IsEnabled="False" Visibility="Collapsed" Text="{Binding Path=maxWeight}" Margin="133,229,521,166"></TextBox>
+        <TextBox x:Name="newWeightTB" IsReadOnly="True" Visibility="Collapsed" Text="{Binding Path=maxWeight}" Margin="133,229,521,166"></TextBox>
         <ComboBox Name="newWeightCategory" Background="White"  Margin="133,229,521,166"></ComboBox>
         <ComboBox Name="newStationID" Background="White" Margin="134,286,520,109"></ComboBox>
-        <TextBox x:Name="newStatus" IsEnabled="False" Visibility="Collapsed" Text="{Binding Path=droneStatus,Mode=TwoWay }" Margin="134,286,520,109"></TextBox>
-        <TextBox x:Name="newBattery" IsEnabled="False" Visibility="Collapsed" Text="{Binding Path=battery,Mode=TwoWay }" Margin="135,343,519,52"></TextBox>
-        <TextBox x:Name="newLocation" IsEnabled="False"  Visibility="Collapsed" Margin="135,386,519,9"></TextBox>
+        <TextBox x:Name="newStatus" IsReadOnly="True" Visibility="Collapsed" Text="{Binding Path=droneStatus,Mode=TwoWay }" Margin="134,286,520,109"></TextBox>
+        <TextBox x:Name="newBattery" IsReadOnly="True" Visibility="Collapsed" Text="{Binding Path=battery,Mode=TwoWay }" Margin="135,343,519,52"></TextBox>
+        <TextBox x:Name="newLocation" IsReadOnly="True"  Visibility="Collapsed" Margin="135,386,519,9"></TextBox>
 
         <Button x:Name="addTheDrone" Content="add drone" Margin="142,384,513,6" Click="addTheDrone_MouseDoubleClick" Foreground="#FFF3F0F0" FontSize="16" FontWeight="Bold">
             <Button.Background>
@@ -106,6 +106,5 @@
                 <ImageBrush ImageSource="/רקע אדום כהה.png"/>
             </Button.Background>
         </Button>
-
     </Grid>
 </Window>

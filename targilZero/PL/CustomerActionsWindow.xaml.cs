@@ -64,8 +64,7 @@ namespace PL
             ParcelsSentOrRecieved.Visibility = Visibility.Collapsed;
             chooseParcelToConfirm.Visibility = Visibility.Collapsed;
             
-
-            ListParcelsOfCustomer.ItemsSource = mainData.GetListParcelsWithCondition(parcel=>
+            this.DataContext = mainData.GetListParcelsWithCondition(parcel =>
             parcel.nameOfSender == currentCustomer.name || parcel.nameOfTarget == currentCustomer.name );
 
         }
@@ -78,8 +77,7 @@ namespace PL
             ParcelsSentOrRecieved.Visibility = Visibility.Collapsed;
             chooseParcelToConfirm.Visibility = Visibility.Collapsed ;
             
-
-            listOfParcelsToSend.ItemsSource = mainData.GetListParcelsWithCondition(parcel =>
+            this.DataContext = mainData.GetListParcelsWithCondition(parcel =>
             parcel.parcelStatus == Enums.ParcelStatuses.assigned && parcel.nameOfSender == currentCustomer .name);
         }
 

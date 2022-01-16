@@ -6,6 +6,9 @@
         xmlns:local="clr-namespace:PL.SingleEntityWindows"
         mc:Ignorable="d"
         Title="ParcelWindow" Height="450" Width="800">
+    <Window.Resources >
+       
+    </Window.Resources>
     <Grid>
         <Grid.Background>
             <ImageBrush ImageSource="/SingleEntityWindows/רקע תכלת.png"/>
@@ -22,12 +25,18 @@
         <ComboBox x:Name="newWeight" Margin="133,229,521,166"></ComboBox>
         <ComboBox x:Name="newPriority" Margin="134,286,520,109"></ComboBox>
 
-        <TextBlock x:Name="enterSenderID" Text="Sender ID:" FontSize=" 15" Margin="31,114,669,279"></TextBlock>
-        <TextBlock x:Name="enterTargetID" Text="Target ID:"  FontSize=" 15" Margin="31,169,669,224"></TextBlock>
+        <TextBlock x:Name="enterSenderID" Text="Sender:" FontSize="15" Margin="31,114,669,279"></TextBlock>
+        <TextBlock x:Name="enterTargetID" Text="Target:"  FontSize="15" Margin="31,169,669,224"></TextBlock>
         <TextBlock x:Name="enterWeight" Text="Weight:" FontSize=" 15" Margin="31,231,673,162"></TextBlock>
         <TextBlock x:Name="enterPriority" Text="Priority:" FontSize=" 15" Margin="31,287,669,106"></TextBlock>
-        <TextBlock x:Name="ParcelDetails" FontSize="10" Margin="22,24,145,335" ></TextBlock>
+        <TextBlock x:Name="enterStatus" Text="Status" Visibility="Collapsed" FontSize="15" Margin="31,343,669,52"></TextBlock>
 
+        <TextBox x:Name="senderName" Text="{Binding Path=nameOfSender}" IsReadOnly="True" Visibility="Collapsed" Margin="133,114,521,279"></TextBox>
+        <TextBox x:Name="targetName" Text="{Binding Path=nameOfTarget}" IsReadOnly="True" Visibility="Collapsed" Margin="133,171,521,224"></TextBox>
+        <TextBox x:Name="weight" Text="{Binding Path=weight}" IsReadOnly="True" Visibility="Collapsed" Margin="133,229,521,166"></TextBox>
+        <TextBox x:Name="priority" Text="{Binding Path=priority}" IsReadOnly="True" Visibility="Collapsed" Margin="134,286,520,109"></TextBox>
+        <TextBox x:Name="status" Text="{Binding Path=parcelStatus}" IsReadOnly="True" Visibility="Collapsed"  Margin="134,343,520,52"></TextBox>
+        
         <Button x:Name="addTheParcel" Content="add parcel" Margin="134,386,521,4" FontSize="16" FontWeight="Bold" Foreground="#FFF4EEEE"  >
             <Button.Background>
                 <ImageBrush ImageSource="/רקע אדום כהה.png"/>
@@ -43,22 +52,33 @@
                 <ImageBrush ImageSource="/רקע אדום כהה.png"/>
             </Button.Background>
         </Button>
-        <Button Name="droneProvideParcel" Content="drone provide parcel" Visibility="Collapsed"  FontSize="14" FontFamily="Trebuchet MS" Margin="123,110,493,280" >
+        <Button Name="droneProvideParcel" Content="drone provide parcel" Visibility="Collapsed"  FontSize="14" FontFamily="Trebuchet MS" Margin="567,109,49,280" >
             <Button.Background>
                 <ImageBrush/>
             </Button.Background>
         </Button>
-        <Button Name="senderOfParcel" Content="customer send the parcel" Visibility="Collapsed"  FontSize="14" FontFamily="Trebuchet MS" Margin="123,168,493,222" >
+        <Button Name="senderOfParcel" Content="customer send the parcel" Visibility="Collapsed" FontSize="14" FontFamily="Trebuchet MS" Margin="568,171,48,219" >
             <Button.Background>
                 <ImageBrush/>
             </Button.Background>
         </Button>
-        <Button Name="targetOfParcel" Content="customer get the parcel" Visibility="Collapsed"  FontSize="14" FontFamily="Trebuchet MS" Margin="123,226,493,164" >
+        <Button Name="targetOfParcel" Content="customer get the parcel" Visibility="Collapsed"  FontSize="14" FontFamily="Trebuchet MS" Margin="570,231,46,159" >
             <Button.Background>
                 <ImageBrush/>
             </Button.Background>
         </Button>
-        <Image x:Name="imageParcel" Source="/SingleEntityWindows/חבילה.png" Margin="642,306,19,11"/>
+        <Image x:Name="imageParcel" Source="/SingleEntityWindows/חבילה.png" Margin="642,282,19,35">
+            <Image.Style>
+                <Style TargetType="Image" >
+                    <Style.Triggers >
+                        <Trigger Property="IsMouseDirectlyOver" Value="True">
+                            <Setter Property="Height" Value="300"></Setter>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Image.Style>
+
+        </Image> 
 
     </Grid>
 </Window>

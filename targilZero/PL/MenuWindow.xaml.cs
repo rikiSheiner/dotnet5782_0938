@@ -50,38 +50,28 @@ namespace PL
 
         }
 
-
+        private void closeWindow_Click(object sender, RoutedEventArgs e) { Close(); }
         private void GoToListDronesWindow_MouseDoubleClick(object sender, RoutedEventArgs e)
         {
             ListDronesWindow listDronesWindow = new ListDronesWindow(mainData);
             listDronesWindow.Show();
-            //this.Close();
         }
-
-        private void closeWindow_Click(object sender, RoutedEventArgs e)
-        {
-            Close();
-        }
-
         private void GoToListCustomersWindow_MouseDoubleClick(object sender, RoutedEventArgs e)
         {
             CustomersListWindow customersListWindow = new CustomersListWindow(mainData);
             customersListWindow.Show();
-            //Close();
         }
 
         private void GoToListParcelsWindow_MouseDoubleClick(object sender, RoutedEventArgs e)
         {
-            ParcelsListWindow parcelsListWindow = new ParcelsListWindow(mainData);
+            ParcelsListWindow parcelsListWindow = new ParcelsListWindow(mainData, currentUser.UserAccessManagement);
             parcelsListWindow.Show();
-            //Close();
         }
 
         private void GoToListStationsWindow_MouseDoubleClick(object sender, RoutedEventArgs e)
         {
             StationsListWindow stationsListWindow = new StationsListWindow(mainData);
             stationsListWindow.Show();
-            //Close();
         }
 
         private void signOut_MouseDoubleClick(object sender, RoutedEventArgs e)

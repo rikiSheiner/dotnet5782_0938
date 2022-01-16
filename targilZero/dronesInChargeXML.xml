@@ -1,52 +1,31 @@
 <?xml version="1.0"?>
 <ArrayOfDroneCharge xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <DroneCharge>
-    <droneID>1</droneID>
-    <stationID>3</stationID>
-    <activeCharge>false</activeCharge>
-    <start>2022-01-13T14:29:39.6760325+02:00</start>
-    <end>2022-01-13T15:29:39.6760325+02:00</end>
-  </DroneCharge>
-  <DroneCharge>
-    <droneID>4</droneID>
-    <stationID>2</stationID>
-    <activeCharge>false</activeCharge>
-    <start>2022-01-13T15:10:17.1823968+02:00</start>
-    <end>2022-01-13T16:10:17.1823968+02:00</end>
-  </DroneCharge>
-  <DroneCharge>
-    <droneID>1</droneID>
-    <stationID>2</stationID>
-    <activeCharge>true</activeCharge>
-    <start>2022-01-13T15:02:21.280272+02:00</start>
-    <end>2022-01-13T14:59:46.2600865+02:00</end>
-  </DroneCharge>
-  <DroneCharge>
-    <droneID>2</droneID>
-    <stationID>5</stationID>
-    <activeCharge>false</activeCharge>
-    <start>2022-01-13T14:59:10.3935864+02:00</start>
-    <end>2022-01-13T16:59:10.3935864+02:00</end>
-  </DroneCharge>
-  <DroneCharge>
     <droneID>5</droneID>
     <stationID>3</stationID>
     <activeCharge>true</activeCharge>
-    <start>2022-01-13T14:59:10.5884643+02:00</start>
+    <start>2022-01-16T22:23:54.4930808+02:00</start>
     <end xsi:nil="true" />
   </DroneCharge>
   <DroneCharge>
     <droneID>3</droneID>
-    <stationID>2</stationID>
-    <activeCharge>false</activeCharge>
-    <start>2022-01-13T14:59:28.4119483+02:00</start>
-    <end>2022-01-13T16:59:28.4119483+02:00</end>
+    <stationID>3</stationID>
+    <activeCharge>true</activeCharge>
+    <start>2022-01-16T22:23:54.7931196+02:00</start>
+    <end xsi:nil="true" />
   </DroneCharge>
   <DroneCharge>
     <droneID>1</droneID>
-    <stationID>4</stationID>
+    <stationID>3</stationID>
     <activeCharge>true</activeCharge>
-    <start>2022-01-13T14:59:46.284497+02:00</start>
+    <start>2022-01-16T22:25:17.0190157+02:00</start>
+    <end xsi:nil="true" />
+  </DroneCharge>
+  <DroneCharge>
+    <droneID>2</droneID>
+    <stationID>5</stationID>
+    <activeCharge>true</activeCharge>
+    <start>2022-01-16T22:25:17.2650322+02:00</start>
     <end xsi:nil="true" />
   </DroneCharge>
 </ArrayOfDroneCharge>

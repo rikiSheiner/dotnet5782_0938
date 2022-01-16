@@ -23,6 +23,8 @@ namespace PL
     public partial class ParcelsListWindow : Window
     {
         private IBL mainData;
+        private bool isWorker;
+        private List<string> listNames;
         public ParcelsListWindow(IBL data)
         {
             mainData = data;
@@ -33,8 +35,49 @@ namespace PL
             ListOfParcels.SelectionChanged += ListOfParcels_SelectionChanged;
             FilterParcelsList.SelectionChanged += FilterParcelsList_SelectionChanged;
             refreshWindow.MouseDoubleClick += refreshWindow_MouseDoubleClick;
+
+
+            List<string> names = new();
+            foreach (ParcelToList item in mainData .GetListParcels ())
+            {
+                if (names.Find(str => str == item.nameOfSender) == null)
+                    names.Add(item.nameOfSender);
+                if (names.Find(str => str == item.nameOfTarget) == null)
+                    names.Add(item.nameOfTarget);
+            }
+            filterName.ItemsSource = names;
+            listNames = names;
         }
 
+        public ParcelsListWindow(IBL data, bool access)
+        {
+            mainData = data;
+            isWorker = access;
+            InitializeComponent();
+            this.DataContext = mainData.GetListParcels();
+            this.closeWindow.Click += closeWindow_Click;
+            AddParcelButton.MouseDoubleClick += AddParcelButton_MouseDoubleClick;
+            ListOfParcels.SelectionChanged += ListOfParcels_SelectionChanged;
+            FilterParcelsList.SelectionChanged += FilterParcelsList_SelectionChanged;
+            refreshWindow.MouseDoubleClick += refreshWindow_MouseDoubleClick;
+
+            if (isWorker)
+            {
+                FilterParcelsList.Items.Add("Approved sending");
+                FilterParcelsList.Items.Add("Approved getting");
+            }
+
+            List<string> names = new();
+            foreach (ParcelToList item in mainData.GetListParcels())
+            {
+                if (names.Find(str => str == item.nameOfSender) == null)
+                    names.Add(item.nameOfSender);
+                if (names.Find(str => str == item.nameOfTarget) == null)
+                    names.Add(item.nameOfTarget);
+            }
+            filterName.ItemsSource = names;
+            listNames = names;
+        }
         private void closeWindow_Click(object sender, RoutedEventArgs e) { this.Close(); }
 
         private void AddParcelButton_MouseDoubleClick(object sender, RoutedEventArgs e)
@@ -85,11 +128,11 @@ namespace PL
                 case 10:
                     this.DataContext = mainData.GetListParcelsWithCondition(x => x.parcelStatus == Enums.ParcelStatuses.supplied );
                     break;
-                case 11:// specific sender of parcel
-                    
+                case 11:
+                    this.DataContext = mainData.GetListParcelsWithCondition(x => x.confirmedSending);
                     break;
-                case 12: // specific target of parcel
-                    
+                case 12: 
+                    this.DataContext = mainData.GetListParcelsWithCondition(x => x.confirmRecieving);
                     break;
                 default:
                     break;
@@ -104,6 +147,15 @@ namespace PL
             Application.Current.MainWindow = newWindow;
             newWindow.Show();
             Close();
+        }
+
+        private void filterName_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            for (int i = 0; i < listNames .Count (); i++)
+            {
+                if (filterName.SelectedIndex == i)
+                    this.DataContext = mainData.GetListParcelsWithCondition(x => x.nameOfSender == listNames[i] || x.nameOfTarget == listNames [i]);
+            }
         }
     }
 }

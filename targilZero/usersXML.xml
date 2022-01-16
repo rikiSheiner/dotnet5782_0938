@@ -1,23 +1,18 @@
 <?xml version="1.0"?>
 <ArrayOfUser xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <User>
-    <UserName>abc</UserName>
-    <UserPassword>123</UserPassword>
+    <UserName>riki</UserName>
+    <UserPassword>0938</UserPassword>
     <UserAccessManagement>true</UserAccessManagement>
   </User>
   <User>
-    <UserName>riki</UserName>
-    <UserPassword>32</UserPassword>
-    <UserAccessManagement>false</UserAccessManagement>
+    <UserName>esty</UserName>
+    <UserPassword>770</UserPassword>
+    <UserAccessManagement>true</UserAccessManagement>
   </User>
   <User>
     <UserName>a</UserName>
     <UserPassword>1</UserPassword>
-    <UserAccessManagement>false</UserAccessManagement>
-  </User>
-  <User>
-    <UserName>b</UserName>
-    <UserPassword>2</UserPassword>
     <UserAccessManagement>false</UserAccessManagement>
   </User>
 </ArrayOfUser>

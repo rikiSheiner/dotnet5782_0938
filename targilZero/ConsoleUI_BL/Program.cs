@@ -312,7 +312,8 @@ namespace ConsoleUI_BL
 
         static void Main(string[] args)
         {
-
+            
+            
             //IBL blfield = BlFactory.GetBl();
             try
             {

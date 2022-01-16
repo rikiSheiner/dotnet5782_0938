@@ -34,6 +34,7 @@ namespace PL
             ListOfCustomers.SelectionChanged += ListOfCustomers_SelectionChanged;
             FilterCustomersList.SelectionChanged += FilterCustomersList_SelectionChanged;
             refreshWindow.MouseDoubleClick += refreshWindow_MouseDoubleClick;
+            
         }
         private void closeWindow_Click(object sender, RoutedEventArgs e) { this.Close(); }
 

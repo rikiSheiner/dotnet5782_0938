@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
         Title="ParcelsListWindow" Height="450" Width="800">
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="50*"/>
@@ -41,8 +42,20 @@
             </Button.Background>
         </Button >
         <TextBlock x:Name="Parcels" Text="Parcels " FontSize="25" Grid.Row="1" />
-        <ListBox x:Name="ListOfParcels"  Grid.Row="2" ItemsSource="{Binding }" Background="Bisque"  ></ListBox>
-        <ComboBox x:Name="FilterParcelsList" Grid.Row="2" Grid.Column="2" Margin="0,0,0,214" Text="Filter Parcels" >
+        <ListView x:Name="ListOfParcels"  Grid.Row="2" ItemsSource="{Binding }" Background="Bisque"  >
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="ID" Width="30" DisplayMemberBinding="{Binding ID}" />
+                    <GridViewColumn Header="Sender" Width="88" DisplayMemberBinding="{Binding nameOfSender}" />
+                    <GridViewColumn Header="Target" Width="88" DisplayMemberBinding="{Binding nameOfTarget}" />
+                    <GridViewColumn Header="Weight" Width="88" DisplayMemberBinding="{Binding weight}" />
+                    <GridViewColumn Header="Priority" Width="88" DisplayMemberBinding="{Binding priority}" />
+                    <GridViewColumn Header="Status" Width="88" DisplayMemberBinding="{Binding parcelStatus}" />
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+        <ComboBox x:Name="FilterParcelsList" Grid.Row="2" Grid.Column="2" Margin="1,0,54,214" Text="Filter Parcels" >
             <ComboBoxItem Name="All" Content="all"></ComboBoxItem>
             <ComboBoxItem Name="normalPrioirty" Content="priority= normal"></ComboBoxItem>
             <ComboBoxItem Name="quickPrioirty" Content="priority= quick"></ComboBoxItem>
@@ -54,8 +67,7 @@
             <ComboBoxItem Name="statusAssigned" Content="status = assigned "></ComboBoxItem>
             <ComboBoxItem Name="statusCollected" Content="status = collected "></ComboBoxItem>
             <ComboBoxItem Name="statusSuplied" Content="status = suplied"></ComboBoxItem>
-            <ComboBoxItem Name="senderOfParcel" Content="sender customer"></ComboBoxItem>
-            <ComboBoxItem Name="targetOfParcel" Content="destination customer"></ComboBoxItem>
         </ComboBox>
+        <ComboBox Name="filterName"  Grid.Column=" 1" Grid.Row="2" Margin="0,0,0,215" SelectionChanged="filterName_SelectionChanged"></ComboBox>
     </Grid>
 </Window>

@@ -19,15 +19,10 @@ namespace BL.BlApi
         private int droneChargeRate;
         #endregion
 
+        #region singleton
         private static readonly Lazy<BL> lazy = new Lazy<BL>(() => new BL());
-
-        internal static BL Instance { get { return lazy.Value; } }
-
-        #region constructor
-        /// <summary>
-        /// constructor
-        /// </summary>
-        internal BL()
+        public static BL Instance { get { return lazy.Value; } }
+        private BL()
         {
             //datafield = DAL.DalFactory.GetDal("DalObject");
             datafield = DAL.DalFactory.GetDal("DALXml");
@@ -56,57 +51,62 @@ namespace BL.BlApi
             }
 
             Drone tempD;
-            bool parcelToDrone = false, findParcel = false;
+            bool parcelToDrone = false, findparcel = false;
             DAL.DalApi.DO.Parcel desired = new DAL.DalApi.DO.Parcel();
 
             for (int i = 0; i < dronesList.Count(); i++)
             {
                 tempD = dronesBL[i];
+                findparcel = false;
+                parcelToDrone = false;
                 foreach (DAL.DalApi.DO.Parcel p in datafield.GetParcels())
                 {
                     if (p.droneID == dronesBL[i].ID)
                     { 
                         desired = p;
-                        findParcel = true;
-                        break; 
+                        findparcel = true;
+                        break;
                     }
                 }
-                parcelToDrone = desired.scheduled != null && desired.scheduled !=oneTime && desired.scheduled < DateTime.Now  &&
-                    (desired.delivered == null || desired.delivered == oneTime || desired.delivered > DateTime.Now);
-                if (parcelToDrone) //the parcel assigned but not supplied
+                if(findparcel )
                 {
-                    //update the status of the drone to delivery
-                    tempD.droneStatus = Enums.DroneStatuses.delivery;
-
-                    //finding loaction of parcel
-                    DAL.DalApi.DO.Customer send = datafield.FindAndGetCustomer(desired.senderID);
-                    DAL.DalApi.DO.Customer dest = datafield.FindAndGetCustomer(desired.targetID);
-                    LogicalEntities.Location locationSender = new LogicalEntities.Location(send.longitude, send.latitude);
-                    LogicalEntities.Location locationTarget = new LogicalEntities.Location(dest.longitude, dest.latitude);
-
-                    //finding location of the drone
-                    if (desired.pickedUp == null ||desired .pickedUp == oneTime || desired.pickedUp > DateTime.Now) //the parcel not collected
+                    parcelToDrone = desired.scheduled != null && desired.scheduled != oneTime && desired.scheduled < DateTime.Now &&
+                    (desired.delivered == null || desired.delivered == oneTime || desired.delivered > DateTime.Now);
+                    if (parcelToDrone) //the parcel assigned but not supplied
                     {
-                        //location of drone is location of station soon to the sender of the parcel
-                        var closeStation = HelpMethods.FindCloseStation(locationSender, datafield.GetBasisStations());
-                        DAL.DalApi.DO.Station s = datafield.GetBasisStations().ElementAt(closeStation.indexCloseStation);
-                        tempD.location = new LogicalEntities.Location(s.longitude, s.latitude);
+                        //update the status of the drone to delivery
+                        tempD.droneStatus = Enums.DroneStatuses.delivery;
 
+                        //finding loaction of parcel
+                        DAL.DalApi.DO.Customer send = datafield.FindAndGetCustomer(desired.senderID);
+                        DAL.DalApi.DO.Customer dest = datafield.FindAndGetCustomer(desired.targetID);
+                        LogicalEntities.Location locationSender = new LogicalEntities.Location(send.longitude, send.latitude);
+                        LogicalEntities.Location locationTarget = new LogicalEntities.Location(dest.longitude, dest.latitude);
+
+                        //finding location of the drone
+                        if (desired.pickedUp == null || desired.pickedUp == oneTime || desired.pickedUp > DateTime.Now) //the parcel not collected
+                        {
+                            //location of drone is location of station soon to the sender of the parcel
+                            var closeStation = HelpMethods.FindCloseStation(locationSender, datafield.GetBasisStations());
+                            DAL.DalApi.DO.Station s = datafield.GetBasisStations().ElementAt(closeStation.indexCloseStation);
+                            tempD.location = new LogicalEntities.Location(s.longitude, s.latitude);
+
+                        }
+                        else if (desired.delivered == null || desired.delivered == oneTime || desired.delivered > DateTime.Now) //the parcel collected but not supllied
+                        {
+                            //location of the drone is the location of the sender
+                            tempD.location = locationSender;
+                        }
+
+                        //calculating the battery of the drone
+                        var closeStationToDest = HelpMethods.FindCloseStation(locationSender, datafield.GetBasisStations());
+                        double battery = HelpMethods.CalculateDistance(locationTarget, locationSender);
+                        battery *= powerConsumption[(int)desired.weight + 1];
+                        battery += powerConsumption[0] * closeStationToDest.distance;
+                        tempD.battery = r.Next(Math.Min((int)battery, 100), 101);
+
+                        dronesBL[i] = tempD;
                     }
-                    else if ( desired.delivered == null||desired .delivered == oneTime|| desired.delivered > DateTime.Now) //the parcel collected but not supllied
-                    {
-                        //location of the drone is the location of the sender
-                        tempD.location = locationSender;
-                    }
-
-                    //calculating the battery of the drone
-                    var closeStationToDest = HelpMethods.FindCloseStation(locationSender, datafield.GetBasisStations());
-                    double battery = HelpMethods.CalculateDistance(locationTarget, locationSender);
-                    battery *= powerConsumption[(int)desired.weight + 1];
-                    battery += powerConsumption[0] * closeStationToDest.distance;
-                    tempD.battery = r.Next(Math.Min((int)battery, 100), 101);
-
-                    dronesBL[i] = tempD;
                 }
                 else
                 {
@@ -140,6 +140,8 @@ namespace BL.BlApi
                 }
 
                 dronesBL[i] = tempD;
+
+                
             }
 
         }
@@ -463,17 +465,13 @@ namespace BL.BlApi
                 throw new UpdateProblemException("This drone is not in maintenance.");
 
             Drone temp = dronesBL[indexDrone];
-
-            //int indexStation = datafield.FindStation(temp.stationID);
-            //if (indexStation < 0)
-            //    throw new UpdateProblemException("The station where the drone was charged does not exist.");
             
             //lock(datafield )
             {
                 datafield.EndDroneCharge(droneID, hoursOfCharging);
-                //עדכון נתוני הרחפן שאותו משחררים מטעינה
+                //update the details of the drone for ending of charging
                 temp.battery += hoursOfCharging * datafield.GetDroneLoadingRate();
-                if (temp.battery > 100)
+                if (temp.battery >= 100)
                     temp.battery = 100;
                 temp.droneStatus = Enums.DroneStatuses.available;
                 dronesBL[indexDrone] = temp;
@@ -496,7 +494,7 @@ namespace BL.BlApi
 
             bool foundParcel = false; //האם מצאנו חבילה לשיוך לרחפן
             IEnumerable<DAL.DalApi.DO.Parcel> parcelsList =from DAL.DalApi.DO.Parcel item in datafield.GetParcels()
-                                                           where (item.pickedUp == null || item.pickedUp == timeOne) && item.droneID ==-1
+                                                           where (item.pickedUp == null || item.pickedUp == timeOne) && item.droneID == -1
                                                            select item;
 
             if (parcelsList.Count() == 0)
@@ -506,11 +504,6 @@ namespace BL.BlApi
             DAL.DalApi.DO.Parcel helpParcel = parcelsList.ElementAt(0);
             Drone droneToParcel = dronesBL[indexDroneBL];
             Enums.WeightCategories weightOfDrone = droneToParcel.maxWeight;
-
-            //ניתן לחפש קודם כל חבילה שהיא בעדיפות הכי גבוהה וגם ההמשקל שלה אפשרי עבור הרחפן
-            //שלב שני- אם לא מצאנו כזו חבילה נמשיך לחפש לפי מרחק
-            //נעבור על כל החבילות ונחפש חבילה שהמרחק שלה מהרחפן הוא הקטן ביותר 
-            //ניתן לדעת זאת על פי התז של הלקוח שהזמין את החבילה ובדיקת קווי אורך ורוחב שלו
 
             //חיפוש לפי עדיפות ואח"כ לפי משקל
             if (datafield.GetParcelsPriority()[2] > 0)
@@ -944,9 +937,11 @@ namespace BL.BlApi
             
             parcelToList.weight = (Enums.WeightCategories)p.weight;
             parcelToList.priority = (Enums.Priorities)p.priority;
-           
+
             if (p.droneID > -1 && datafield.FindDrone(p.droneID) >= 0)
                 parcelToList.droneSender = datafield.FindAndGetDrone(p.droneID);
+            else
+                parcelToList.droneSender = new DAL.DalApi.DO.Drone (-1,"",0);
 
             return parcelToList;
         }
@@ -1014,19 +1009,20 @@ namespace BL.BlApi
             }
             return -1;
         }
-
         internal override int CountFullChargeSlots(int stationID)
         {
             int counter = 0;
             IEnumerable<DAL.DalApi.DO.DroneCharge> droneCharges = datafield.GetDronesInCharge();
-            foreach (DAL.DalApi.DO.DroneCharge current in droneCharges)
+            IEnumerable<DAL.DalApi.DO.DroneCharge> dronesChargeActive = from DAL.DalApi.DO.DroneCharge item in droneCharges
+                                                                        where item.activeCharge
+                                                                        select item;
+            foreach (DAL.DalApi.DO.DroneCharge current in dronesChargeActive)
             {
-                if (current.stationID == stationID)
+                if (current.stationID == stationID && current .activeCharge )
                     counter++;
             }
             return counter;
         }
-
         internal override int FindParcelInDrone(int droneID)
         {
             IEnumerable<DAL.DalApi.DO.Parcel> parcels = datafield.GetParcels();
@@ -1038,7 +1034,6 @@ namespace BL.BlApi
             }
             return -1;
         }
-
         internal override int[] CountParcelsInEachStatus(int customerID)
         {
             int[] parcelsStatuses = new int[4] { 0, 0, 0, 0 };
@@ -1082,13 +1077,12 @@ namespace BL.BlApi
             }
             return customersOfDrone;
         }
-
         internal override bool DroneHaveEnoughBattery(DAL.DalApi.DO.Parcel parcelForDelivery, Drone d)
         {
             DAL.DalApi.DO.Customer sender = datafield.FindAndGetCustomer(parcelForDelivery.senderID);
             DAL.DalApi.DO.Customer target = datafield.FindAndGetCustomer(parcelForDelivery.targetID);
             double distance = HelpMethods.CalculateDistance(new LogicalEntities.Location(sender.longitude, sender.latitude), new LogicalEntities.Location(target.longitude, target.latitude));
-            //distance += HelpMethods.CalculateDistance(new LogicalEntities.Location(sender.longitude, sender.latitude), d.location);
+            distance += HelpMethods.CalculateDistance(new LogicalEntities.Location(sender.longitude, sender.latitude), d.location);
             return distance <= d.battery ;
         }
         #endregion

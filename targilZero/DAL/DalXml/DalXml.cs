@@ -14,8 +14,8 @@ namespace DalXml
     {
         #region singelton
         private static readonly Lazy<DalXml> lazy = new Lazy<DalXml>(() => new DalXml());
-        internal static DalXml Instance { get { return lazy.Value; } }
-        internal DalXml(){}
+        public static DalXml Instance { get { return lazy.Value; } }
+        private DalXml(){}
         #endregion
 
         #region paths of lists

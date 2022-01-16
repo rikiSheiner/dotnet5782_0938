@@ -183,10 +183,10 @@ namespace BL.BO
         }
         public override string ToString()
         {
-            string str = "Parcel: ID=" + ID + " name of sender=" + nameOfSender;
+            string str = "Parcel: ID=" + ID + ", sender=" + nameOfSender;
             if (parcelStatus != Enums.ParcelStatuses.supplied)
-                str += " ,name of target=" + nameOfTarget;
-            str+= "\nweight=" + weight + " priority=" + priority + " parcel status=" + parcelStatus;
+                str += " , target=" + nameOfTarget;
+            str+= "\nweight=" + weight + ", priority=" + priority + ", parcel status=" + parcelStatus;
             if (parcelStatus == Enums.ParcelStatuses.collected)
                     str += ", ID of drone sender=" + droneSender.ID;
 

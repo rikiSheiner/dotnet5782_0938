@@ -126,9 +126,9 @@ namespace BL.BO
         }
         public override string ToString()
         {
-            return "Customer: name="+name+" phone number= "+phoneNumber +" number of parcels delivered="+numParcelsSentAndDelivered 
-                +"\nnumber of parcels not delivered="+numParcelsSentNotDelivered +" number of parcels accepted="+numParcelsRecieved 
-                +" number of parcels in delivery="+numParcelsInDelivery +"\n";
+            return "Customer: name="+name+", phone= "+phoneNumber +", number of parcels delivered="+numParcelsSentAndDelivered 
+                +"\nnumber of parcels not delivered="+numParcelsSentNotDelivered +", number of parcels accepted="+numParcelsRecieved 
+                +", number of parcels in delivery="+numParcelsInDelivery +"\n";
         }
         public event PropertyChangedEventHandler PropertyChanged;
     }
