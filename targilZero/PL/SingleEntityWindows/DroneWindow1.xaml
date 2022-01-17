@@ -76,7 +76,6 @@
         <ComboBox Name="newWeightCategory" Background="White"  Margin="133,229,521,166"></ComboBox>
         <ComboBox Name="newStationID" Background="White" Margin="134,286,520,109"></ComboBox>
         <TextBox x:Name="newStatus" IsReadOnly="True" Visibility="Collapsed" Text="{Binding Path=droneStatus,Mode=TwoWay }" Margin="134,286,520,109"></TextBox>
-        <TextBox x:Name="newBattery" IsReadOnly="True" Visibility="Collapsed" Text="{Binding Path=battery,Mode=TwoWay }" Margin="135,343,519,52"></TextBox>
         <TextBox x:Name="newLocation" IsReadOnly="True"  Visibility="Collapsed" Margin="135,386,519,9"></TextBox>
 
         <Button x:Name="addTheDrone" Content="add drone" Margin="142,384,513,6" Click="addTheDrone_MouseDoubleClick" Foreground="#FFF3F0F0" FontSize="16" FontWeight="Bold">
@@ -106,5 +105,8 @@
                 <ImageBrush ImageSource="/רקע אדום כהה.png"/>
             </Button.Background>
         </Button>
+
+        <ProgressBar x:Name="pbBattery" Background="White" Visibility="Collapsed" Value="{Binding battery}" Margin="135,343,519,52"></ProgressBar>
+        <TextBlock x:Name="tbBattery" Text="{Binding ElementName=pbBattery, Path=Value, StringFormat={}{0:0}%}" Visibility="Collapsed" Margin="135,343,519,52" HorizontalAlignment="Center" VerticalAlignment="Center" />
     </Grid>
 </Window>

@@ -71,12 +71,14 @@ namespace PL.SingleEntityWindows
             enterBattrey.Visibility = Visibility.Visible;
             enterStatus.Visibility = Visibility.Visible;
             enterLocation.Visibility = Visibility.Visible;
-            newBattery.Visibility = Visibility.Visible;
+            pbBattery.Visibility = Visibility.Visible;
+            tbBattery.Visibility = Visibility.Visible;
             newLocation.Visibility = Visibility.Visible;
             newStatus.Visibility = Visibility.Visible;
             #endregion 
 
-            newLocation.Text = droneCurrent.location.ToString ();
+            if(droneCurrent != null)
+                newLocation.Text = droneCurrent.location.ToString ();
 
             if (drone.droneStatus == Enums.DroneStatuses.delivery) //במצב משלוח ניתן לאסוף או לספק חבילה 
             {
@@ -113,6 +115,12 @@ namespace PL.SingleEntityWindows
             }
             if (droneCurrent.parcelInDroneID < 0)
                 parcelInDrone.IsEnabled = false;
+
+
+            SetPBbattery_Foreground();
+
+
+
         }
         /// <summary>
         /// constructor for adding new drone
@@ -183,6 +191,15 @@ namespace PL.SingleEntityWindows
             return;
 
         }
+        private void SetPBbattery_Foreground()
+        {
+            if (droneCurrent.battery < 20)
+                pbBattery.Foreground = Brushes.Red;
+            else if (droneCurrent.battery < 50)
+                pbBattery.Foreground = Brushes.Orange;
+            else
+                pbBattery.Foreground = Brushes.Green;
+        }
         private void closeWindow_Click(object sender, RoutedEventArgs e)
         {
             Close();
@@ -206,7 +223,7 @@ namespace PL.SingleEntityWindows
                     enterHoursCharging.Visibility = Visibility.Visible;
                     hoursOfCharging.Visibility = Visibility.Visible;
                     submitHours.Visibility = Visibility.Visible;
-
+                    SetPBbattery_Foreground();
                 }
 
             }
@@ -263,6 +280,7 @@ namespace PL.SingleEntityWindows
                     MessageBox.Show("collected successfully");
                     parcelDelivery.Content = "delivery parcel";
                     parcelInDrone.IsEnabled = true;
+                    SetPBbattery_Foreground();
                 }
                 else if ((string)parcelDelivery.Content == "delivery parcel")
                 {
@@ -272,6 +290,7 @@ namespace PL.SingleEntityWindows
                     parcelInDrone.IsEnabled = false;
                     chargeOrEndCahrge.Visibility = Visibility.Visible;
                     chargeOrEndCahrge.Content = "Charge Drone";
+                    SetPBbattery_Foreground();
                 }
                 updateDisplayOfDroneDetails();
                 updateDisplayOfOpenedWindows();
@@ -448,6 +467,7 @@ namespace PL.SingleEntityWindows
             droneCurrent = mainData.GetListDrones().ElementAt(mainData.FindDrone(droneCurrent.ID));
             this.DataContext = droneCurrent;
             newLocation.Text = droneCurrent.location.ToString ();
+            SetPBbattery_Foreground();
         }
         private bool updateDisplayOfOpenedWindows()
         {

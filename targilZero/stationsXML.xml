@@ -5,21 +5,21 @@
     <name>111</name>
     <longitude>100</longitude>
     <latitude>150</latitude>
-    <chargeSlots>5</chargeSlots>
+    <chargeSlots>3</chargeSlots>
   </Station>
   <Station>
     <stationID>2</stationID>
     <name>222</name>
     <longitude>100</longitude>
     <latitude>110</latitude>
-    <chargeSlots>7</chargeSlots>
+    <chargeSlots>6</chargeSlots>
   </Station>
   <Station>
     <stationID>3</stationID>
     <name>333</name>
     <longitude>100</longitude>
     <latitude>100</latitude>
-    <chargeSlots>7</chargeSlots>
+    <chargeSlots>13</chargeSlots>
   </Station>
   <Station>
     <stationID>4</stationID>
@@ -40,7 +40,7 @@
     <name>777</name>
     <longitude>191</longitude>
     <latitude>130</latitude>
-    <chargeSlots>8</chargeSlots>
+    <chargeSlots>7</chargeSlots>
   </Station>
   <Station>
     <stationID>8</stationID>

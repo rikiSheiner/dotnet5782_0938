@@ -14,9 +14,11 @@ using System.Windows.Shapes;
 using BL.BlApi;
 using BL.BO;
 using PL.SingleEntityWindows;
+using System.Globalization;
 
 namespace PL
 {
+    
     /// <summary>
     /// Interaction logic for ListDronesWindow.xaml
     /// </summary>
@@ -33,6 +35,8 @@ namespace PL
             AddDroneButton.MouseDoubleClick += AddDroneButton_MouseDoubleClick;
             refreshWindow.MouseDoubleClick += refreshWindow_MouseDoubleClick;
             ListOfDrones.SelectionChanged += ListOfDrones_SelectionChanged;
+
+            
         }
 
         private void FilterDronesList_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -69,7 +73,6 @@ namespace PL
 
         private void closeWindow_Click(object sender, RoutedEventArgs e) { this.Close();}
 
-        
         private void AddDroneButton_MouseDoubleClick(object sender, RoutedEventArgs e)
         {
             DroneWindow1 droneWindowAdding = new DroneWindow1(mainData);
@@ -92,4 +95,7 @@ namespace PL
 
         
     }
+
+
+   
 }

@@ -1,14 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Config>
   <idNumberParcels>28</idNumberParcels>
-  <countActive>4</countActive>
+  <countActive>1</countActive>
   <idlePowerConsumption>1</idlePowerConsumption>
   <lightPowerConsumption>2</lightPowerConsumption>
   <mediumPowerConsumption>3</mediumPowerConsumption>
   <heavyPowerConsumption>4</heavyPowerConsumption>
   <droneLoadingRate>40</droneLoadingRate>
   <CountParcelsPriority>
-    <normal>3</normal>
+    <normal>11</normal>
     <quick>4</quick>
     <emergency>3</emergency>
   </CountParcelsPriority>

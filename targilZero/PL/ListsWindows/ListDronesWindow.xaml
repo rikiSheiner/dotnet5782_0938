@@ -6,8 +6,11 @@
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
         Title="ListDronesWindow" Height="450" Width="800" >
+    <Window.Resources >
+      
+    </Window.Resources>
     <Grid >
-
+        
         <Grid.Background>
             <ImageBrush ImageSource="/SingleEntityWindows/רקע תכלת.png"/>
         </Grid.Background>
@@ -49,13 +52,23 @@
                     <GridViewColumn Header="Model" Width="70" DisplayMemberBinding="{Binding model}" />
                     <GridViewColumn Header="Weight" Width="70" DisplayMemberBinding="{Binding maxWeight}" />
                     <GridViewColumn Header="Status" Width="85" DisplayMemberBinding="{Binding droneStatus}" />
-                    <GridViewColumn Header="Battery" Width="55" DisplayMemberBinding="{Binding battery}" />
+                    <GridViewColumn Header="Battery" Width="70"  >
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel >
+                                    <ProgressBar x:Name="pbBattery" Height="20" Width="90" Value="{Binding battery}" />
+                                    <TextBlock x:Name="tbBattery" Text="{Binding ElementName=pbBattery, Path=Value, StringFormat={}{0:0}%}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn> 
                     <GridViewColumn Header="Location" Width="70" DisplayMemberBinding="{Binding location}" />
                     <GridViewColumn Header="Parcel in" Width="70" DisplayMemberBinding="{Binding parcelInDroneID}" />
                 </GridView>
             </ListView.View>
         </ListView>
-
+        
+        
         <ComboBox x:Name="FilterDronesList" Grid.Row="2" Grid.Column="2" Margin="0,0,0,214" Text="Filter Drones" SelectionChanged="FilterDronesList_SelectionChanged" >
             <ComboBoxItem x:Name="All" Content="All" ></ComboBoxItem>
             <ComboBoxItem x:Name="DroneStatusAvailable" Content="Status = Available"></ComboBoxItem>

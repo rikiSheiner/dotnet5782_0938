@@ -77,8 +77,8 @@
     <weight>heavy</weight>
     <priority>normal</priority>
     <requested>2022-01-04</requested>
-    <droneID>-1</droneID>
-    <scheduled>0001-01-01</scheduled>
+    <droneID>2</droneID>
+    <scheduled>17/01/2022 10:22:55</scheduled>
     <pickedUp>0001-01-01</pickedUp>
     <delivered>0001-01-01</delivered>
     <confirmedSending>false</confirmedSending>
@@ -253,4 +253,3 @@
     <confirmRecieving>false</confirmRecieving>
   </Parcel>
 </ArrayOfParcels>
- 

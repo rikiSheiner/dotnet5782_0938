@@ -30,7 +30,7 @@ namespace PL
             LogIn.MouseDoubleClick += LogIn_MouseDoubleClick;
             LogInCustomer.MouseDoubleClick += LogInCustomer_MouseDoubleClick;
             SignUpCustomer.MouseDoubleClick += SignUpCustomer_MouseDoubleClick;
-           
+
         }
 
 
