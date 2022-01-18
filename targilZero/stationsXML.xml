@@ -1,25 +1,18 @@
 <?xml version="1.0"?>
 <ArrayOfStation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Station>
-    <stationID>1</stationID>
-    <name>111</name>
-    <longitude>100</longitude>
-    <latitude>150</latitude>
-    <chargeSlots>3</chargeSlots>
-  </Station>
-  <Station>
     <stationID>2</stationID>
     <name>222</name>
     <longitude>100</longitude>
     <latitude>110</latitude>
-    <chargeSlots>6</chargeSlots>
+    <chargeSlots>5</chargeSlots>
   </Station>
   <Station>
     <stationID>3</stationID>
     <name>333</name>
     <longitude>100</longitude>
     <latitude>100</latitude>
-    <chargeSlots>13</chargeSlots>
+    <chargeSlots>12</chargeSlots>
   </Station>
   <Station>
     <stationID>4</stationID>
@@ -40,13 +33,20 @@
     <name>777</name>
     <longitude>191</longitude>
     <latitude>130</latitude>
-    <chargeSlots>7</chargeSlots>
+    <chargeSlots>12</chargeSlots>
   </Station>
   <Station>
     <stationID>8</stationID>
     <name>888</name>
     <longitude>129</longitude>
     <latitude>138</latitude>
-    <chargeSlots>3</chargeSlots>
+    <chargeSlots>2</chargeSlots>
+  </Station>
+  <Station>
+    <stationID>22</stationID>
+    <name>2222</name>
+    <longitude>111</longitude>
+    <latitude>111</latitude>
+    <chargeSlots>2</chargeSlots>
   </Station>
 </ArrayOfStation>

@@ -75,8 +75,8 @@ namespace DAL.DalObject
         [MethodImpl(MethodImplOptions.Synchronized)]
         public override void AddDrone(int id, string n, int w)
         {
-            //if (FindDrone(id) >= 0)
-            //    throw new ExistIdException("this drone  id is already in the sortage");
+            if (FindDrone(id) >= 0)
+                throw new ExistIdException("this drone  id is already in the sortage");
             DataSource.drones.Add(new Drone(id, n, (Enums.WeightCategories)w));
         }
         [MethodImpl(MethodImplOptions.Synchronized)]
@@ -94,7 +94,7 @@ namespace DAL.DalObject
             DataSource.basisStations.Add(new Station(id, n, lo, la, cs));
         }
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public override void AddParcel(int sid, int tid, int w, int p/*, int did*/)
+        public override void AddParcel(int sid, int tid, int w, int p)
         {
             int id = DataSource.Config.idNumberParcels;
             DataSource.Config.idNumberParcels++;

@@ -196,26 +196,5 @@ namespace BL.BO
         public event PropertyChangedEventHandler PropertyChanged;
     }
 
-    public class ParcelDeliveryOfCustomer
-    {
-        public int ID { get; set; }
-        public Enums.WeightCategories weight { get; set; }
-        public Enums.Priorities priority { get; set; }
-        public Enums.ParcelStatuses parcelStatus { get; set; }
-        public CustomerInParcelDelivery inParcelDelivery { get; set; } //הצד השני של משלוח חבילה
-
-    }
-
-    public class ParcelInDelivery
-    {
-        public int ID { get; set; }
-        public bool isParcelInDelivery { get; set; } //(true)מצב משלוח חבילה: ממתין לאיסוף \ בדרך ליעד
-        public Enums.Priorities priority { get; set; }
-        public Enums.WeightCategories weight { get; set; }
-        public Customer sender { get; set; }
-        public Customer target { get; set; }
-        public LogicalEntities.Location senderLocation{ get; set; }
-        public LogicalEntities.Location targetLocation { get; set; }
-        public double distanceTransport { get; set; }
-    }
+    
 }

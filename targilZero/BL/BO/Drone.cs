@@ -161,13 +161,6 @@ namespace BL.BO
         public event PropertyChangedEventHandler PropertyChanged;
     }
 
-    public class DroneInParcel
-    {
-        public int ID { get; set; }
-        public int battery { get; set; }
-        public LogicalEntities.Location loaction { get; set; }
-    }
-
     public class DroneInCharge
     {
         public int ID { get; set; }

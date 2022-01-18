@@ -71,10 +71,13 @@ namespace PL.SingleEntityWindows
             enterBattrey.Visibility = Visibility.Visible;
             enterStatus.Visibility = Visibility.Visible;
             enterLocation.Visibility = Visibility.Visible;
+            enterPID.Visibility = Visibility.Visible;
             pbBattery.Visibility = Visibility.Visible;
             tbBattery.Visibility = Visibility.Visible;
             newLocation.Visibility = Visibility.Visible;
             newStatus.Visibility = Visibility.Visible;
+            newPID.Visibility = Visibility.Visible;
+
             #endregion 
 
             if(droneCurrent != null)

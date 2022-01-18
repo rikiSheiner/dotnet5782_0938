@@ -133,12 +133,5 @@ namespace BL.BO
         public event PropertyChangedEventHandler PropertyChanged;
     }
 
-    public class CustomerInParcelDelivery //לקוח במשלוח חבילה
-    {
-        public int ID { get; set; } //מספר מזהה ייחודי
-        public string name { get; set; } //שם הלקוח
-        public CustomerInParcelDelivery(int id, string n) { ID = id; name = n; }
-
-    }
 
 }

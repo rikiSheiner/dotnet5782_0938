@@ -198,7 +198,7 @@ namespace BL.BlApi
         [MethodImpl(MethodImplOptions.Synchronized)]
         public override void AddCustomer(int id, string name, string phoneNumber, double longitude, double latitude)
         {
-            if (id < 0) //הערה- ניתן להוסיף בדיקת תקינות של מספר ספרות- לדרוש 9 ספרות כמו ת"ז אמיתי
+            if (id < 0) 
                 throw new AddingProblemException("invalid id number of customer");
             if (name == "")
                 throw new AddingProblemException("invalid name of customer");

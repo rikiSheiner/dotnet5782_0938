@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Config>
-  <idNumberParcels>28</idNumberParcels>
-  <countActive>1</countActive>
+  <idNumberParcels>33</idNumberParcels>
+  <countActive>0</countActive>
   <idlePowerConsumption>1</idlePowerConsumption>
   <lightPowerConsumption>2</lightPowerConsumption>
   <mediumPowerConsumption>3</mediumPowerConsumption>

@@ -196,7 +196,7 @@ namespace DalXml
                new XElement("targetID", tid),
                new XElement("weight", (Enums.WeightCategories)w),
                new XElement("priority", (Enums.Priorities)p),
-               new XElement("requested", "2022-01-04"),
+               new XElement("requested", DateTime.Now ),
                new XElement("droneID", -1),
                new XElement("scheduled", "0001-01-01"),
                new XElement("pickedUp", "0001-01-01"),

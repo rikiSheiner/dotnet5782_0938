@@ -25,6 +25,7 @@
         <TextBlock  x:Name="enterStatus" Visibility="Collapsed" Text="Status:" FontSize="15" Margin="31,287,669,106"></TextBlock>
         <TextBlock x:Name="enterBattrey" Text="Battery:"  Visibility="Collapsed" FontSize="15" Margin="31,335,669,55"></TextBlock>
         <TextBlock x:Name="enterLocation" Text="Location:"  Visibility="Collapsed"  FontSize="15" Margin="31,387,669,2"></TextBlock>
+        <TextBlock x:Name="enterPID" Text="Parcel in Drone:" Visibility="Collapsed"  FontSize="15" Margin="371,344,288,52" ></TextBlock>
         
         <Button x:Name="updateDrone" Content="update model" FontSize="16" Margin="595,107,40,272" Foreground="#FFFAF4F4" FontWeight="Bold" >
             <Button.Triggers >
@@ -77,7 +78,8 @@
         <ComboBox Name="newStationID" Background="White" Margin="134,286,520,109"></ComboBox>
         <TextBox x:Name="newStatus" IsReadOnly="True" Visibility="Collapsed" Text="{Binding Path=droneStatus,Mode=TwoWay }" Margin="134,286,520,109"></TextBox>
         <TextBox x:Name="newLocation" IsReadOnly="True"  Visibility="Collapsed" Margin="135,386,519,9"></TextBox>
-
+        <TextBox  x:Name="newPID" IsReadOnly="True" Visibility="Collapsed" Text="{Binding Path=parcelInDroneID}"  Margin="379,385,275,10"></TextBox>
+        
         <Button x:Name="addTheDrone" Content="add drone" Margin="142,384,513,6" Click="addTheDrone_MouseDoubleClick" Foreground="#FFF3F0F0" FontSize="16" FontWeight="Bold">
             <Button.Background>
                 <ImageBrush ImageSource="/רקע אדום כהה.png"/>
