@@ -55,6 +55,10 @@ namespace DalXml
         #endregion
 
         #region get lists
+        /// <summary>
+        /// the method returns the list of the drones
+        /// </summary>
+        /// <returns>list of drones</returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public override IEnumerable<Drone> GetDrones()
         {
@@ -68,6 +72,10 @@ namespace DalXml
                               };
             return allDrones;
         }
+        /// <summary>
+        /// the method returns the list of the stations
+        /// </summary>
+        /// <returns>list of stations</returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public override IEnumerable<Station> GetBasisStations()
         {
@@ -83,6 +91,10 @@ namespace DalXml
                               };
             return allStations;
         }
+        /// <summary>
+        /// the method returns the list of the customers
+        /// </summary>
+        /// <returns>list of customers</returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public override IEnumerable<Customer> GetCustomers()
         {
@@ -98,6 +110,10 @@ namespace DalXml
                               };
             return allCustomers;
         }
+        /// <summary>
+        /// the method returns the list of the parcels
+        /// </summary>
+        /// <returns>list of parcels</returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public override IEnumerable<Parcel> GetParcels()
         {
@@ -122,6 +138,10 @@ namespace DalXml
             }
             return allParcels;
         }
+        /// <summary>
+        /// the method returns the list of the drones in charge
+        /// </summary>
+        /// <returns>list of drones in charge</returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public override IEnumerable<DroneCharge> GetDronesInCharge()
         {
@@ -136,6 +156,10 @@ namespace DalXml
                              };
             return allDronesInCharge;
         }
+        /// <summary>
+        /// the method returns the list of the users
+        /// </summary>
+        /// <returns>list of users</returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public override IEnumerable<User> GetUsers()
         {
@@ -154,6 +178,12 @@ namespace DalXml
         #endregion
 
         #region add item
+        /// <summary>
+        /// the method adds new drone to the storage
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="n"></param>
+        /// <param name="w"></param>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public override void AddDrone(int id, string n, int w)
         {
@@ -163,6 +193,14 @@ namespace DalXml
             listDrones.Add(new Drone(id, n, (Enums.WeightCategories )w));
             XMLtools.SaveListToXMLSerializer<Drone>(listDrones, dronesPath); 
         }
+        /// <summary>
+        /// the method adds new customer to the storage
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="n"></param>
+        /// <param name="p"></param>
+        /// <param name="lo"></param>
+        /// <param name="la"></param>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public override void AddCustomer(int id, string n, string p, double lo, double la)
         {
@@ -172,6 +210,14 @@ namespace DalXml
             listCustomers.Add(new Customer(id,n,p,lo,la));
             XMLtools.SaveListToXMLSerializer<Customer>(listCustomers, customersPath);
         }
+        /// <summary>
+        /// the method adds new station to the storage
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="n"></param>
+        /// <param name="lo"></param>
+        /// <param name="la"></param>
+        /// <param name="cs"></param>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public override void AddStation(int id, int n, double lo, double la, int cs)
         {
@@ -181,6 +227,13 @@ namespace DalXml
             listStations.Add(new Station(id, n, lo, la, cs));
             XMLtools.SaveListToXMLSerializer<Station>(listStations, stationsPath);
         }
+        /// <summary>
+        /// the method adds new parcel to the storage
+        /// </summary>
+        /// <param name="sid"></param>
+        /// <param name="tid"></param>
+        /// <param name="w"></param>
+        /// <param name="p"></param>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public override void AddParcel(int sid, int tid, int w, int p)
         {
@@ -207,6 +260,13 @@ namespace DalXml
             XMLtools.SaveListToXMLElement(parcelsRoot, parcelsPath);
 
         }
+        /// <summary>
+        /// the method adds new drone in charge to the storage
+        /// </summary>
+        /// <param name="dID"></param>
+        /// <param name="sID"></param>
+        /// <param name="active"></param>
+        /// <param name="s"></param>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public override void AddDroneCharge(int dID, int sID, bool active, DateTime s)
         {
@@ -214,6 +274,12 @@ namespace DalXml
             listDronesCharge.Add(new DroneCharge(dID, sID, active, s ));
             XMLtools.SaveListToXMLSerializer<DroneCharge>(listDronesCharge , dronesInChargePath);
         }
+        /// <summary>
+        /// the method adds new user to the storage
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="password"></param>
+        /// <param name="access"></param>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public override void AddUser(string name, string password, bool access)
         {
@@ -226,6 +292,10 @@ namespace DalXml
         #endregion
 
         #region delete item
+        /// <summary>
+        /// the method removes specific drone from the storage
+        /// </summary>
+        /// <param name="id"></param>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public override void DeleteDrone(int id)
         {
@@ -236,6 +306,10 @@ namespace DalXml
             listOfAllDrones.Remove(drones.FirstOrDefault ());
             XMLtools.SaveListToXMLSerializer<Drone>(listOfAllDrones, dronesPath);
         }
+        /// <summary>
+        /// the method removes specific customer from the storage
+        /// </summary>
+        /// <param name="id"></param>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public override void DeleteCustomer(int id)
         {
@@ -246,6 +320,10 @@ namespace DalXml
             listOfAllCustomers.Remove(customers.FirstOrDefault());
             XMLtools.SaveListToXMLSerializer<Customer>(listOfAllCustomers, customersPath );
         }
+        /// <summary>
+        /// the method removes specific station from the storage
+        /// </summary>
+        /// <param name="id"></param>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public override void DeleteStation(int id)
         {
@@ -259,6 +337,10 @@ namespace DalXml
             stationElement.Remove();
             XMLtools.SaveListToXMLElement(stationsRoot, stationsPath);
         }
+        /// <summary>
+        /// the method removes specific parcel from the storage
+        /// </summary>
+        /// <param name="id"></param>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public override void DeleteParcel(int id)
         {
@@ -269,6 +351,10 @@ namespace DalXml
             listOfAllParcels.Remove(parcels.FirstOrDefault());
             XMLtools.SaveListToXMLSerializer<Parcel>(listOfAllParcels, parcelsPath);
         }
+        /// <summary>
+        /// the method removes specific drone in charge from the storage
+        /// </summary>
+        /// <param name="id"></param>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public override void DeleteDroneInCharge(int id)
         {
@@ -279,6 +365,11 @@ namespace DalXml
             listOfAllDronesInCharge.Remove(dronesInCharge.FirstOrDefault());
             XMLtools.SaveListToXMLSerializer<DroneCharge>(listOfAllDronesInCharge, dronesInChargePath);
         }
+        /// <summary>
+        /// the method removes specific user from the storage
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="password"></param>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public override void DeleteUser(string name, string password)
         {
@@ -292,6 +383,11 @@ namespace DalXml
         #endregion
 
         #region find item
+        /// <summary>
+        /// the method finds and returns the index in the drone's array of specific drone in the storage
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public override int FindDrone(int id)
         {
@@ -305,6 +401,11 @@ namespace DalXml
             }
             return -1;
         }
+        /// <summary>
+        /// the method finds and returns the index in the customer's array of specific customer in the storage
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public override int FindCustomer(int id)
         {
@@ -318,6 +419,11 @@ namespace DalXml
             }
             return -1;
         }
+        /// <summary>
+        /// the method finds and returns the index in the station's array of specific station in the storage
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public override int FindStation(int id)
         {
@@ -331,6 +437,11 @@ namespace DalXml
             }
             return -1;
         }
+        /// <summary>
+        /// the method finds and returns the index in the parcel's array of specific parcel in the storage
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public override int FindParcel(int id)
         {
@@ -344,6 +455,11 @@ namespace DalXml
             }
             return -1;
         }
+        /// <summary>
+        /// the method finds and returns the index in the array of drones in charge of specific drone in the storage
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public override int FindDroneInCharge(int id)
         {
@@ -357,6 +473,12 @@ namespace DalXml
             }
             return -1;
         }
+        /// <summary>
+        /// the method finds and returns the index in the user's array of specific user in the storage
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public override int FindUser(string name, string password)
         {
@@ -374,6 +496,11 @@ namespace DalXml
         #endregion
 
         #region find and get item
+        /// <summary>
+        /// the method finds and returns specific drone in the storage
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public override Drone FindAndGetDrone(int id)
         {
@@ -385,6 +512,11 @@ namespace DalXml
             }
             throw new ObjectNotFoundException("The drone doesn't exist in the system");
         }
+        /// <summary>
+        ///  the method finds and returns specific customer in the storage
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public override Customer FindAndGetCustomer(int id)
         {
@@ -396,6 +528,11 @@ namespace DalXml
             }
             throw new ObjectNotFoundException("The customer doesn't exist in the system");
         }
+        /// <summary>
+        ///  the method finds and returns specific station in the storage
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public override Station FindAndGetStation(int id)
         {
@@ -414,6 +551,11 @@ namespace DalXml
                 chargeSlots = int.Parse (station.Element("chargeSlots").Value)
             };
         }
+        /// <summary>
+        ///  the method finds and returns specific parcel in the storage
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public override Parcel FindAndGetParcel(int id)
         {
@@ -425,6 +567,11 @@ namespace DalXml
             }
             throw new ObjectNotFoundException("The parcel doesn't exist in the system");
         }
+        /// <summary>
+        ///  the method finds and returns specific drone in charge in the storage
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public override DroneCharge FindAndGetDroneInCharge(int id)
         {
@@ -436,6 +583,12 @@ namespace DalXml
             }
             throw new ObjectNotFoundException("The drone in charge doesn't exist in the system");
         }
+        /// <summary>
+        ///  the method finds and returns specific user in the storage
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public override User FindAndGetUser(string name, string password)
         {
@@ -450,6 +603,11 @@ namespace DalXml
         #endregion
 
         #region updating 
+        /// <summary>
+        /// the method updates the model of specific drone in the storage
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="model"></param>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public override void UpdateDrone(int id, string model)
         {
@@ -460,6 +618,12 @@ namespace DalXml
             listOfAllDrones [indexDrone ] = d;
             XMLtools.SaveListToXMLSerializer<Drone>(listOfAllDrones , dronesPath );
         }
+        /// <summary>
+        /// the method updates the name amd num of charge slots of specific station in the storage
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="name"></param>
+        /// <param name="chargeSlots"></param>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public override void UpdateStation(int id, int name, int chargeSlots)
         {
@@ -471,6 +635,12 @@ namespace DalXml
             listOfAllStations [indexStation ] = s;
             XMLtools.SaveListToXMLSerializer<Station >(listOfAllStations , stationsPath );
         }
+        /// <summary>
+        /// the method updates the name and phone num of specific customer in the storage
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="name"></param>
+        /// <param name="phoneNum"></param>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public override void UpdateCustomer(int id, string name = "", string phoneNum = "")
         {
@@ -483,6 +653,12 @@ namespace DalXml
             XMLtools.SaveListToXMLSerializer<Customer>(listOfAllCustomers, customersPath);
 
         }
+        /// <summary>
+        /// the method updates the password of specific user in the storage
+        /// </summary>
+        /// <param name="uName"></param>
+        /// <param name="oldPassword"></param>
+        /// <param name="newPassword"></param>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public override void UpdateUser(string uName, string oldPassword, string newPassword)
         {
@@ -493,6 +669,11 @@ namespace DalXml
             listOfAllUsers [indexUser] = u;
             XMLtools.SaveListToXMLSerializer<User>(listOfAllUsers , usersPath);
         }
+        /// <summary>
+        /// the method assigns parcel to drone
+        /// </summary>
+        /// <param name="parcelID"></param>
+        /// <param name="droneId"></param>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public override void ParcelToDrone(int parcelID, int droneId)
         {
@@ -510,6 +691,11 @@ namespace DalXml
             }
             XMLtools.SaveListToXMLElement(parcelsRoot, parcelsPath);
         }
+        /// <summary>
+        /// method for collecting of parcel by drone
+        /// </summary>
+        /// <param name="parcelId"></param>
+        /// <param name="collectorId"></param>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public override void ParcelCollection(int parcelId, int collectorId)
         {
@@ -528,6 +714,11 @@ namespace DalXml
             }
             XMLtools.SaveListToXMLElement(parcelsRoot, parcelsPath);
         }
+        /// <summary>
+        /// method for delivery of parcel by drone to the destination
+        /// </summary>
+        /// <param name="parcelID"></param>
+        /// <param name="customerId"></param>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public override void DeliveryParcel(int parcelID, int customerId)
         {
@@ -547,6 +738,11 @@ namespace DalXml
             }
             XMLtools.SaveListToXMLElement(parcelsRoot, parcelsPath);
         }
+        /// <summary>
+        /// the method creates charging of drone in specific station
+        /// </summary>
+        /// <param name="stationId"></param>
+        /// <param name="droneId"></param>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public override void CreateDroneCharge(int stationId, int droneId)
         {
@@ -617,6 +813,11 @@ namespace DalXml
                 XMLtools.SaveListToXMLElement(configRoot, configPath);
             } 
         }
+        /// <summary>
+        /// the method ends the charging of the drone
+        /// </summary>
+        /// <param name="dID"></param>
+        /// <param name="hoursOfCharging"></param>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public override void EndDroneCharge(int dID, int hoursOfCharging)
         {
@@ -647,6 +848,10 @@ namespace DalXml
             configRoot.Element("countActive").Value = countActive.ToString();
             XMLtools.SaveListToXMLElement(configRoot, configPath);
         }
+        /// <summary>
+        /// the method updates collecting of parcel confirmation
+        /// </summary>
+        /// <param name="parcelID"></param>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public override void UpdateSendingOfParcel(int parcelID)
         {
@@ -663,6 +868,10 @@ namespace DalXml
             }
             XMLtools.SaveListToXMLElement(parcelsRoot, parcelsPath);
         }
+        /// <summary>
+        /// the method updates supplying of parcel confirmation
+        /// </summary>
+        /// <param name="parcelID"></param>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public override void UpdateRecievingOfParcel(int parcelID)
         {
@@ -682,6 +891,10 @@ namespace DalXml
         #endregion
 
         #region get fields of class config
+        /// <summary>
+        /// the method returns the power consumption by drone for each weight
+        /// </summary>
+        /// <returns></returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public override double[] GetPowerConsumption()
         {
@@ -694,6 +907,10 @@ namespace DalXml
             
             return power;
         }
+        /// <summary>
+        /// the method returns an array of numbers of parcels in each priority
+        /// </summary>
+        /// <returns></returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public override int[] GetParcelsPriority()
         {
@@ -707,6 +924,10 @@ namespace DalXml
             }
             return parcelsPriority;
         }
+        /// <summary>
+        /// the method returns the loading rate of drone
+        /// </summary>
+        /// <returns></returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public override int GetDroneLoadingRate()
         {
